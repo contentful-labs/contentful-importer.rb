@@ -14,6 +14,33 @@ COLLECTIONS_DATA_DIR = "#{DATA_DIR}/collections"
 ENTRIES_DATA_DIR = "#{DATA_DIR}/entries"
 LINKS_DATA = "#{DATA_DIR}/links"
 
+# model JobAdd
+#   title
+#   description
+#   image_id (belongs_to)
+#   skills (has_many - many to many)
+#   comments (has_many)
+# end
+#
+# model Comment
+#   title
+#   body
+#   job_add_id
+# end
+#
+# model Image
+#
+# end
+#
+# model JobAddSkill
+#   skill_id
+#   job_add_id
+# end
+#
+# model Skill
+#   name
+# end
+
 MODELS = [:categories, :posts, :photos, :comments]
 contentful = {
     content_types: {
@@ -31,17 +58,14 @@ contentful = {
                 title: 'Text',
                 body: 'Text',
                 category: {
-                    link_type: 'Entry',
-                    type: 'Category'
+                    link_type: 'Entry'
                 },
                 images: {
                     link_type: 'Array',
-                    link: 'Asset',
-                    type: 'Image'
+                    type: 'Asset'
                 },
                 comment: {
-                    link_type: 'Entry',
-                    type: 'Comment'
+                    link_type: 'Entry'
                 }
             }
         },
@@ -51,13 +75,6 @@ contentful = {
                 author: 'Text',
                 body: 'Text',
             }
-        }
-    },
-    assets: {
-        'Image' => {
-            title: 'Text',
-            description: 'Text',
-            url: 'Text'
         }
     }
 }
@@ -97,7 +114,7 @@ mapping = {
         links: {
             category_id: 'Category',
             photo_id: 'Image',
-            comment_id: 'Comment'
+            comment_ids: {type: 'Comment', source: 'Comments.where(post_id: x)'}
         }
     },
     'Comment' => {
