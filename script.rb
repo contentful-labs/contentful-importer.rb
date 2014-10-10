@@ -13,7 +13,7 @@ class DatabaseExporter
   COLLECTIONS_DATA_DIR = "#{DATA_DIR}/collections"
   ENTRIES_DATA_DIR = "#{DATA_DIR}/entries"
   LINKS_DATA = "#{DATA_DIR}/links"
-  MODELS = [:job_adds, :job_add_skills, :skills, :comments, :images]
+  MODELS = [:job_adds, :skills, :job_add_skills, :comments, :images]
 
   attr_reader :contentful, :mapping
 
@@ -70,10 +70,12 @@ class DatabaseExporter
                 description: :specification
             },
             links: {
-                belongs: 'Image',
+                keep: 'Image',
                 many: 'Comment',
-                many: 'Skill',
-                many: 'JobAddSkill'
+                many: {
+                    relation_to: 'Skill',
+                    through: 'JobAddSkill'
+                }
             }
         },
         'Comment' => {
@@ -94,8 +96,10 @@ class DatabaseExporter
                 name: :title,
             },
             links: {
-                many: 'JobAdd',
-                many: 'JobAddSkill'
+                many: {
+                    relation_to: 'JobAdd',
+                    through: 'JobAddSkill'
+                }
             }
         },
         'JobAddSkills' => {
@@ -108,6 +112,7 @@ class DatabaseExporter
             }
         },
         'Image' => {
+            contentful: 'Image',
             type: :asset,
             fields: {
                 name: :name,
@@ -160,12 +165,13 @@ class DatabaseExporter
     end
   end
 
-  def write_rows_to_json
+  def write_objects_to_json
     MODELS.each do |model|
       content_type_name = model.to_s.singularize
       FileUtils.mkdir_p "#{ENTRIES_DATA_DIR}/#{content_type_name}" unless File.directory?("#{ENTRIES_DATA_DIR}/#{content_type_name}")
       DB[model].all.each do |row|
         File.open("#{ENTRIES_DATA_DIR}/#{content_type_name}/#{content_type_name}_#{row[:id]}.json", 'w') do |file|
+          row.merge!(database_id: row[:id])
           row[:id] ="#{content_type_name}_#{row[:id]}"
           file.write((JSON.pretty_generate(JSON.parse(row.to_json))))
         end
@@ -175,37 +181,106 @@ class DatabaseExporter
 
   def map_relationships
     Dir.glob("#{ENTRIES_DATA_DIR}/**/*json") do |file_path|
-      filename = File.basename(file_path)
-      model_name = file_path.match(/entries\/(.*)\//)[1].capitalize
-
+      model_name = file_path.match(/entries\/(.*)\//)[1].titleize.gsub(' ', '')
       row = JSON.parse(File.read(file_path))
-      mapping[model_name][:links].each do |key, linked_model|
-        if key == :belongs
-          associated_model = linked_model.underscore
-          foreign_key = associated_model + '_id'
-          id = row[foreign_key]
-          file_to_modify = JSON.parse(File.read("#{ENTRIES_DATA_DIR}/#{associated_model}/#{associated_model}_#{id}.json"))
-          associated_content_type = mapping[linked_model][:contentful]
-          field_type = contentful[:content_types][associated_content_type][:fields][model_name][:link_type]
-          api_field_id = contentful[:content_types][associated_content_type][:fields][model_name][:id]
-          case field_type
-            when 'Array'
-              File.open("#{ENTRIES_DATA_DIR}/#{associated_model}/#{associated_model}_#{id}.json", 'w') { |file| file.write((JSON.pretty_generate(file_to_modify.merge!(api_field_id => row['id'])))) }
-            when 'Entry'
-            when 'Asset'
+      if mapping[model_name].present?
+        unless mapping[model_name][:links].nil?
+          mapping[model_name][:links].each do |key, linked_model|
+            case key
+              when :belongs
+                map_belongs_association(linked_model, model_name, row)
+              when :keep
+                map_keep_association(linked_model, model_name, row, file_path)
+              when :many
+                if linked_model.is_a? Hash
+                  map_many_through_association(linked_model, model_name, row, file_path)
+                end
+            end
           end
         end
       end
     end
   end
+
+  def map_many_through_association(linked_model, model_name, row, file_path)
+    primary_id = file_path.match(/entries\/(.*)\//)[1] + '_id'
+    associated_model = linked_model[:relation_to].underscore
+    foreign_key = associated_model + '_id'
+    associated_content_type = mapping[model_name][:contentful]
+    field_type = contentful[:content_types][associated_content_type][:fields][associated_model.capitalize][:link_type]
+    api_field_id = contentful[:content_types][associated_content_type][:fields][associated_model.capitalize][:id]
+    file_to_modify = JSON.parse(File.read(file_path))
+    case field_type
+      when 'Array'
+        File.open(file_path, 'w') do |file|
+          array = file_to_modify[api_field_id].nil? ? [] : file_to_modify[api_field_id]
+          through_model = linked_model[:through].underscore
+          Dir.glob("#{ENTRIES_DATA_DIR}/#{through_model}/*json") do |through_file|
+            through_row = JSON.parse(File.read(through_file))
+            if through_row[primary_id] == row['database_id']
+              linked_object = {
+                  '@url' => "#{associated_model}_#{through_row[foreign_key]}"
+              }
+              array << linked_object
+            end
+          end
+          file.write((JSON.pretty_generate(file_to_modify.merge!(api_field_id => array))))
+        end
+    end
+  end
+
+  def map_keep_association(linked_model, model_name, row, file_path)
+    associated_model = linked_model.underscore
+    foreign_key = associated_model + '_id'
+    id = row[foreign_key]
+    content_type_name = mapping[model_name][:contentful]
+    field_type = contentful[:content_types][content_type_name][:fields][associated_model.capitalize][:link_type]
+    api_field_id = contentful[:content_types][content_type_name][:fields][associated_model.capitalize][:id]
+    file_to_modify = JSON.parse(File.read(file_path))
+    file_to_modify.delete(foreign_key)
+    case field_type
+      when 'Asset'
+        asset = {
+            '@type' => 'File',
+            '@url' => "#{associated_model}_#{id}"
+        }
+        File.open(file_path, 'w') do |file|
+          file.write((JSON.pretty_generate(file_to_modify.merge!(api_field_id => asset))))
+        end
+    end
+  end
+
+  def map_belongs_association(linked_model, model_name, row)
+    associated_model = linked_model.underscore
+    foreign_key = associated_model + '_id'
+    id = row[foreign_key]
+    associated_content_type = mapping[linked_model][:contentful]
+    field_type = contentful[:content_types][associated_content_type][:fields][model_name][:link_type]
+    api_field_id = contentful[:content_types][associated_content_type][:fields][model_name][:id]
+    file_to_modify = JSON.parse(File.read("#{ENTRIES_DATA_DIR}/#{associated_model}/#{associated_model}_#{id}.json"))
+    case field_type
+      when 'Array'
+        File.open("#{ENTRIES_DATA_DIR}/#{associated_model}/#{associated_model}_#{id}.json", 'w') do |file|
+          array = file_to_modify[api_field_id].nil? ? [] : file_to_modify[api_field_id]
+          entry = {
+              '@url' => row['id']
+          }
+          array << entry
+          file.write((JSON.pretty_generate(file_to_modify.merge!(api_field_id => array))))
+        end
+      when 'Entry'
+        puts 'NOT IMPLEMENTED YET - map_belongs_association'
+      when 'Asset'
+        puts 'NOT IMPLEMENTED YET - map_belongs_association'
+    end
+  end
+
+
+  database_exporter = DatabaseExporter.new
+  database_exporter.export_models_from_database
+  database_exporter.write_objects_to_json
+  database_exporter.map_relationships
 end
-
-
-database_exporter = DatabaseExporter.new
-database_exporter.export_models_from_database
-database_exporter.write_rows_to_json
-database_exporter.map_relationships
-
 #
 # MODELS.each do |model|
 #   content_type_name = model.to_s.singularize
