@@ -96,10 +96,11 @@ class DatabaseExporter
                 name: :title,
             },
             links: {
-                many: {
-                    relation_to: 'JobAdd',
-                    through: 'JobAddSkill'
-                }
+                #TODO REMOVE LINKS IF IT USLESS (no need to import to contentful)
+                # many: {
+                #     relation_to: 'JobAdd',
+                #     through: 'JobAddSkill'
+                # }
             }
         },
         'JobAddSkills' => {
@@ -207,10 +208,10 @@ class DatabaseExporter
     associated_model = linked_model[:relation_to].underscore
     foreign_key = associated_model + '_id'
     associated_content_type = mapping[model_name][:contentful]
-    field_type = contentful[:content_types][associated_content_type][:fields][associated_model.capitalize][:link_type]
-    api_field_id = contentful[:content_types][associated_content_type][:fields][associated_model.capitalize][:id]
+    link_type = link_type(associated_content_type, associated_model)
+    api_field_id = api_name(associated_content_type, associated_model)
     file_to_modify = JSON.parse(File.read(file_path))
-    case field_type
+    case link_type
       when 'Array'
         File.open(file_path, 'w') do |file|
           array = file_to_modify[api_field_id].nil? ? [] : file_to_modify[api_field_id]
@@ -234,11 +235,11 @@ class DatabaseExporter
     foreign_key = associated_model + '_id'
     id = row[foreign_key]
     content_type_name = mapping[model_name][:contentful]
-    field_type = contentful[:content_types][content_type_name][:fields][associated_model.capitalize][:link_type]
-    api_field_id = contentful[:content_types][content_type_name][:fields][associated_model.capitalize][:id]
+    link_type = link_type(content_type_name, associated_model)
+    api_field_id = api_name(content_type_name, associated_model)
     file_to_modify = JSON.parse(File.read(file_path))
     file_to_modify.delete(foreign_key)
-    case field_type
+    case link_type
       when 'Asset'
         asset = {
             '@type' => 'File',
@@ -255,10 +256,10 @@ class DatabaseExporter
     foreign_key = associated_model + '_id'
     id = row[foreign_key]
     associated_content_type = mapping[linked_model][:contentful]
-    field_type = contentful[:content_types][associated_content_type][:fields][model_name][:link_type]
-    api_field_id = contentful[:content_types][associated_content_type][:fields][model_name][:id]
+    link_type = link_type(associated_content_type, model_name)
+    api_field_id = api_name(associated_content_type, model_name)
     file_to_modify = JSON.parse(File.read("#{ENTRIES_DATA_DIR}/#{associated_model}/#{associated_model}_#{id}.json"))
-    case field_type
+    case link_type
       when 'Array'
         File.open("#{ENTRIES_DATA_DIR}/#{associated_model}/#{associated_model}_#{id}.json", 'w') do |file|
           array = file_to_modify[api_field_id].nil? ? [] : file_to_modify[api_field_id]
@@ -275,11 +276,27 @@ class DatabaseExporter
     end
   end
 
+  def remove_database_id
+    Dir.glob("#{ENTRIES_DATA_DIR}/**/*json") do |file_path|
+      clean_file = JSON.parse(File.read(file_path))
+      clean_file.delete('database_id')
+      File.open(file_path, 'w') { |file| file.write(JSON.pretty_generate(clean_file)) }
+    end
+  end
+
+  def link_type(content_type_name, associated_model)
+    contentful[:content_types][content_type_name][:fields][associated_model.capitalize][:link_type]
+  end
+
+  def api_name(content_type_name, associated_model)
+    contentful[:content_types][content_type_name][:fields][associated_model.capitalize][:id]
+  end
 
   database_exporter = DatabaseExporter.new
   database_exporter.export_models_from_database
   database_exporter.write_objects_to_json
   database_exporter.map_relationships
+  database_exporter.remove_database_id
 end
 #
 # MODELS.each do |model|
@@ -328,7 +345,6 @@ end
 #     File.open("#{ENTRIES_DATA_DIR}/#{catalog}/#{filename}", 'w') { |file| file.write(JSON.pretty_generate(entry.merge(links))) }
 #   end
 # end
-
 
 # MODELS.each do |model|
 #   content_type_name = model.to_s.singularize
