@@ -15,7 +15,7 @@ class DatabaseExporter
   ENTRIES_DATA_DIR = "#{DATA_DIR}/entries"
   ASSETS_DATA_DIR = "#{DATA_DIR}/assets"
   LINKS_DATA = "#{DATA_DIR}/links"
-  MODELS = [:job_adds, :skills, :job_add_skills, :comments, :images]
+  MODELS = [:job_adds, :skills, :job_add_skills, :comments, :images, :users]
 
   attr_reader :contentful, :mapping
 
@@ -57,6 +57,19 @@ class DatabaseExporter
                 fields: {
                     title: 'Text',
                 }
+            },
+            'User' => {
+                id: 'user',
+                fields: {
+                    name: 'Text',
+                    surname: 'Text',
+                    'JobAdd' => {
+                        id: 'job_adds',
+                        link_type: 'Array',
+                        type: 'Entry'
+                    }
+
+                }
             }
         }
     }
@@ -72,8 +85,8 @@ class DatabaseExporter
                 description: :specification
             },
             links: {
+                belongs: 'User',
                 keep: 'Image',
-                many: 'Comment',
                 many_through: {
                     relation_to: 'Skill',
                     through: 'JobAddSkill'
@@ -122,6 +135,17 @@ class DatabaseExporter
                 name: :name,
                 description: :description,
                 url: :url
+            }
+        },
+        'User' => {
+            contentful: 'User',
+            type: :entry,
+            fields: {
+                first_name: :name,
+                last_name: :surename,
+            },
+            links: {
+
             }
         }
     }
@@ -277,22 +301,25 @@ class DatabaseExporter
     associated_content_type = mapping[linked_model][:contentful]
     link_type = contentful_field_attribute(associated_content_type, model_name, :link_type)
     api_field_id = contentful_field_attribute(associated_content_type, model_name, :id)
-    file_to_modify = JSON.parse(File.read("#{ENTRIES_DATA_DIR}/#{associated_model}/#{associated_model}_#{id}.json"))
-    case link_type
-      when 'Array'
-        File.open("#{ENTRIES_DATA_DIR}/#{associated_model}/#{associated_model}_#{id}.json", 'w') do |file|
-          array = file_to_modify[api_field_id].nil? ? [] : file_to_modify[api_field_id]
-          entry = {
-              '@type' => model_name,
-              '@url' => row['id']
-          }
-          array << entry
-          file.write((JSON.pretty_generate(file_to_modify.merge!(api_field_id => array))))
-        end
-      when 'Entry'
-        puts 'NOT IMPLEMENTED YET - map_belongs_association'
-      when 'Asset'
-        puts 'NOT IMPLEMENTED YET - map_belongs_association'
+    if id
+      file_to_modify = JSON.parse(File.read("#{ENTRIES_DATA_DIR}/#{associated_model}/#{associated_model}_#{id}.json"))
+      case link_type
+        when 'Array'
+          File.open("#{ENTRIES_DATA_DIR}/#{associated_model}/#{associated_model}_#{id}.json", 'w') do |file|
+            array = file_to_modify[api_field_id].nil? ? [] : file_to_modify[api_field_id]
+            entry = {
+                '@type' => model_name,
+                '@url' => row['id']
+            }
+            array << entry
+            file.write((JSON.pretty_generate(file_to_modify.merge!(api_field_id => array))))
+
+          end
+        when 'Entry'
+          puts 'NOT IMPLEMENTED YET - map_belongs_association'
+        when 'Asset'
+          puts 'NOT IMPLEMENTED YET - map_belongs_association'
+      end
     end
   end
 
@@ -312,7 +339,8 @@ class DatabaseExporter
 
 
   def contentful_field_attribute(content_type_name, associated_model, type)
-    contentful[:content_types][content_type_name][:fields][associated_model.capitalize][type]
+    contentful_field = contentful[:content_types][content_type_name][:fields]
+    contentful_field[associated_model]  ? contentful_field[associated_model][type] : contentful_field[associated_model.capitalize][type]
   end
 
   database_exporter = DatabaseExporter.new
