@@ -209,18 +209,22 @@ class DatabaseExporter
     FileUtils.mkdir_p "#{type}/#{content_type_name}" unless File.directory?("#{type}/#{content_type_name}")
     DB[model].all.each do |row|
       File.open("#{type}/#{content_type_name}/#{content_type_name}_#{row[:id]}.json", 'w') do |file|
-        result = row.each_with_object({}) do |(key, value), result|
-          if  mapping[mapped_name] && mapping[mapped_name][:fields][key].present?
-            result[mapping[mapped_name][:fields][key]] = row.delete(key)
-          else
-            result[key] = value
-          end
-          result['contentful_type'] = mapping[mapped_name][:type] if mapping[mapped_name] && mapping[mapped_name][:type].present?
-        end
+        result = change_keys_in_mapped_hash(row, mapped_name)
         result[:id] ="#{content_type_name}_#{row[:id]}"
         result.merge!(database_id: row[:id])
         file.write((JSON.pretty_generate(JSON.parse(result.to_json))))
       end
+    end
+  end
+
+  def change_keys_in_mapped_hash(row, mapped_name)
+    row.each_with_object({}) do |(key, value), result|
+      if  mapping[mapped_name] && mapping[mapped_name][:fields][key].present?
+        result[mapping[mapped_name][:fields][key]] = row.delete(key)
+      else
+        result[key] = value
+      end
+      result['contentful_type'] = mapping[mapped_name][:type] if mapping[mapped_name] && mapping[mapped_name][:type].present?
     end
   end
 
@@ -280,19 +284,26 @@ class DatabaseExporter
     api_field_id = contentful_field_attribute(content_type_name, associated_model, :id)
     file_to_modify = JSON.parse(File.read(file_path))
     file_to_modify.delete(foreign_key)
-    case link_type
-      when 'Asset'
-        if id
-          asset = {
-              '@type' => 'File',
-              'asset_id' => "#{associated_model}_#{id}"
-          }
-          File.open(file_path, 'w') do |file|
-            file.write((JSON.pretty_generate(file_to_modify.merge!(api_field_id => asset))))
-          end
-        end
+    if id
+      case link_type
+        when 'Asset'
+          save_keep_associated_file(id, api_field_id, associated_model, file_to_modify, file_path, 'File', 'asset_id')
+        when 'Entry'
+          save_keep_associated_file(id, api_field_id, associated_model, file_to_modify, file_path, 'Entry', '@url')
+      end
     end
   end
+
+  def save_keep_associated_file(id, api_field_id, associated_model, file_to_modify, file_path, type, cf_object)
+    object = {
+        '@type' => type,
+        cf_object => "#{associated_model}_#{id}"
+    }
+    File.open(file_path, 'w') do |file|
+      file.write((JSON.pretty_generate(file_to_modify.merge!(api_field_id => object))))
+    end
+  end
+
 
   def map_belongs_association(linked_model, model_name, row)
     associated_model = linked_model.underscore
@@ -313,7 +324,6 @@ class DatabaseExporter
             }
             array << entry
             file.write((JSON.pretty_generate(file_to_modify.merge!(api_field_id => array))))
-
           end
         when 'Entry'
           puts 'NOT IMPLEMENTED YET - map_belongs_association'
@@ -340,7 +350,7 @@ class DatabaseExporter
 
   def contentful_field_attribute(content_type_name, associated_model, type)
     contentful_field = contentful[:content_types][content_type_name][:fields]
-    contentful_field[associated_model]  ? contentful_field[associated_model][type] : contentful_field[associated_model.capitalize][type]
+    contentful_field[associated_model] ? contentful_field[associated_model][type] : contentful_field[associated_model.capitalize][type]
   end
 
   database_exporter = DatabaseExporter.new
