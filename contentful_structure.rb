@@ -29,12 +29,12 @@ module ContentfulStructure
               clicks: 'Integer',
               date_start: 'Date',
               date_stop: 'Date',
-              'UserWildeisenAlergicInfo' => {
+              'AlergicInfo' => {
                   id: 'alergic_infos',
                   link_type: 'Array',
                   type: 'Entry'
               },
-              'UserWildeisenRecipeToIngredient' => {
+              'RecipeToIngredient' => {
                   id: 'recipe_ingredients',
                   link_type: 'Array',
                   type: 'Entry'

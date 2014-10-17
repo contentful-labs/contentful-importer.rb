@@ -47,7 +47,14 @@ module ContentfulMapping
           links: {
               belongs_to: ['UserWildeisenRecipe', 'UserWildeisenIngredient']
           }
-      }
+      },
+      'UserWildeisenRecipeToAlergicInfo' => {
+            contentful: 'RecipeToAlergicInfo',
+            fields: {
+            },
+            links: {
+            }
+        }
   }
 
 end
