@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'rubygems'
 require 'active_support/core_ext/string'
 require 'active_support/core_ext/hash/compact'
@@ -7,7 +8,9 @@ require 'fileutils'
 
 class DatabaseExporter
   Sequel::Model.plugin :json_serializer
-  DB = Sequel.connect('postgres://postgres:postgres@localhost/job_adder_development')
+  # DB = Sequel.connect('postgres://postgres:postgres@localhost/job_adder_development')
+  # DB = Sequel.connect('mysql://szpryc:root@localhost/recipes')
+  DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
 
   APP_ROOT = Dir.pwd
   DATA_DIR = "#{APP_ROOT}/data"
@@ -15,7 +18,8 @@ class DatabaseExporter
   ENTRIES_DATA_DIR = "#{DATA_DIR}/entries"
   ASSETS_DATA_DIR = "#{DATA_DIR}/assets"
   LINKS_DATA = "#{DATA_DIR}/links"
-  MODELS = [:job_adds, :skills, :job_add_skills, :comments, :images, :users]
+  # MODELS = [:job_adds, :skills, :job_add_skills, :comments, :images, :users]
+  MODELS = DB.tables
 
   attr_reader :contentful, :mapping
 
@@ -207,12 +211,17 @@ class DatabaseExporter
 
   def save_object_to_file(model, content_type_name, mapped_name, type)
     FileUtils.mkdir_p "#{type}/#{content_type_name}" unless File.directory?("#{type}/#{content_type_name}")
+    number = 1
     DB[model].all.each do |row|
-      File.open("#{type}/#{content_type_name}/#{content_type_name}_#{row[:id]}.json", 'w') do |file|
-        result = change_keys_in_mapped_hash(row, mapped_name)
-        result[:id] ="#{content_type_name}_#{row[:id]}"
-        result.merge!(database_id: row[:id])
-        file.write((JSON.pretty_generate(JSON.parse(result.to_json))))
+      id = row[:id] || number
+      File.open("#{type}/#{content_type_name}/#{content_type_name}_#{id}.json", 'w') do |file|
+        puts "Saving #{content_type_name} - id: #{id}"
+        db_object = change_keys_in_mapped_hash(row, mapped_name)
+        db_object[:id] ="#{content_type_name}_#{id}"
+        db_object.merge!(database_id: id)
+        result = JSON.parse(db_object.to_json)
+        file.write((JSON.pretty_generate(result)))
+        number += 1
       end
     end
   end
@@ -222,7 +231,7 @@ class DatabaseExporter
       if  mapping[mapped_name] && mapping[mapped_name][:fields][key].present?
         result[mapping[mapped_name][:fields][key]] = row.delete(key)
       else
-        result[key] = value
+        result[key] = value.is_a?(String) ? value.force_encoding('ISO-8859-1') : value
       end
       result['contentful_type'] = mapping[mapped_name][:type] if mapping[mapped_name] && mapping[mapped_name][:type].present?
     end
@@ -355,7 +364,7 @@ class DatabaseExporter
 
   database_exporter = DatabaseExporter.new
   database_exporter.export_models_from_database
-  database_exporter.save_objects_as_json
+  # database_exporter.save_objects_as_json
   database_exporter.map_relationships
   database_exporter.remove_database_id
   database_exporter.remove_useless_files
