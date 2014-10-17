@@ -5,197 +5,79 @@ require 'active_support/core_ext/hash/compact'
 require 'active_support/core_ext/hash'
 require 'sequel'
 require 'fileutils'
+require_relative 'contentful_structure'
+require_relative 'contentful_mapping'
 
 class DatabaseExporter
+
+  include ContentfulStructure
+  include ContentfulMapping
+
   Sequel::Model.plugin :json_serializer
   # DB = Sequel.connect('postgres://postgres:postgres@localhost/job_adder_development')
-  # DB = Sequel.connect('mysql://szpryc:root@localhost/recipes')
-  DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
+  DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
 
-  APP_ROOT = Dir.pwd
+  APP_ROOT = '/tmp/' #Dir.pwd
   DATA_DIR = "#{APP_ROOT}/data"
   COLLECTIONS_DATA_DIR = "#{DATA_DIR}/collections"
   ENTRIES_DATA_DIR = "#{DATA_DIR}/entries"
   ASSETS_DATA_DIR = "#{DATA_DIR}/assets"
   LINKS_DATA = "#{DATA_DIR}/links"
-  # MODELS = [:job_adds, :skills, :job_add_skills, :comments, :images, :users]
-  MODELS = DB.tables
+  MODELS = [:user_wildeisen_alergic_info,
+            :user_wildeisen_ingredient,
+            :user_wildeisen_recipe,
+            :user_wildeisen_recipe_to_alergic_info,
+            :user_wildeisen_recipe_to_ingredient,
+            :user_wildeisen_unit]
+  # MODELS = DB.tables
 
-  attr_reader :contentful, :mapping
+  attr_reader :contentful_structure, :mapping
 
-
-  def contentful
-    contentful = {
-        content_types: {
-            'Job Add' => {
-                id: 'job_add',
-                note: 'Add new job form',
-                fields: {
-                    name: 'Text',
-                    specification: 'Text',
-                    'Image' => {
-                        id: 'image',
-                        link_type: 'Asset',
-                    },
-                    'Comment' => {
-                        id: 'comments',
-                        link_type: 'Array',
-                        type: 'Entry'
-                    },
-                    'Skill' => {
-                        id: 'skills',
-                        link_type: 'Array',
-                        type: 'Entry'
-                    }
-                }
-            },
-            'Comment' => {
-                id: 'comment',
-                fields: {
-                    title: 'Text',
-                    content: 'Text',
-                }
-            },
-            'Skill' => {
-                id: 'skill',
-                fields: {
-                    title: 'Text',
-                }
-            },
-            'User' => {
-                id: 'user',
-                fields: {
-                    name: 'Text',
-                    surname: 'Text',
-                    'JobAdd' => {
-                        id: 'job_adds',
-                        link_type: 'Array',
-                        type: 'Entry'
-                    }
-
-                }
-            }
-        }
-    }
+  def initialize
+    @contentful_structure = ContentfulStructure::STRUCTURE
+    @mapping = ContentfulMapping::MAPPING
   end
-
-  def mapping
-    mapping = {
-        'JobAdd' => {
-            contentful: 'Job Add',
-            type: :entry,
-            fields: {
-                title: :name,
-                description: :specification
-            },
-            links: {
-                belongs: 'User',
-                keep: 'Image',
-                many_through: {
-                    relation_to: 'Skill',
-                    through: 'JobAddSkill'
-                }
-            }
-        },
-        'Comment' => {
-            contentful: 'Comment',
-            type: :entry,
-            fields: {
-                title: :title,
-                body: :content,
-            },
-            links: {
-                belongs: 'JobAdd'
-            }
-        },
-        'Skill' => {
-            contentful: 'Skills',
-            type: :entry,
-            fields: {
-                name: :title,
-            },
-            links: {
-                #TODO REMOVE LINKS IF THEY USLESS (no need to import to contentful)
-                # many_through: {
-                #     relation_to: 'JobAdd',
-                #     through: 'JobAddSkill'
-                # }
-            }
-        },
-        'JobAddSkills' => {
-            contentful: :none,
-            fields: {
-            },
-            links: {
-                #TODO REMOVE LINKS IF THEY USLESS (no need to import to contentful)
-                # belongs: 'JobAdd',
-                # belongs: 'Skill'
-            }
-        },
-        'Image' => {
-            contentful: 'Image',
-            type: :asset,
-            fields: {
-                name: :name,
-                description: :description,
-                url: :url
-            }
-        },
-        'User' => {
-            contentful: 'User',
-            type: :entry,
-            fields: {
-                first_name: :name,
-                last_name: :surename,
-            },
-            links: {
-
-            }
-        }
-    }
-  end
-
-
-#   MESSAGE = <<-eoruby
-# Actions:
-#   1. Export data from Database to JSON files.
-# -> Choose on of the options:
-#   eoruby
-#
-#   def run
-#     puts MESSAGE
-#     action_choice = gets.to_i
-#     case action_choice
-#       when 1
-#         export_models_from_database
-#     end
-#   end
-
 
   def export_models_from_database
-    contentful[:content_types].each do |content_type, values|
-      content_type_name = content_type.gsub(' ', '_').underscore
-      FileUtils.mkdir_p COLLECTIONS_DATA_DIR unless File.directory?(COLLECTIONS_DATA_DIR)
-      File.open("#{COLLECTIONS_DATA_DIR}/#{content_type_name}.json", 'w') do |file|
-        collection = {
-            id: values[:id],
-            entry_type: content_type_name,
-            note: values[:note],
-            fields: []
-        }
-        values[:fields].each do |field, value|
-          field_struct = {
-              name: field.capitalize,
-              identifier: value.is_a?(Hash) ? value[:id] : field,
-              input_type: value.is_a?(Hash) ? value[:link_type] : value,
-              link_type: value.is_a?(Hash) ? value[:type] : nil
-          }.compact
-          collection[:fields] << field_struct
-        end
-        file.write(JSON.pretty_generate(collection))
-      end
+    @contentful_structure.each do |content_type, values|
+      content_type_name = content_type_name(content_type)
+      create_directory(COLLECTIONS_DATA_DIR)
+      create_content_type_json_file(content_type_name, values)
     end
   end
+
+  def content_type_name(content_type)
+    content_type.gsub(' ', '_').underscore
+  end
+
+  def create_directory(path)
+    FileUtils.mkdir_p(path) unless File.directory?(path)
+  end
+
+  def create_content_type_json_file(content_type_name, values)
+    File.open("#{COLLECTIONS_DATA_DIR}/#{content_type_name}.json", 'w') do |file|
+      collection = {
+          id: values[:id],
+          entry_type: content_type_name,
+          note: values[:note],
+          fields: create_fields(values[:fields])
+      }
+      file.write(JSON.pretty_generate(collection))
+    end
+  end
+
+  def create_fields(fields)
+    fields.each_with_object([]) do |(field, value), results|
+      results << {
+          name: value.is_a?(Hash) ? value[:id] : field.capitalize,
+          identifier: value.is_a?(Hash) ? value[:id] : field,
+          input_type: value.is_a?(Hash) ? value[:link_type] : value,
+          link_type: value.is_a?(Hash) ? value[:type] : nil
+      }.compact
+    end
+  end
+
+  #######################################################################
 
   def save_objects_as_json
     MODELS.each do |model|
@@ -244,10 +126,10 @@ class DatabaseExporter
       if mapping[model_name] && mapping[model_name][:links]
         mapping[model_name][:links].each do |key, linked_model|
           case key
-            when :belongs
-              map_belongs_association(linked_model, model_name, row)
-            when :keep
-              map_keep_association(linked_model, model_name, row, file_path)
+            when :has_one
+              map_has_one_association(linked_model, model_name, row)
+            when :belongs_to
+              map_belongs_to_association(linked_model, model_name, row, file_path)
             when :many_through
               map_many_through_association(linked_model, model_name, row, file_path)
           end
@@ -284,7 +166,7 @@ class DatabaseExporter
     end
   end
 
-  def map_keep_association(linked_model, model_name, row, file_path)
+  def map_belongs_to_association(linked_model, model_name, row, file_path)
     associated_model = linked_model.underscore
     foreign_key = associated_model + '_id'
     id = row[foreign_key]
@@ -296,14 +178,14 @@ class DatabaseExporter
     if id
       case link_type
         when 'Asset'
-          save_keep_associated_file(id, api_field_id, associated_model, file_to_modify, file_path, 'File', 'asset_id')
+          save_belongs_to_associated_file(id, api_field_id, associated_model, file_to_modify, file_path, 'File', 'asset_id')
         when 'Entry'
-          save_keep_associated_file(id, api_field_id, associated_model, file_to_modify, file_path, 'Entry', '@url')
+          save_belongs_to_associated_file(id, api_field_id, associated_model, file_to_modify, file_path, 'Entry', '@url')
       end
     end
   end
 
-  def save_keep_associated_file(id, api_field_id, associated_model, file_to_modify, file_path, type, cf_object)
+  def save_belongs_to_associated_file(id, api_field_id, associated_model, file_to_modify, file_path, type, cf_object)
     object = {
         '@type' => type,
         cf_object => "#{associated_model}_#{id}"
@@ -314,7 +196,7 @@ class DatabaseExporter
   end
 
 
-  def map_belongs_association(linked_model, model_name, row)
+  def map_has_one_association(linked_model, model_name, row)
     associated_model = linked_model.underscore
     foreign_key = associated_model + '_id'
     id = row[foreign_key]
@@ -335,9 +217,9 @@ class DatabaseExporter
             file.write((JSON.pretty_generate(file_to_modify.merge!(api_field_id => array))))
           end
         when 'Entry'
-          puts 'NOT IMPLEMENTED YET - map_belongs_association'
+          puts 'NOT IMPLEMENTED YET - map_has_one_association'
         when 'Asset'
-          puts 'NOT IMPLEMENTED YET - map_belongs_association'
+          puts 'NOT IMPLEMENTED YET - map_has_one_association'
       end
     end
   end
@@ -364,68 +246,8 @@ class DatabaseExporter
 
   database_exporter = DatabaseExporter.new
   database_exporter.export_models_from_database
-  # database_exporter.save_objects_as_json
-  database_exporter.map_relationships
-  database_exporter.remove_database_id
-  database_exporter.remove_useless_files
+  database_exporter.save_objects_as_json
+  # database_exporter.map_relationships
+  # database_exporter.remove_database_id
+  # database_exporter.remove_useless_files
 end
-#
-# MODELS.each do |model|
-#   content_type_name = model.to_s.singularize
-#   FileUtils.mkdir_p "#{ENTRIES_DATA_DIR}/#{content_type_name}" unless File.directory?("#{ENTRIES_DATA_DIR}/#{content_type_name}")
-#   DB[model].all.each do |row|
-#     File.open("#{ENTRIES_DATA_DIR}/#{content_type_name}/#{content_type_name}_#{row[:id]}.json", 'w') do |file|
-#       row[:id] ="#{content_type_name}_#{row[:id]}"
-#       unless mapping[content_type_name.capitalize][:links].nil?
-#         name = model.to_s.singularize
-#         mapping[content_type_name.capitalize][:links].each do |key, value|
-#           unless row[key].nil?
-#             temp_id = row[key]
-#             row[key] = {url: "#{value.downcase}_#{temp_id}"}
-#             FileUtils.mkdir_p "#{LINKS_DATA}/#{value.downcase}" unless File.directory?("#{LINKS_DATA}/#{value.downcase}")
-#             if File.exist?("#{LINKS_DATA}/#{value.downcase}/#{value.downcase}_#{temp_id}.json")
-#               links = JSON.parse(File.read("#{LINKS_DATA}/#{value.downcase}/#{value.downcase}_#{temp_id}.json"))
-#               link = {
-#                   '@url' => row[:id]
-#               }
-#               # link[name].merge!('@type' => 'File') if mapping[content_type_name.capitalize][:type] == :asset
-#               File.open("#{LINKS_DATA}/#{value.downcase}/#{value.downcase}_#{temp_id}.json", 'w') { |file| file.write((JSON.pretty_generate(links.merge(name.to_sym => link)))) }
-#             else
-#               File.open("#{LINKS_DATA}/#{value.downcase}/#{value.downcase}_#{temp_id}.json", 'w') do |file|
-#                 link = {
-#                     name => {'@url' => row[:id]}
-#                 }
-#                 link[name].merge!('@type' => 'File') if mapping[content_type_name.capitalize][:type] == :asset
-#                 file.write((JSON.pretty_generate(JSON.parse(link.to_json))))
-#               end
-#             end
-#           end
-#         end
-#       end
-#       file.write(JSON.pretty_generate(JSON.parse(row.to_json)))
-#     end
-#   end
-# end
-
-# Dir.glob("#{ENTRIES_DATA_DIR}/**/*json") do |file_path|
-#   filename = File.basename(file_path)
-#   catalog = file_path.match(/entries\/(.*)\//)[1]
-#   if File.exists?("#{LINKS_DATA}/#{catalog}/#{filename}")
-#     links = JSON.parse(File.read("#{LINKS_DATA}/#{catalog}/#{filename}"))
-#     entry = JSON.parse(File.read("#{ENTRIES_DATA_DIR}/#{catalog}/#{filename}"))
-#     File.open("#{ENTRIES_DATA_DIR}/#{catalog}/#{filename}", 'w') { |file| file.write(JSON.pretty_generate(entry.merge(links))) }
-#   end
-# end
-
-# MODELS.each do |model|
-#   content_type_name = model.to_s.singularize
-#   FileUtils.mkdir_p "#{ENTRIES_DATA_DIT}/#{content_type_name}" unless File.directory?("#{ENTRIES_DATA_DIT}/#{content_type_name}")
-#   DB[model].all.each do |row|
-#     model_map = mapping[content_type_name.capitalize]
-#     contentful_object_name = model_map[:contentful]
-#     if mapping[content_type_name.capitalize][:type] == :asset
-#       File.open("#{ENTRIES_DATA_DIT}/#{content_type_name}/#{content_type_name}_#{row[:id]}.json", 'w') do |file|
-#       end
-#     end
-#   end
-# end
