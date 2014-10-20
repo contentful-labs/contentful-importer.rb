@@ -23,7 +23,7 @@ module ContentfulMapping
           type: :entry,
           fields: {},
           links: {
-              belongs_to: 'UserWildeisenUnit'
+              belongs_to: ['UserWildeisenUnit']
           }
       },
       'UserWildeisenRecipe' => {

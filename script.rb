@@ -15,8 +15,8 @@ class DatabaseExporter
 
   Sequel::Model.plugin :json_serializer
   # DB = Sequel.connect('postgres://postgres:postgres@localhost/job_adder_development')
-  DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
-  # DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
+  # DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
+  DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
 
   APP_ROOT = '/tmp/' #Dir.pwd
   DATA_DIR = "#{APP_ROOT}/data"
@@ -93,9 +93,8 @@ class DatabaseExporter
 
   def save_object_to_file(table, content_type_name, model_name, type)
     create_directory("#{type}/#{content_type_name}")
-    DB[table].all.each_with_index do |row|
-      raise "Missing id! #{row}" unless row[:id]
-      id = row[:id]
+    DB[table].all.each_with_index do |row, index|
+      id = row[:id] || index
       File.open("#{type}/#{content_type_name}/#{content_type_name}_#{id}.json", 'w') do |file|
         puts "Saving #{content_type_name} - id: #{id}"
         db_object = change_keys_in_mapped_hash(row, model_name)
@@ -124,16 +123,11 @@ class DatabaseExporter
       contentful_model_name = file_path.match(/entries\/(.*)\//)[1].titleize.gsub(' ', '')
       row = JSON.parse(File.read(file_path))
       model_name = mapping.each { |key, value| break key if value[:contentful] == contentful_model_name }
-      if mapping[model_name] && mapping[model_name][:links]
-        mapping[model_name][:links].each do |key, linked_model|
-          if linked_model.is_a? Array
-            linked_model.each do |relation_with|
-              contentful_name = mapped_contentful_name(relation_with[:relation_to])
-              relationships(key, model_name, contentful_name, row, file_path)
-            end
-          else
-            contentful_name = mapped_contentful_name(linked_model)
-            relationships(key, model_name, contentful_name, row, file_path)
+      if has_links?(model_name)
+        links(model_name).each do |key, linked_model|
+          puts "Mapping #{contentful_model_name} - relation: #{key} - #{linked_model}, file: #{file_path}"
+          linked_model.each do |relation_with|
+            relationships(key, model_name, relation_with, row, file_path)
           end
         end
       end
@@ -144,11 +138,11 @@ class DatabaseExporter
   def relationships(key, model_name, contentful_name, row, file_path)
     case key
       when :has_one
-        map_has_one_association(model_name, contentful_name, row)
+        # map_has_one_association(model_name, contentful_name, row)
       when :belongs_to
-        # map_belongs_to_association(model_name, contentful_name, row, file_path)
+        map_belongs_to_association(model_name, contentful_name, row, file_path)
       when :many_through
-        # map_many_through_association(model_name, contentful_name, row, file_path)
+        map_many_through_association(model_name, contentful_name, row, file_path)
     end
   end
 
@@ -156,59 +150,68 @@ class DatabaseExporter
     mapping[linked_model][:contentful]
   end
 
+  def has_links?(model_name)
+    mapping[model_name] && mapping[model_name][:links].present?
+  end
+
+  def links(model_name)
+    mapping[model_name][:links]
+  end
+
   def map_many_through_association(model_name, linked_model, row, file_path)
+    contentful_name = mapped_contentful_name(linked_model[:relation_to])
     primary_id = file_path.match(/entries\/(.*)\//)[1] + '_id'
-    foreign_key = linked_model + '_id'
+    foreign_key = contentful_name.underscore + '_id'
     associated_content_type = mapping[model_name][:contentful]
-    link_type = contentful_field_attribute(associated_content_type, linked_model, :link_type)
-    api_field_id = contentful_field_attribute(associated_content_type, linked_model, :id)
+    link_type = contentful_field_attribute(associated_content_type, contentful_name, :link_type)
+    field_id = contentful_field_attribute(associated_content_type, contentful_name, :id)
     file_to_modify = JSON.parse(File.read(file_path))
     case link_type
       when 'Array'
         File.open(file_path, 'w') do |file|
-          array = file_to_modify[api_field_id].nil? ? [] : file_to_modify[api_field_id]
-          through_model = linked_model[:through].underscore
+          array = file_to_modify[field_id].nil? ? [] : file_to_modify[field_id]
+          through_model = mapping[linked_model[:through]][:contentful].underscore
           Dir.glob("#{ENTRIES_DATA_DIR}/#{through_model}/*json") do |through_file|
             through_row = JSON.parse(File.read(through_file))
             if through_row[primary_id] == row['database_id']
               linked_object = {
-                  '@type' => associated_model,
-                  '@url' => "#{associated_model}_#{through_row[foreign_key]}"
+                  '@type' => contentful_name.underscore,
+                  '@url' => "#{contentful_name.underscore}_#{through_row[foreign_key]}"
               }
               array << linked_object
             end
           end
-          file.write((JSON.pretty_generate(file_to_modify.merge!(api_field_id => array))))
+          file.write((JSON.pretty_generate(file_to_modify.merge!(field_id => array))))
         end
     end
   end
 
   def map_belongs_to_association(model_name, linked_model, row, file_path)
-    associated_model = linked_model.underscore
-    foreign_key = associated_model + '_id'
+    linked_model = mapped_contentful_name(linked_model).underscore
+    foreign_key = linked_model + '_id'
     id = row[foreign_key]
     content_type_name = mapping[model_name][:contentful]
-    link_type = contentful_field_attribute(content_type_name, associated_model, :link_type)
-    api_field_id = contentful_field_attribute(content_type_name, associated_model, :id)
+    link_type = contentful_field_attribute(content_type_name, linked_model, :link_type)
+    field_id = contentful_field_attribute(content_type_name, linked_model, :id)
     file_to_modify = JSON.parse(File.read(file_path))
     file_to_modify.delete(foreign_key)
     if id
       case link_type
         when 'Asset'
-          save_belongs_to_associated_file(id, api_field_id, associated_model, file_to_modify, file_path, 'File', 'asset_id')
+          save_belongs_to_associated_file(id, field_id, linked_model, file_to_modify, file_path, 'File', 'asset_id')
         when 'Entry'
-          save_belongs_to_associated_file(id, api_field_id, associated_model, file_to_modify, file_path, 'Entry', '@url')
+          save_belongs_to_associated_file(id, field_id, linked_model, file_to_modify, file_path, 'Entry', '@url')
       end
     end
   end
 
-  def save_belongs_to_associated_file(id, api_field_id, associated_model, file_to_modify, file_path, type, cf_object)
+  def save_belongs_to_associated_file(id, field_id, linked_model, file_to_modify, file_path, type, cf_object)
     object = {
         '@type' => type,
-        cf_object => "#{associated_model}_#{id}"
+        cf_object => "#{linked_model}_#{id}"
     }
     File.open(file_path, 'w') do |file|
-      file.write((JSON.pretty_generate(file_to_modify.merge!(api_field_id => object))))
+      file.write((JSON.pretty_generate(file_to_modify.merge!(field_id => object))))
     end
   end
 
@@ -264,7 +267,7 @@ class DatabaseExporter
   database_exporter = DatabaseExporter.new
   database_exporter.export_models_from_database
   database_exporter.save_objects_as_json
-  # database_exporter.map_relationships
+  database_exporter.map_relationships
   # database_exporter.remove_database_id
   # database_exporter.remove_useless_files
 end
