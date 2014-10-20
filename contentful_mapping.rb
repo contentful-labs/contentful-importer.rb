@@ -21,7 +21,8 @@ module ContentfulMapping
       'UserWildeisenIngredient' => {
           contentful: 'Ingredient',
           type: :entry,
-          fields: {},
+          fields: {
+          },
           links: {
               belongs_to: ['UserWildeisenUnit']
           }
@@ -34,6 +35,8 @@ module ContentfulMapping
               many_through: [
                   {
                       relation_to: 'UserWildeisenAlergicInfo',
+                      parent_key: :recipe_id,
+                      child_key: :alergic_info_id,
                       through: 'UserWildeisenRecipeToAlergicInfo'
                   }
               ],
