@@ -15,8 +15,8 @@ class DatabaseExporter
 
   Sequel::Model.plugin :json_serializer
   # DB = Sequel.connect('postgres://postgres:postgres@localhost/job_adder_development')
-  # DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
-  DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
+  DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
+  # DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
 
   APP_ROOT = '/tmp/' #Dir.pwd
   DATA_DIR = "#{APP_ROOT}/data"
@@ -24,7 +24,7 @@ class DatabaseExporter
   ENTRIES_DATA_DIR = "#{DATA_DIR}/entries"
   ASSETS_DATA_DIR = "#{DATA_DIR}/assets"
   LINKS_DATA = "#{DATA_DIR}/links"
-  MODELS = [:user_wildeisen_alergic_info,
+  TABLES = [:user_wildeisen_alergic_info,
             :user_wildeisen_ingredient,
             :user_wildeisen_recipe,
             :user_wildeisen_recipe_to_alergic_info,
@@ -80,43 +80,44 @@ class DatabaseExporter
   #######################################################################
 
   def save_objects_as_json
-    MODELS.each do |model|
-      mapped_name = model.to_s.titleize.gsub(' ', '')
-      content_type_name = mapping[mapped_name][:contentful].underscore
-      if mapping[mapped_name] && mapping[mapped_name][:type] == :asset
-        save_object_to_file(model, content_type_name, mapped_name, ASSETS_DATA_DIR)
-      else
-        save_object_to_file(model, content_type_name, mapped_name, ENTRIES_DATA_DIR)
-      end
+    TABLES.each do |table|
+      model_name = table.to_s.camelize
+      content_type_name = mapping[model_name][:contentful].underscore
+      save_object_to_file(table, content_type_name, model_name, asset?(model_name) ? ASSETS_DATA_DIR : ENTRIES_DATA_DIR)
     end
   end
 
-  def save_object_to_file(model, content_type_name, mapped_name, type)
-    FileUtils.mkdir_p "#{type}/#{content_type_name}" unless File.directory?("#{type}/#{content_type_name}")
-    number = 1
-    DB[model].all.each do |row|
-      id = row[:id] || number
+  def asset?(model_name)
+    mapping[model_name] && mapping[model_name][:type] == :asset
+  end
+
+  def save_object_to_file(table, content_type_name, model_name, type)
+    create_directory("#{type}/#{content_type_name}")
+    DB[table].all.each_with_index do |row|
+      raise "Missing id! #{row}" unless row[:id]
+      id = row[:id]
       File.open("#{type}/#{content_type_name}/#{content_type_name}_#{id}.json", 'w') do |file|
         puts "Saving #{content_type_name} - id: #{id}"
-        db_object = change_keys_in_mapped_hash(row, mapped_name)
+        db_object = change_keys_in_mapped_hash(row, model_name)
         db_object[:id] ="#{content_type_name}_#{id}"
-        db_object.merge!(database_id: id)
+        db_object[:database_id] = id
         result = JSON.parse(db_object.to_json)
         file.write((JSON.pretty_generate(result)))
-        number += 1
       end
     end
   end
 
   def change_keys_in_mapped_hash(row, mapped_name)
     row.each_with_object({}) do |(key, value), result|
-      if  mapping[mapped_name] && mapping[mapped_name][:fields][key].present?
+      if mapping[mapped_name] && mapping[mapped_name][:fields][key].present?
         result[mapping[mapped_name][:fields][key]] = row.delete(key)
       else
         result[key] = value.is_a?(String) ? value.force_encoding('ISO-8859-1') : value
       end
     end
   end
+
+  #######################################################################
 
   def map_relationships
     Dir.glob("#{ENTRIES_DATA_DIR}/**/*json") do |file_path|
@@ -261,9 +262,9 @@ class DatabaseExporter
   end
 
   database_exporter = DatabaseExporter.new
-  # database_exporter.export_models_from_database
-  # database_exporter.save_objects_as_json
-  database_exporter.map_relationships
+  database_exporter.export_models_from_database
+  database_exporter.save_objects_as_json
+  # database_exporter.map_relationships
   # database_exporter.remove_database_id
   # database_exporter.remove_useless_files
 end
