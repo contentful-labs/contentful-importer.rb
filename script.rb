@@ -180,13 +180,12 @@ class DatabaseExporter
     end
   end
 
-  #TODO REFACOTR map_many_through_association method
   def relationships(entry, entry_path, relation_type, model_name, linked_model)
     case relation_type.to_sym
       when :has_one
         # map_has_one_association(model_name, linked_model, row)
       when :belongs_to
-        # map_belongs_to_association(model_name, linked_model, entry, entry_path)
+        map_belongs_to_association(model_name, linked_model, entry, entry_path)
       when :many_through
         map_many_through_association(model_name, linked_model, entry, entry_path)
     end
@@ -233,29 +232,26 @@ class DatabaseExporter
   end
 
   def save_many_through_entries(linked_model, ct_field_id, entry, entry_path)
-    associated_objects = entry[ct_field_id] || []
     through_model = linked_model[:through].underscore
     contentful_name = model_content_type(linked_model[:relation_to]).underscore
-    associated_objects = add_associated_object_to_file(entry, through_model, contentful_name, associated_objects)
+    associated_objects = add_associated_object_to_file(entry, through_model, contentful_name)
     write_json_to_file(entry_path, entry.merge!(ct_field_id => associated_objects)) if associated_objects.present?
   end
 
-  def add_associated_object_to_file(entry, through_model, contentful_name, associated_objects)
+  def add_associated_object_to_file(entry, through_model, contentful_name, associated_objects = [])
     Dir.glob("#{HELPERS_DATA_DIR}/#{through_model}.json") do |through_file|
       through_row = JSON.parse(File.read(through_file))
       if through_row.has_key?(entry['database_id'].to_s)
         through_row[entry['database_id'].to_s].each do |foreign_key|
-          linked_object = {
+          associated_objects << {
               '@type' => contentful_name,
               '@url' => "#{contentful_name}_#{foreign_key}"
           }
-          associated_objects << linked_object
         end
       end
     end
     associated_objects
   end
-
 
   def map_has_one_association(linked_model, model_name, row)
     associated_model = linked_model.underscore
