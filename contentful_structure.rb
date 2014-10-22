@@ -34,7 +34,7 @@ module ContentfulStructure
                   link_type: 'Array',
                   type: 'Entry'
               },
-              'RecipeToIngredient' => {
+              'RecipeIngredient' => {
                   id: 'recipe_ingredients',
                   link_type: 'Array',
                   type: 'Entry'
@@ -51,7 +51,7 @@ module ContentfulStructure
           }
       },
       'RecipeIngredient' => {
-          id: 'recipe_to_ingredient',
+          id: 'recipe_ingredient',
           fields: {
               is_main_ingredient: 'Boolean',
               subtitle: 'Text',

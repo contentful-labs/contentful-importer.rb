@@ -15,8 +15,8 @@ class DatabaseExporter
 
   Sequel::Model.plugin :json_serializer
   # DB = Sequel.connect('postgres://postgres:postgres@localhost/job_adder_development')
-  DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
-  # DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
+  # DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
+  DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
 
   APP_ROOT = '/tmp' #Dir.pwd
   DATA_DIR = "#{APP_ROOT}/data"
@@ -25,6 +25,7 @@ class DatabaseExporter
   HELPERS_DATA_DIR = "#{DATA_DIR}/helpers"
   ASSETS_DATA_DIR = "#{DATA_DIR}/assets"
   LINKS_DATA = "#{DATA_DIR}/links"
+  IMPORT_TIME_DIR = "#{DATA_DIR}/import_time.json"
   TABLES = [:user_wildeisen_alergic_info,
             :user_wildeisen_ingredient,
             :user_wildeisen_recipe,
@@ -55,6 +56,10 @@ class DatabaseExporter
 
   def create_directory(path)
     FileUtils.mkdir_p(path) unless File.directory?(path)
+  end
+
+  def create_file_with_import_time
+    File.open(IMPORT_TIME_DIR, 'w') { |file| file.write({}) }
   end
 
   def create_content_type_json_file(content_type_name, values)
@@ -127,6 +132,7 @@ class DatabaseExporter
   #######################################################################
 
   def create_contentful_links
+    create_file_with_import_time
     relations_from_mapping.each do |model_name, relations|
       generate_relations_helper_indexes(relations)
       map_relations_to_links(model_name, relations)
@@ -171,9 +177,13 @@ class DatabaseExporter
   end
 
   def map_relations_to_links(model_name, relations)
+    puts "Start mapping at: #{start = Time.now}"; records = 0
     Dir.glob("#{ENTRIES_DATA_DIR}/#{model_content_type(model_name).underscore}/*json") do |entry_path|
-      map_entry_relations(entry_path, model_name, relations)
+      map_entry_relations(entry_path, model_name, relations, records)
+      records += 1
     end
+    import_time = JSON.parse(File.read("#{IMPORT_TIME_DIR}"))
+    write_json_to_file(IMPORT_TIME_DIR, import_time.merge(model_name => {total_time: "#{((Time.now - start).to_f/60).round(2)} min.", records_mapped: "#{records}"}))
   end
 
   def relations_from_mapping
@@ -182,19 +192,20 @@ class DatabaseExporter
     end
   end
 
-  def map_entry_relations(entry_path, model_name, relations)
+  def map_entry_relations(entry_path, model_name, relations, record)
     relations.each do |relation_type, linked_models|
+      puts "Mapping #{model_name} - relation: #{relation_type} - #{linked_models}, record: #{record}" if record % 1000 == 0
       map_entry_relation(entry_path, relation_type, linked_models, model_name)
     end
   end
 
   def map_entry_relation(entry_path, relation_type, linked_models, model_name)
-    puts "Mapping #{model_name} - relation: #{relation_type} - #{linked_models}"
     entry = JSON.parse(File.read(entry_path))
     linked_models.each do |linked_model|
       relationships(entry, entry_path, relation_type, model_name, linked_model)
     end
   end
+
 
   def relationships(entry, entry_path, relation_type, model_name, linked_model)
     case relation_type.to_sym
@@ -203,21 +214,10 @@ class DatabaseExporter
       when :belongs_to
         map_belongs_to_association(model_name, linked_model, entry, entry_path)
       when :many_through
-        map_many_through_association(model_name, linked_model, entry, entry_path)
+        map_many_through_association(model_name, linked_model, entry, entry_path, :through)
       when :many
-        # map_many_association(model_name, linked_model, entry, entry_path)
+        map_many_association(model_name, linked_model, entry, entry_path, :relation_to)
     end
-  end
-
-  def map_many_association(model_name, linked_model, entry, entry_path)
-    ct_link_type = contentful_field_attribute(model_name, linked_model, :link_type)
-    ct_field_id = contentful_field_attribute(model_name, linked_model, :id)
-    # save_many_to_entries(linked_model, ct_link_type, ct_field_id, entry, entry_path)
-  end
-
-  def save_many_to_entries(model_name, linked_model, entry, entry_path)
-    ct_link_type = contentful_field_attribute(model_name, linked_model, :link_type)
-    ct_field_id = contentful_field_attribute(model_name, linked_model, :id)
   end
 
   def model_content_type(model_name)
@@ -237,8 +237,7 @@ class DatabaseExporter
   def save_belongs_to_entries(linked_model, ct_link_type, ct_field_id, entry, entry_path)
     content_type = model_content_type(linked_model).underscore
     foreign_id = content_type + '_id'
-    # foreign_id = entry.delete(foreign_key)
-    if foreign_id
+    if entry[foreign_id].present?
       case ct_link_type
         when 'Asset'
           type = 'File'
@@ -255,23 +254,30 @@ class DatabaseExporter
     end
   end
 
-  def map_many_through_association(model_name, linked_model, entry, entry_path)
-    ct_field_id = contentful_field_attribute(model_name, linked_model[:relation_to], :id)
-    save_many_through_entries(linked_model, ct_field_id, entry, entry_path)
-  end
-
-  def save_many_through_entries(linked_model, ct_field_id, entry, entry_path)
-    through_model = linked_model[:through].underscore
+  #TODO REFACTOR NAME
+  def save_many_entries(linked_model, ct_field_id, entry, entry_path, related_to)
+    related_model = linked_model[related_to].underscore
     contentful_name = model_content_type(linked_model[:relation_to]).underscore
-    associated_objects = add_associated_object_to_file(entry, through_model, contentful_name, linked_model[:primary_id])
+    associated_objects = add_associated_object_to_file(entry, related_model, contentful_name, linked_model[:primary_id])
     write_json_to_file(entry_path, entry.merge!(ct_field_id => associated_objects)) if associated_objects.present?
   end
 
-  def add_associated_object_to_file(entry, through_model, contentful_name, primary_id, associated_objects = [])
-    Dir.glob("#{HELPERS_DATA_DIR}/#{primary_id}_#{through_model}.json") do |through_file|
-      through_row = JSON.parse(File.read(through_file))
-      if through_row.has_key?(entry['database_id'].to_s)
-        through_row[entry['database_id'].to_s].each do |foreign_key|
+  #TODO REFACTOR NAME - REMOVE ONE METHODS
+  def map_many_through_association(model_name, linked_model, entry, entry_path, related_to)
+    ct_field_id = contentful_field_attribute(model_name, linked_model[:relation_to], :id)
+    save_many_entries(linked_model, ct_field_id, entry, entry_path, related_to)
+  end
+
+  def map_many_association(model_name, linked_model, entry, entry_path, related_to)
+    ct_field_id = contentful_field_attribute(model_name, linked_model[:relation_to], :id)
+    save_many_entries(linked_model, ct_field_id, entry, entry_path, related_to)
+  end
+
+  def add_associated_object_to_file(entry, related_model, contentful_name, primary_id, associated_objects = [])
+    Dir.glob("#{HELPERS_DATA_DIR}/#{primary_id}_#{related_model}.json") do |through_file|
+      hash_with_foreign_keys_ = JSON.parse(File.read(through_file))
+      if hash_with_foreign_keys_.has_key?(entry['database_id'].to_s)
+        hash_with_foreign_keys_[entry['database_id'].to_s].each do |foreign_key|
           associated_objects << {
               '@type' => contentful_name,
               '@url' => "#{contentful_name}_#{foreign_key}"
@@ -338,8 +344,8 @@ end
 
 
 database_exporter = DatabaseExporter.new
-# database_exporter.export_models_from_database
-# database_exporter.save_objects_as_json
+database_exporter.export_models_from_database
+database_exporter.save_objects_as_json
 database_exporter.create_contentful_links
 # database_exporter.remove_database_id
 # database_exporter.remove_useless_files
