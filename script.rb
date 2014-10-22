@@ -15,8 +15,8 @@ class DatabaseExporter
 
   Sequel::Model.plugin :json_serializer
   # DB = Sequel.connect('postgres://postgres:postgres@localhost/job_adder_development')
-  # DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
-  DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
+  DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
+  # DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
 
   APP_ROOT = '/tmp' #Dir.pwd
   DATA_DIR = "#{APP_ROOT}/data"
@@ -214,7 +214,7 @@ class DatabaseExporter
       when :belongs_to
         map_belongs_to_association(model_name, linked_model, entry, entry_path)
       when :many_through
-        map_many_through_association(model_name, linked_model, entry, entry_path, :through)
+        map_many_association(model_name, linked_model, entry, entry_path, :through)
       when :many
         map_many_association(model_name, linked_model, entry, entry_path, :relation_to)
     end
@@ -254,18 +254,11 @@ class DatabaseExporter
     end
   end
 
-  #TODO REFACTOR NAME
   def save_many_entries(linked_model, ct_field_id, entry, entry_path, related_to)
     related_model = linked_model[related_to].underscore
     contentful_name = model_content_type(linked_model[:relation_to]).underscore
     associated_objects = add_associated_object_to_file(entry, related_model, contentful_name, linked_model[:primary_id])
     write_json_to_file(entry_path, entry.merge!(ct_field_id => associated_objects)) if associated_objects.present?
-  end
-
-  #TODO REFACTOR NAME - REMOVE ONE METHODS
-  def map_many_through_association(model_name, linked_model, entry, entry_path, related_to)
-    ct_field_id = contentful_field_attribute(model_name, linked_model[:relation_to], :id)
-    save_many_entries(linked_model, ct_field_id, entry, entry_path, related_to)
   end
 
   def map_many_association(model_name, linked_model, entry, entry_path, related_to)
@@ -344,8 +337,8 @@ end
 
 
 database_exporter = DatabaseExporter.new
-database_exporter.export_models_from_database
-database_exporter.save_objects_as_json
+# database_exporter.export_models_from_database
+# database_exporter.save_objects_as_json
 database_exporter.create_contentful_links
 # database_exporter.remove_database_id
 # database_exporter.remove_useless_files

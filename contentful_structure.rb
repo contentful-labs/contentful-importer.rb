@@ -73,7 +73,7 @@ module ContentfulStructure
               }
           }
       },
-      'AlegricInfo' => {
+      'AlergicInfo' => {
           id: 'alergic_info',
           fields: {
               name: 'Text',
