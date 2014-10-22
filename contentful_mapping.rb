@@ -43,7 +43,7 @@ module ContentfulMapping
               many: [
                   {
                       primary_id: :recipe_id,
-                      through: 'UserWildeisenRecipeToIngredient'
+                      relation_to: 'UserWildeisenRecipeToIngredient'
                   }
               ]
           }

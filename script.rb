@@ -15,8 +15,8 @@ class DatabaseExporter
 
   Sequel::Model.plugin :json_serializer
   # DB = Sequel.connect('postgres://postgres:postgres@localhost/job_adder_development')
-  # DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
-  DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
+  DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
+  # DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
 
   APP_ROOT = '/tmp' #Dir.pwd
   DATA_DIR = "#{APP_ROOT}/data"
@@ -126,17 +126,57 @@ class DatabaseExporter
 
   #######################################################################
 
-
-  def map_relations
-    collect_relations.each do |model_name, relations|
-      build_helper_file(relations)
-      Dir.glob("#{ENTRIES_DATA_DIR}/#{model_content_type(model_name).underscore}/*json") do |entry_path|
-        map_entry_relations(entry_path, model_name, relations)
-      end
+  def create_contentful_links
+    relations_from_mapping.each do |model_name, relations|
+      generate_relations_helper_indexes(relations)
+      map_relations_to_links(model_name, relations)
     end
   end
 
-  def collect_relations
+  def generate_relations_helper_indexes(relations)
+    create_directory(HELPERS_DATA_DIR)
+    relations.each do |relation_type, linked_models|
+      save_relation_foreign_keys(relation_type, linked_models) if [:many, :many_through].include?(relation_type.to_sym)
+    end
+  end
+
+  def save_relation_foreign_keys(relation_type, linked_models)
+    linked_models.each do |linked_model|
+      save_relation_foreign_keys_for_model(linked_model, relation_type)
+    end
+  end
+
+  def save_relation_foreign_keys_for_model(linked_model, relation_type)
+    primary_id = linked_model[:primary_id]
+    case relation_type.to_sym
+      when :many_through
+        related_model = linked_model[:through]
+        related_model_id = linked_model[:foreign_id]
+      when :many
+        related_model = linked_model[:relation_to]
+        related_model_id = :id
+    end
+    save_foreign_keys(related_model, primary_id, related_model_id)
+  end
+
+  def save_foreign_keys(related_model, primary_id, related_model_id)
+    results = DB[related_model.underscore.to_sym].all.each_with_object({}) do |row, results|
+      add_index_to_helper_hash(results, row, primary_id, related_model_id)
+    end
+    write_json_to_file(HELPERS_DATA_DIR + "/#{primary_id}_#{related_model.underscore}.json", results)
+  end
+
+  def add_index_to_helper_hash(results, row, primary_id, id)
+    results[row[primary_id]].nil? ? results[row[primary_id]] = [row[id]] : results[row[primary_id]] << row[id]
+  end
+
+  def map_relations_to_links(model_name, relations)
+    Dir.glob("#{ENTRIES_DATA_DIR}/#{model_content_type(model_name).underscore}/*json") do |entry_path|
+      map_entry_relations(entry_path, model_name, relations)
+    end
+  end
+
+  def relations_from_mapping
     mapping.each_with_object({}) do |(model_name, model_mapping), relations|
       relations[model_name] = model_mapping[:links] if model_mapping[:links].present?
     end
@@ -146,48 +186,6 @@ class DatabaseExporter
     relations.each do |relation_type, linked_models|
       map_entry_relation(entry_path, relation_type, linked_models, model_name)
     end
-  end
-
-  def build_helper_file(relations)
-    create_directory(HELPERS_DATA_DIR)
-    relations.each do |relation_type, linked_models|
-      save_foreign_keys_to_json(relation_type, linked_models)
-    end
-  end
-
-  def save_foreign_keys_to_json(relation_type, linked_models)
-    case relation_type.to_sym
-      when :many_through
-        map_foreign_keys_in_many_through_relation(linked_models)
-      when :many
-        map_foreign_keys_in_many_relation(linked_models)
-    end
-  end
-
-  def map_foreign_keys_in_many_through_relation(linked_models)
-    linked_models.each do |linked_model|
-      primary_id = linked_model[:primary_id]
-      foreign_id = linked_model[:foreign_id]
-      results = DB[linked_model[:through].underscore.to_sym].all.each_with_object({}) do |row, results|
-        add_index_to_helper_hash(results, row, primary_id, foreign_id)
-      end
-      write_json_to_file(HELPERS_DATA_DIR + "/#{linked_model[:through].underscore}.json", results)
-    end
-  end
-
-  def map_foreign_keys_in_many_relation(linked_models)
-    linked_models.each do |linked_model|
-      primary_id = linked_model[:primary_id]
-      foreign_id = linked_model[:foreign_id]
-      results = DB[linked_model[:through].underscore.to_sym].all.each_with_object({}) do |row, results|
-        add_index_to_helper_hash(results, row, primary_id, foreign_id)
-      end
-      write_json_to_file(HELPERS_DATA_DIR + "/#{linked_model[:through].underscore}.json", results)
-    end
-  end
-
-  def add_index_to_helper_hash(results, row, primary_id, foreign_id)
-    results[row[primary_id]].nil? ? results[row[primary_id]] = [row[foreign_id]] : results[row[primary_id]] << row[foreign_id]
   end
 
   def map_entry_relation(entry_path, relation_type, linked_models, model_name)
@@ -203,15 +201,15 @@ class DatabaseExporter
       when :has_one
         # map_has_one_association(model_name, linked_model, row)
       when :belongs_to
-        # map_belongs_to_association(model_name, linked_model, entry, entry_path)
+        map_belongs_to_association(model_name, linked_model, entry, entry_path)
       when :many_through
-        # map_many_through_association(model_name, linked_model, entry, entry_path)
+        map_many_through_association(model_name, linked_model, entry, entry_path)
       when :many
-        map_many_ssociation(model_name, linked_model, entry, entry_path)
+        # map_many_association(model_name, linked_model, entry, entry_path)
     end
   end
 
-  def map_many_ssociation(model_name, linked_model, entry, entry_path)
+  def map_many_association(model_name, linked_model, entry, entry_path)
     ct_link_type = contentful_field_attribute(model_name, linked_model, :link_type)
     ct_field_id = contentful_field_attribute(model_name, linked_model, :id)
     # save_many_to_entries(linked_model, ct_link_type, ct_field_id, entry, entry_path)
@@ -251,7 +249,7 @@ class DatabaseExporter
       end
       object = {
           '@type' => type,
-          cf_object => "#{content_type}_#{foreign_id}"
+          cf_object => "#{content_type}_#{entry[foreign_id]}"
       }
       write_json_to_file(entry_path, entry.merge!(ct_field_id => object))
     end
@@ -265,12 +263,12 @@ class DatabaseExporter
   def save_many_through_entries(linked_model, ct_field_id, entry, entry_path)
     through_model = linked_model[:through].underscore
     contentful_name = model_content_type(linked_model[:relation_to]).underscore
-    associated_objects = add_associated_object_to_file(entry, through_model, contentful_name)
+    associated_objects = add_associated_object_to_file(entry, through_model, contentful_name, linked_model[:primary_id])
     write_json_to_file(entry_path, entry.merge!(ct_field_id => associated_objects)) if associated_objects.present?
   end
 
-  def add_associated_object_to_file(entry, through_model, contentful_name, associated_objects = [])
-    Dir.glob("#{HELPERS_DATA_DIR}/#{through_model}.json") do |through_file|
+  def add_associated_object_to_file(entry, through_model, contentful_name, primary_id, associated_objects = [])
+    Dir.glob("#{HELPERS_DATA_DIR}/#{primary_id}_#{through_model}.json") do |through_file|
       through_row = JSON.parse(File.read(through_file))
       if through_row.has_key?(entry['database_id'].to_s)
         through_row[entry['database_id'].to_s].each do |foreign_key|
@@ -342,6 +340,6 @@ end
 database_exporter = DatabaseExporter.new
 # database_exporter.export_models_from_database
 # database_exporter.save_objects_as_json
-database_exporter.map_relations
+database_exporter.create_contentful_links
 # database_exporter.remove_database_id
 # database_exporter.remove_useless_files
