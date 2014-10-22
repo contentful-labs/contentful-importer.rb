@@ -35,12 +35,17 @@ module ContentfulMapping
               many_through: [
                   {
                       relation_to: 'UserWildeisenAlergicInfo',
-                      parent_key: :recipe_id,
-                      child_key: :alergic_info_id,
+                      primary_id: :recipe_id,
+                      foreign_id: :alergic_info_id,
                       through: 'UserWildeisenRecipeToAlergicInfo'
                   }
               ],
-              many: ['UserWildeisenRecipeToIngredient']
+              many: [
+                  {
+                      primary_id: :recipe_id,
+                      through: 'UserWildeisenRecipeToIngredient'
+                  }
+              ]
           }
       },
       'UserWildeisenRecipeToIngredient' => {
@@ -52,12 +57,12 @@ module ContentfulMapping
           }
       },
       'UserWildeisenRecipeToAlergicInfo' => {
-            contentful: 'RecipeToAlergicInfo',
-            fields: {
-            },
-            links: {
-            }
-        }
+          contentful: 'RecipeToAlergicInfo',
+          fields: {
+          },
+          links: {
+          }
+      }
   }
 
 end

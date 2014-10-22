@@ -156,20 +156,38 @@ class DatabaseExporter
   end
 
   def save_foreign_keys_to_json(relation_type, linked_models)
-    if relation_type.to_sym == :many_through
-      linked_models.each do |linked_model|
-        parent_key = linked_model[:parent_key]
-        child_key = linked_model[:child_key]
-        results = DB[linked_model[:through].underscore.to_sym].all.each_with_object({}) do |row, results|
-          add_index_to_helper_hash(results, row, parent_key, child_key)
-        end
-        write_json_to_file(HELPERS_DATA_DIR + "/#{linked_model[:through].underscore}.json", results)
-      end
+    case relation_type.to_sym
+      when :many_through
+        map_foreign_keys_in_many_through_relation(linked_models)
+      when :many
+        map_foreign_keys_in_many_relation(linked_models)
     end
   end
 
-  def add_index_to_helper_hash(results, row, parent_key, child_key)
-    results[row[parent_key]].nil? ? results[row[parent_key]] = [row[child_key]] : results[row[parent_key]] << row[child_key]
+  def map_foreign_keys_in_many_through_relation(linked_models)
+    linked_models.each do |linked_model|
+      primary_id = linked_model[:primary_id]
+      foreign_id = linked_model[:foreign_id]
+      results = DB[linked_model[:through].underscore.to_sym].all.each_with_object({}) do |row, results|
+        add_index_to_helper_hash(results, row, primary_id, foreign_id)
+      end
+      write_json_to_file(HELPERS_DATA_DIR + "/#{linked_model[:through].underscore}.json", results)
+    end
+  end
+
+  def map_foreign_keys_in_many_relation(linked_models)
+    linked_models.each do |linked_model|
+      primary_id = linked_model[:primary_id]
+      foreign_id = linked_model[:foreign_id]
+      results = DB[linked_model[:through].underscore.to_sym].all.each_with_object({}) do |row, results|
+        add_index_to_helper_hash(results, row, primary_id, foreign_id)
+      end
+      write_json_to_file(HELPERS_DATA_DIR + "/#{linked_model[:through].underscore}.json", results)
+    end
+  end
+
+  def add_index_to_helper_hash(results, row, primary_id, foreign_id)
+    results[row[primary_id]].nil? ? results[row[primary_id]] = [row[foreign_id]] : results[row[primary_id]] << row[foreign_id]
   end
 
   def map_entry_relation(entry_path, relation_type, linked_models, model_name)
@@ -185,10 +203,23 @@ class DatabaseExporter
       when :has_one
         # map_has_one_association(model_name, linked_model, row)
       when :belongs_to
-        map_belongs_to_association(model_name, linked_model, entry, entry_path)
+        # map_belongs_to_association(model_name, linked_model, entry, entry_path)
       when :many_through
-        map_many_through_association(model_name, linked_model, entry, entry_path)
+        # map_many_through_association(model_name, linked_model, entry, entry_path)
+      when :many
+        map_many_ssociation(model_name, linked_model, entry, entry_path)
     end
+  end
+
+  def map_many_ssociation(model_name, linked_model, entry, entry_path)
+    ct_link_type = contentful_field_attribute(model_name, linked_model, :link_type)
+    ct_field_id = contentful_field_attribute(model_name, linked_model, :id)
+    # save_many_to_entries(linked_model, ct_link_type, ct_field_id, entry, entry_path)
+  end
+
+  def save_many_to_entries(model_name, linked_model, entry, entry_path)
+    ct_link_type = contentful_field_attribute(model_name, linked_model, :link_type)
+    ct_field_id = contentful_field_attribute(model_name, linked_model, :id)
   end
 
   def model_content_type(model_name)
@@ -207,8 +238,8 @@ class DatabaseExporter
 
   def save_belongs_to_entries(linked_model, ct_link_type, ct_field_id, entry, entry_path)
     content_type = model_content_type(linked_model).underscore
-    foreign_key = content_type + '_id'
-    foreign_id = entry.delete(foreign_key)
+    foreign_id = content_type + '_id'
+    # foreign_id = entry.delete(foreign_key)
     if foreign_id
       case ct_link_type
         when 'Asset'
@@ -289,11 +320,11 @@ class DatabaseExporter
     end
   end
 
-  def remove_useless_files
-    mapping.each do |key, value|
-      # FileUtils.rm_rf("#{ENTRIES_DATA_DIR}/#{key.underscore.singularize}") if value[:contentful] == :none
-    end
-  end
+  # def remove_useless_files
+  #   mapping.each do |key, value|
+  # FileUtils.rm_rf("#{ENTRIES_DATA_DIR}/#{key.underscore.singularize}") if value[:contentful] == :none
+  #   end
+  # end
 
 
   ####################################################################### COMMON
@@ -309,8 +340,8 @@ end
 
 
 database_exporter = DatabaseExporter.new
-database_exporter.export_models_from_database
-database_exporter.save_objects_as_json
+# database_exporter.export_models_from_database
+# database_exporter.save_objects_as_json
 database_exporter.map_relations
 # database_exporter.remove_database_id
 # database_exporter.remove_useless_files
