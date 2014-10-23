@@ -4,6 +4,7 @@ module ContentfulStructure
       'Ingredient' => {
           id: 'ingredient',
           note: 'Collection of ingredients',
+          displayField: :name,
           fields: {
               name: 'Text',
               name_plural: 'Text',
@@ -17,6 +18,7 @@ module ContentfulStructure
       },
       'Recipe' => {
           id: 'recipe',
+          displayField: :name,
           fields: {
               random: 'Number',
               name: 'Text',
@@ -53,7 +55,7 @@ module ContentfulStructure
       'RecipeIngredient' => {
           id: 'recipe_ingredient',
           fields: {
-              is_main_ingredient: 'Boolean',
+              is_main_ingredient: 'Integer',
               subtitle: 'Text',
               sequence: 'Integer',
               amount: 'Number',

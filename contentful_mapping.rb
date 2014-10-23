@@ -53,7 +53,7 @@ module ContentfulMapping
           type: :entry,
           fields: {},
           links: {
-              belongs_to: ['UserWildeisenRecipe', 'UserWildeisenIngredient']
+              belongs_to: ['UserWildeisenRecipe', 'UserWildeisenIngredient', 'UserWildeisenUnit']
           }
       },
       'UserWildeisenRecipeToAlergicInfo' => {

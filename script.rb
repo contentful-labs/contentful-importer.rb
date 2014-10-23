@@ -67,6 +67,7 @@ class DatabaseExporter
         id: values[:id],
         entry_type: content_type_name,
         note: values[:note],
+        displayField: values[:displayField],
         fields: create_fields(values[:fields])
     }
     write_json_to_file("#{COLLECTIONS_DATA_DIR}/#{content_type_name}.json", collection)
