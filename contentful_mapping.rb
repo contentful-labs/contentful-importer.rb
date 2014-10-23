@@ -7,19 +7,19 @@ module ContentfulMapping
 
   MAPPING = {
       'UserWildeisenUnit' => {
-          contentful: 'Unit',
+          content_type: 'Unit',
           type: :entry,
           fields: {},
           links: {}
       },
       'UserWildeisenAlergicInfo' => {
-          contentful: 'AlergicInfo',
+          content_type: 'AlergicInfo',
           type: :entry,
           fields: {},
           links: {}
       },
       'UserWildeisenIngredient' => {
-          contentful: 'Ingredient',
+          content_type: 'Ingredient',
           type: :entry,
           fields: {
           },
@@ -28,7 +28,7 @@ module ContentfulMapping
           }
       },
       'UserWildeisenRecipe' => {
-          contentful: 'Recipe',
+          content_type: 'Recipe',
           type: :entry,
           fields: {},
           links: {
@@ -49,7 +49,7 @@ module ContentfulMapping
           }
       },
       'UserWildeisenRecipeToIngredient' => {
-          contentful: 'RecipeIngredient',
+          content_type: 'RecipeIngredient',
           type: :entry,
           fields: {},
           links: {
@@ -57,7 +57,7 @@ module ContentfulMapping
           }
       },
       'UserWildeisenRecipeToAlergicInfo' => {
-          contentful: 'RecipeToAlergicInfo',
+          content_type: 'RecipeToAlergicInfo',
           fields: {
           },
           links: {

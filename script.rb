@@ -15,8 +15,8 @@ class DatabaseExporter
 
   Sequel::Model.plugin :json_serializer
   # DB = Sequel.connect('postgres://postgres:postgres@localhost/job_adder_development')
-  DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
-  # DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
+  # DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
+  DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
 
   APP_ROOT = '/tmp' #Dir.pwd
   DATA_DIR = "#{APP_ROOT}/data"
@@ -88,7 +88,7 @@ class DatabaseExporter
   def save_objects_as_json
     TABLES.each do |table|
       model_name = table.to_s.camelize
-      content_type_name = mapping[model_name][:contentful].underscore
+      content_type_name = mapping[model_name][:content_type].underscore
       save_object_to_file(table, content_type_name, model_name, asset?(model_name) ? ASSETS_DATA_DIR : ENTRIES_DATA_DIR)
     end
   end
@@ -221,7 +221,7 @@ class DatabaseExporter
   end
 
   def model_content_type(model_name)
-    mapping[model_name][:contentful]
+    mapping[model_name][:content_type]
   end
 
   def map_belongs_to_association(model_name, linked_model, entry, entry_path)
@@ -266,16 +266,20 @@ class DatabaseExporter
     save_many_entries(linked_model, ct_field_id, entry, entry_path, related_to)
   end
 
-  def add_associated_object_to_file(entry, related_model, contentful_name, primary_id, associated_objects = [])
+  def add_associated_object_to_file(entry, related_model, contentful_name, primary_id)
     Dir.glob("#{HELPERS_DATA_DIR}/#{primary_id}_#{related_model}.json") do |through_file|
-      hash_with_foreign_keys_ = JSON.parse(File.read(through_file))
-      if hash_with_foreign_keys_.has_key?(entry['database_id'].to_s)
-        hash_with_foreign_keys_[entry['database_id'].to_s].each do |foreign_key|
-          associated_objects << {
-              '@type' => contentful_name,
-              '@url' => "#{contentful_name}_#{foreign_key}"
-          }
-        end
+      hash_with_foreign_keys = JSON.parse(File.read(through_file))
+      return build_hash_with_associated_objects(hash_with_foreign_keys, entry, contentful_name)
+    end
+  end
+
+  def build_hash_with_associated_objects(hash_with_foreign_keys, entry, contentful_name)
+    if hash_with_foreign_keys.has_key?(entry['database_id'].to_s)
+      associated_objects = hash_with_foreign_keys[entry['database_id'].to_s].each_with_object([]) do |foreign_key, result|
+        result << {
+            '@type' => contentful_name,
+            '@url' => "#{contentful_name}_#{foreign_key}"
+        }
       end
     end
     associated_objects
@@ -285,7 +289,7 @@ class DatabaseExporter
     associated_model = linked_model.underscore
     foreign_key = associated_model + '_id'
     id = row[foreign_key]
-    associated_content_type = mapping[linked_model][:contentful]
+    associated_content_type = mapping[linked_model][:content_type]
     link_type = contentful_field_attribute(associated_content_type, model_name, :link_type)
     api_field_id = contentful_field_attribute(associated_content_type, model_name, :id)
     if id
@@ -319,7 +323,7 @@ class DatabaseExporter
 
   # def remove_useless_files
   #   mapping.each do |key, value|
-  # FileUtils.rm_rf("#{ENTRIES_DATA_DIR}/#{key.underscore.singularize}") if value[:contentful] == :none
+  # FileUtils.rm_rf("#{ENTRIES_DATA_DIR}/#{key.underscore.singularize}") if value[:content_type] == :none
   #   end
   # end
 
@@ -337,8 +341,8 @@ end
 
 
 database_exporter = DatabaseExporter.new
-# database_exporter.export_models_from_database
-# database_exporter.save_objects_as_json
+database_exporter.export_models_from_database
+database_exporter.save_objects_as_json
 database_exporter.create_contentful_links
 # database_exporter.remove_database_id
 # database_exporter.remove_useless_files
