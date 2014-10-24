@@ -1,26 +1,4 @@
 #!/usr/bin/env ruby
-require 'yaml'
-require 'sequel'
-
 require_relative '../lib/migrator'
-
-yaml_path = ARGV.shift || 'credentials.yml'
-fail 'Missing credentials.yml file, `contentful_importer credentials.yml`' unless yaml_path
-
-#TODO TEMPORARY APP_ROOT
-APP_ROOT = '/tmp' #Dir.pwd
-DATA_DIR = "#{APP_ROOT}/data"
-COLLECTIONS_DATA_DIR = "#{DATA_DIR}/collections"
-ENTRIES_DATA_DIR = "#{DATA_DIR}/entries"
-HELPERS_DATA_DIR = "#{DATA_DIR}/helpers"
-ASSETS_DATA_DIR = "#{DATA_DIR}/assets"
-IMPORT_TIME_DIR = "#{DATA_DIR}/import_time.json"
-LOG_FILE_DIR = "#{DATA_DIR}/imported_entries_log.csv"
-FAILURE_LOG_DIR = "#{DATA_DIR}/failure_log.csv"
-
-CREDENTIALS = YAML.load_file(File.expand_path("config/#{yaml_path}"))
-DB_CONFIG = YAML.load_file(File.expand_path('config/database_config.yml'))
-
-DB = Sequel.connect(:adapter => DB_CONFIG['adapter'], :user => DB_CONFIG['user'], :host => DB_CONFIG['host'], :database => DB_CONFIG['database'], :password => DB_CONFIG['password'])
 
 Migrator.new.run

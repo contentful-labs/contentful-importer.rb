@@ -10,3 +10,5 @@ password: root
 # host: localhost
 # database: database_name
 # password: root
+
+data_dir: /tmp/data

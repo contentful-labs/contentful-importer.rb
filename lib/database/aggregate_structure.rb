@@ -1,8 +1,0 @@
-module AggregateStructure
-
-  AGGREGATE =
-      {
-
-      }
-
-end
