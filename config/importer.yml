@@ -1,4 +1,4 @@
 #Contentful credentials
-access_token: e548877d1c317ee58e5710c793bd2d92419149b1e3c50d47755a19a5deadda00
-organization_id: 1EQPR5IHrPx94UY4AViTYO
+access_token: <ACCESS_TOKEN>
+organization_id: <ORGANIZATION_ID>
 data_dir: /tmp/data

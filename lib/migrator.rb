@@ -1,4 +1,4 @@
-require_relative 'exporters/database/database'
+require_relative 'exporters/database/export'
 require_relative 'importer/importer'
 
 class Migrator
@@ -14,7 +14,7 @@ Actions:
   eoruby
 
   def initialize(exporter = nil)
-    @exporter = exporter || Contentful::Exporter::Database.new
+    @exporter = exporter || Contentful::Exporter::Database::Export.new
     @importer = Contentful::Importer.new
   end
 

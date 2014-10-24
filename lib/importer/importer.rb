@@ -14,7 +14,8 @@ module Contentful
                 :assets_dir,
                 :time_logs_dir,
                 :success_logs_dir,
-                :failure_logs_dir
+                :failure_logs_dir,
+                :imported_entries
 
     def initialize
       @config = YAML.load_file(File.expand_path('config/importer.yml'))
@@ -25,13 +26,14 @@ module Contentful
       @time_logs_dir = "#{data_dir}/logs/time.json"
       @success_logs_dir = "#{data_dir}/logs/success.json"
       @failure_logs_dir = "#{data_dir}/logs/failure.json"
+      @imported_entries = []
 
       Contentful::Management::Client.new(config['access_token'])
     end
 
     def execute
       create_space
-      import_content_types
+      # import_content_types
       import_entries
     end
 
@@ -67,7 +69,7 @@ module Contentful
     def import_entries
       create_file_with_import_time
       create_log_file
-      #TODO create inmemory table with imported entries from csv
+      imported_entries << CSV.read(success_logs_dir, 'r').flatten
       Dir.glob("#{entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)
         puts "Importing entries for #{collection_name}."
@@ -107,7 +109,6 @@ module Contentful
     def import_entries_for_collection(content_type_id, dir_path, space_id)
       puts "Start mapping at: #{start = Time.now}"; records = 0
       Dir.glob("#{dir_path}/*.json") do |file_path|
-        imported_entries = CSV.read(success_logs_dir, 'r')
         import_entry(file_path, space_id, content_type_id) unless imported_entries.flatten.include?(file_path)
         records += 1
       end
@@ -259,7 +260,12 @@ module Contentful
       end
     end
 
+    def create_directory(path)
+      FileUtils.mkdir_p(path) unless File.directory?(path)
+    end
+
     def create_file_with_import_time
+      create_directory("#{data_dir}/logs")
       File.open(time_logs_dir, 'w') { |file| file.write({}) }
     end
 
