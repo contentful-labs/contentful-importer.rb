@@ -1,0 +1,12 @@
+adapter: mysql2
+user: szpryc
+host: localhost
+database: recipes
+password: root
+
+
+# adapter: mysql2, postgres,sqlite
+# user: username
+# host: localhost
+# database: database_name
+# password: root

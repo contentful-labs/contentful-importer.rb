@@ -5,8 +5,9 @@ require 'active_support/core_ext/hash/compact'
 require 'active_support/core_ext/hash'
 require 'sequel'
 require 'fileutils'
-require_relative 'contentful_structure'
-require_relative 'contentful_mapping'
+require_relative 'lib/database/aggregate_structure'
+require_relative 'lib/database/contentful_mapping'
+require_relative 'lib/database/aggregate_structure'
 
 class DatabaseExporter
 
@@ -14,30 +15,30 @@ class DatabaseExporter
   include ContentfulMapping
 
   Sequel::Model.plugin :json_serializer
-  # DB = Sequel.connect('postgres://postgres:postgres@localhost/job_adder_development')
   # DB = Sequel.connect(:adapter => 'mysql2', :user => 'root', :host => 'localhost', :database => 'recipes_wildeisen_ch', :password => '')
   DB = Sequel.connect(:adapter => 'mysql2', :user => 'szpryc', :host => 'localhost', :database => 'recipes', :password => 'root')
 
-  APP_ROOT = '/tmp' #Dir.pwd
-  DATA_DIR = "#{APP_ROOT}/data"
-  COLLECTIONS_DATA_DIR = "#{DATA_DIR}/collections"
-  ENTRIES_DATA_DIR = "#{DATA_DIR}/entries"
-  HELPERS_DATA_DIR = "#{DATA_DIR}/helpers"
-  ASSETS_DATA_DIR = "#{DATA_DIR}/assets"
-  LINKS_DATA = "#{DATA_DIR}/links"
-  IMPORT_TIME_DIR = "#{DATA_DIR}/import_time.json"
-  TABLES = [:user_wildeisen_alergic_info,
-            :user_wildeisen_ingredient,
-            :user_wildeisen_recipe,
-            :user_wildeisen_recipe_to_alergic_info,
-            :user_wildeisen_recipe_to_ingredient,
-            :user_wildeisen_unit]
+  # APP_ROOT = '/tmp' #Dir.pwd
+  # DATA_DIR = "#{APP_ROOT}/data"
+  # COLLECTIONS_DATA_DIR = "#{DATA_DIR}/collections"
+  # ENTRIES_DATA_DIR = "#{DATA_DIR}/entries"
+  # HELPERS_DATA_DIR = "#{DATA_DIR}/helpers"
+  # ASSETS_DATA_DIR = "#{DATA_DIR}/assets"
+  # LINKS_DATA = "#{DATA_DIR}/links"
+  # IMPORT_TIME_DIR = "#{DATA_DIR}/import_time.json"
+  # TABLES = [:user_wildeisen_alergic_info,
+  #           :user_wildeisen_ingredient,
+  #           :user_wildeisen_recipe,
+  #           :user_wildeisen_recipe_to_alergic_info,
+  #           :user_wildeisen_recipe_to_ingredient,
+  #           :user_wildeisen_unit]
 
-  attr_reader :contentful_structure, :mapping
+  attr_reader :contentful_structure, :mapping, :aggregate
 
   def initialize
     @contentful_structure = ContentfulStructure::STRUCTURE.with_indifferent_access
     @mapping = ContentfulMapping::MAPPING.with_indifferent_access
+    @aggregate = AggregateStructure::AGGREGATE.with_indifferent_access
   end
 
   #######################################################################
@@ -328,9 +329,7 @@ class DatabaseExporter
   #   end
   # end
 
-
   ####################################################################### COMMON
-
 
   def write_json_to_file(path, data)
     File.open(path, 'w') do |file|
