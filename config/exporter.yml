@@ -12,3 +12,6 @@ password: root
 # password: root
 
 data_dir: /tmp/data
+
+json_with_content_types: '/Users/piotrprotas/Desktop/wildeisen.json'
+import_form_dir: '/Users/piotrprotas/Desktop/contentful_form.json'
