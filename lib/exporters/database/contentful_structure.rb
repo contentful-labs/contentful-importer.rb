@@ -34,16 +34,22 @@ module Contentful
                     clicks: 'Integer',
                     date_start: 'Date',
                     date_stop: 'Date',
-                    'AlergicInfo' => {
-                        id: 'alergic_infos',
-                        link_type: 'Array',
-                        type: 'Entry'
-                    },
+                    # 'AlergicInfo' => {
+                    #     id: 'alergic_infos',
+                    #     link_type: 'Array',
+                    #     type: 'Entry'
+                    # },
                     'RecipeIngredient' => {
                         id: 'recipe_ingredients',
                         link_type: 'Array',
                         type: 'Entry'
-                    }
+                    },
+                    'AlergicInfo' =>
+                        {
+                            id: 'alergic_names',
+                            link_type: 'Array',
+                            type: 'Symbol'
+                        }
                 }
             },
             'Unit' => {

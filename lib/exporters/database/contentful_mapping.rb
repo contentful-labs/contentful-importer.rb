@@ -57,6 +57,15 @@ module Contentful
                             primary_id: :recipe_id,
                             relation_to: 'UserWildeisenRecipeToIngredient'
                         }
+                    ],
+                    aggregate_through: [
+                        {
+                            relation_to: 'UserWildeisenAlergicInfo',
+                            primary_id: :recipe_id,
+                            foreign_id: :alergic_info_id,
+                            through: 'UserWildeisenRecipeToAlergicInfo',
+                            field: 'name'
+                        }
                     ]
                 }
             },

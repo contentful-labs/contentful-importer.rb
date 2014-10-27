@@ -33,7 +33,7 @@ module Contentful
 
     def execute
       create_space
-      # import_content_types
+      import_content_types
       import_entries
     end
 
@@ -42,7 +42,7 @@ module Contentful
       if space.is_a? Contentful::Management::Array
         puts 'Contentful Management API credentials: OK'
       end
-    rescue NoMethodError => e
+    rescue NoMethodError => _error
       puts 'Contentful Management API credentials: INVALID (check README)'
     end
 
