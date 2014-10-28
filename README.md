@@ -58,3 +58,18 @@ Convert dump from Contentful model to JSON file.
 #### --test-credentials
 
 Test contentful credentials.
+
+
+## Mapping
+
+#### belongs_to
+ keep ID in current model
+
+#### has_one
+ add ID to belonged model
+
+#### many
+ add another table IDs to current model
+
+#### many_through
+map join table, add IDs to current model
