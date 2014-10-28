@@ -1,0 +1,41 @@
+#Contentful credentials
+access_token: <ACCESS_TOKEN>
+organization_id: <ORGANIZATION_ID>
+
+#path to all data
+data_dir: /tmp/data
+
+adapter: mysql2
+user: szpryc
+host: localhost
+database: recipes
+password: root
+
+# adapter: mysql2, postgres,sqlite
+# user: username
+# host: localhost
+# database: database_name
+# password: root
+
+mapped:
+ tables:
+  - :user_wildeisen_alergic_info
+  - :user_wildeisen_ingredient
+  - :user_wildeisen_recipe
+  - :user_wildeisen_recipe_to_alergic_info
+  - :user_wildeisen_recipe_to_ingredient
+  - :user_wildeisen_unit
+
+
+
+#file with mapping strucutre
+mapping_dir: /Users/piotrprotas/mapping.json
+
+#file with contentful structure
+contentful_structure_dir: /Users/piotrprotas/structure.json
+
+#dump file with content types from content model
+json_with_content_types: /Users/piotrprotas/Desktop/wildeisen.json
+
+#path to save converted content types dump_file
+import_form_dir: /Users/piotrprotas/Desktop/contentful_form.json

@@ -18,7 +18,7 @@ module Contentful
                 :imported_entries
 
     def initialize
-      @config = YAML.load_file(File.expand_path('config/importer.yml'))
+      @config = SETTINGS
       @data_dir = config['data_dir']
       @collections_dir = "#{data_dir}/collections"
       @entries_dir = "#{data_dir}/entries"

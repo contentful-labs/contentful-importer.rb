@@ -1,10 +1,10 @@
 module Contentful
   class Converter
 
-    attr_reader :content_types, :config, :import_form_dir
+    attr_reader :config, :content_types, :import_form_dir
 
     def initialize
-      @config = YAML.load_file(File.expand_path('config/exporter.yml'))
+      @config = SETTINGS
       @import_form_dir = config['import_form_dir']
       @content_types = config['json_with_content_types']
     end
@@ -19,8 +19,8 @@ module Contentful
             displayField: content_type['displayField'],
             fields: {}.merge!(create_fields(content_type))
         }
-        file_to_modify = JSON.parse(File.read(import_form_dir))
-        File.open(import_form_dir, 'w') { |file| file.write(JSON.pretty_generate(file_to_modify.merge!(content_type['name'] => parsed_content_type))) }
+        import_form = JSON.parse(File.read(import_form_dir))
+        File.open(import_form_dir, 'w') { |file| file.write(JSON.pretty_generate(import_form.merge!(content_type['name'] => parsed_content_type))) }
       end
     end
 
@@ -39,7 +39,7 @@ module Contentful
     end
 
     def link_id(field)
-      if ['Link', 'Array'].include? field['type']
+      if %w( Link Array ).include? field['type']
         field['name']
       else
         field['id']

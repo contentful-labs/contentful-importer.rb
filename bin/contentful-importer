@@ -1,4 +1,12 @@
 #!/usr/bin/env ruby
+require 'yaml'
 require_relative '../lib/migrator'
 
-Migrator.new.run
+option = ARGV.shift(2)
+fail 'Missing settings.yml file, `contentful-importer settings.yml`' if option[0].nil? || option[0].start_with?('--')
+fail 'Missing specific action, `contentful-importer settings.yml --action`' if option[1].nil? || !option[1].start_with?('--')
+fail 'Such action does not exist, check the README' unless %w( --export-json --prepare-json --import --convert-json --test-credentials ).include?(option[1])
+
+SETTINGS = YAML.load_file(File.expand_path(option[0]))
+
+Migrator.new.run(option[1])

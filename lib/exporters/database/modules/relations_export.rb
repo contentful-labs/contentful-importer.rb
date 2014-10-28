@@ -73,11 +73,11 @@ module Contentful
             when :has_one
               # map_has_one_association(model_name, linked_model, row)
             when :belongs_to
-              # map_belongs_to_association(model_name, linked_model, entry, entry_path)
+              map_belongs_to_association(model_name, linked_model, entry, entry_path)
             when :many_through
-              # map_many_association(model_name, linked_model, entry, entry_path, :through)
+              map_many_association(model_name, linked_model, entry, entry_path, :through)
             when :many
-              # map_many_association(model_name, linked_model, entry, entry_path, :relation_to)
+              map_many_association(model_name, linked_model, entry, entry_path, :relation_to)
             when :aggregate_through
               aggregate_data(model_name, linked_model, entry, entry_path, :through)
             when :aggregate_many

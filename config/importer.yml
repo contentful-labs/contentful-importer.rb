@@ -1,4 +1,0 @@
-#Contentful credentials
-access_token: <ACCESS_TOKEN>
-organization_id: <ORGANIZATION_ID>
-data_dir: /tmp/data
