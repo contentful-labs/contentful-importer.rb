@@ -1,10 +1,16 @@
+#path to all data
+data_dir: /tmp/data
+
+########## IMPORT DATA TO CONTENTFUL ##########
+
 #Contentful credentials
 access_token: <ACCESS_TOKEN>
 organization_id: <ORGANIZATION_ID>
 
-#path to all data
-data_dir: /tmp/data
 
+########## EXPORT DATA ##########
+
+#Connecting to a database
 adapter: mysql2
 user: szpryc
 host: localhost
@@ -26,16 +32,14 @@ mapped:
   - :user_wildeisen_recipe_to_ingredient
   - :user_wildeisen_unit
 
-
-
 #file with mapping strucutre
-mapping_dir: /Users/piotrprotas/mapping.json
+mapping_dir: /Users/piotrprotas/Desktop/mapping.json
 
 #file with contentful structure
-contentful_structure_dir: /Users/piotrprotas/structure.json
+contentful_structure_dir: /Users/piotrprotas/Desktop/structure.json
 
-#dump file with content types from content model
+#dump file with content types from contentful model
 json_with_content_types: /Users/piotrprotas/Desktop/wildeisen.json
 
-#path to save converted content types dump_file
+#path to save converted dump_file with content types
 import_form_dir: /Users/piotrprotas/Desktop/contentful_form.json

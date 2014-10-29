@@ -78,11 +78,11 @@ module Contentful
             when :many_through
               # map_many_association(model_name, linked_model, entry, entry_path, :through)
             when :many
-              map_many_association(model_name, linked_model, entry, entry_path, :relation_to)
+              # map_many_association(model_name, linked_model, entry, entry_path, :relation_to)
             when :aggregate_through
               # aggregate_data(model_name, linked_model, entry, entry_path, :through)
             when :aggregate_many
-              # aggregate_data(model_name, linked_model, entry, entry_path, :relation_to)
+              aggregate_data(model_name, linked_model, entry, entry_path, :relation_to)
           end
         end
 
@@ -150,7 +150,6 @@ module Contentful
           end
           associated_objects
         end
-
 
         ########################################################
         def aggregate_data(model_name, linked_model, entry, entry_path, related_to)
