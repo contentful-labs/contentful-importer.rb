@@ -10,21 +10,14 @@ organization_id: <ORGANIZATION_ID>
 
 ########## EXPORT DATA ##########
 
-#Connecting to a database
-adapter: mysql2
-user: szpryc
-host: localhost
-database: recipes
-password: root
-
-# adapter: mysql2, postgres,sqlite
-# user: username
-# host: localhost
-# database: database_name
-# password: root
+#adapter: mysql2, postgres,sqlite
+#user: username
+#host: localhost
+#database: database_name
+#password: root
 
 mapped:
- tables:
+tables:
   - :user_wildeisen_alergic_info
   - :user_wildeisen_ingredient
   - :user_wildeisen_recipe
@@ -33,13 +26,13 @@ mapped:
   - :user_wildeisen_unit
 
 #file with mapping strucutre
-mapping_dir: /Users/piotrprotas/Desktop/mapping.json
+mapping_dir: mapping.json
 
 #file with contentful structure
-contentful_structure_dir: /Users/piotrprotas/Desktop/structure.json
+contentful_structure_dir: contentful_structure.json
 
 #dump file with content types from contentful model
-json_with_content_types: /Users/piotrprotas/Desktop/wildeisen.json
+json_with_content_types: contentful_dump.json
 
 #path to save converted dump_file with content types
-import_form_dir: /Users/piotrprotas/Desktop/contentful_form.json
+import_form_dir: contentful_structure.json

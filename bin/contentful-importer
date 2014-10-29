@@ -21,6 +21,10 @@ OptionParser.new do |opts|
   opts.on('-i', '--import', 'Import data') do
     options[:import] = '--import'
   end
+  options[:convert] = nil
+  opts.on('-c', '--convert-json', 'Convert contentful data to import form') do
+    options[:import] = '--convert-json'
+  end
   options[:test] = nil
   opts.on('-t', '--test-credentials', 'Test contentful credentials') do
     options[:test] = '--test-credentials'
@@ -29,7 +33,7 @@ end.parse!
 
 fail 'Missing settings.yml file, `contentful-importer --settings=PATH`' unless options[:settings]
 SETTINGS = YAML.load_file(options[:settings])
-options.delete_if { |key,_v| key == :settings }.compact!
+options.delete_if { |key, _v| key == :settings }.compact!
 
 fail 'Too many action in one time, `contentful-importer --settings=PATH --action`' if options.count > 1
 Migrator.new.run(options.values.first)
