@@ -36,6 +36,6 @@ build/
 #RubyMine
 .idea
 
-
+.DS_Store
 
 /data
