@@ -1,13 +1,36 @@
 #!/usr/bin/env ruby
 require 'yaml'
+require 'optparse'
 require_relative '../lib/migrator'
 
-option = ARGV.shift(2)
-# option = ['settings.yml', '--prepare-json']
-fail 'Missing settings.yml file, `contentful-importer settings.yml`' if option[0].nil? || option[0].start_with?('--')
-fail 'Missing specific action, `contentful-importer settings.yml --action`' if option[1].nil? || !option[1].start_with?('--')
-fail 'Such action does not exist, check the README' unless %w( --export-json --prepare-json --import --convert-json --test-credentials ).include?(option[1])
+options = {}
+OptionParser.new do |opts|
+  options[:settings] = nil
+  opts.on('-s', '--settings FILE', 'Export settings from YML file') do |file|
+    options[:settings] = file
+  end
+  options[:export] = nil
+  opts.on('-e', '--export-json', 'Export data') do
+    options[:export] ='--export-json'
+  end
+  options[:prepare] = nil
+  opts.on('-p', '--prepare-json', 'Prepare data to import') do
+    options[:prepare] ='--prepare-json'
+  end
+  options[:import] = nil
+  opts.on('-i', '--import', 'Import data') do
+    options[:import] = '--import'
+  end
+  options[:test] = nil
+  opts.on('-t', '--test-credentials', 'Test contentful credentials') do
+    options[:test] = '--test-credentials'
+  end
+end.parse!
 
-SETTINGS = YAML.load_file(File.expand_path(option[0]))
+fail 'Missing settings.yml file, `contentful-importer --settings=PATH`' unless options[:settings]
+SETTINGS = YAML.load_file(options[:settings])
+options.delete_if { |key,_v| key == :settings }.compact!
 
-Migrator.new.run(option[1])
+fail 'Too many action in one time, `contentful-importer --settings=PATH --action`' if options.count > 1
+Migrator.new.run(options.values.first)
+
