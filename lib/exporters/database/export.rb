@@ -31,8 +31,8 @@ module Contentful
                     :helpers_dir,
                     :tables
 
-        def initialize
-          @config = $setting_file
+        def initialize(settings)
+          @config = settings
           @data_dir = config['data_dir']
           @collections_dir = "#{data_dir}/collections"
           @entries_dir = "#{data_dir}/entries"
@@ -44,6 +44,10 @@ module Contentful
           @tables = config['mapped']['tables']
 
           @db = Sequel.connect(:adapter => config['adapter'], :user => config['user'], :host => config['host'], :database => config['database'], :password => config['password'])
+        end
+
+        def tables_name
+          write_json_to_file("#{data_dir}/tables.json", db.tables)
         end
 
         def export_data

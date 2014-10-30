@@ -34,10 +34,13 @@ The Contentful organization id can be found in your account settings.
 Once you installed the Gem and created the YAML file with the settings you can invoke the tool using:
 
 ``` bash
-contentful-importer credentials.yml  --action
+contentful-importer --file=credentials.yml  --action
 ```
 
 ## Actions
+#### --list-tables
+
+List and save to JSON file all tables name from database. Path: ``` data_dir/tables.json```
 
 #### --export-json
 

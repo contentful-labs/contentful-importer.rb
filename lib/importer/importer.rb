@@ -17,8 +17,8 @@ module Contentful
                 :failure_logs_dir,
                 :imported_entries
 
-    def initialize
-      @config = $setting_file
+    def initialize(settings)
+      @config = settings
       @data_dir = config['data_dir']
       @collections_dir = "#{data_dir}/collections"
       @entries_dir = "#{data_dir}/entries"
