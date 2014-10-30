@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'mysql2','~> 0.3'
   spec.add_dependency 'activesupport','~> 4.1'
   spec.add_dependency 'pg', '~> 0.17.0'
+  spec.add_dependency 'escort','~> 0.4.0'
 
   spec.add_development_dependency 'bundler', '~> 1.6'
   spec.add_development_dependency 'rake'

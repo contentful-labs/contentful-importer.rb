@@ -1,6 +1,7 @@
 require_relative 'exporters/database/export'
 require_relative 'importer/importer'
 require_relative 'converter'
+
 class Migrator
   attr_reader :importer, :exporter, :converter
 

@@ -1,0 +1,52 @@
+{
+    "JobAdds": {
+        "content_type": "JobAdd",
+        "type": "entry",
+        "fields": {
+            "title": "name",
+            "description": "specification"
+        },
+        "links": {
+            "many": [
+                {
+                    "relation_to": "Comments",
+                    "primary_id": "job_add_id"
+                }
+            ],
+            "many_through": [
+                {
+                    "relation_to": "Skills",
+                    "primary_id": "job_add_id",
+                    "foreign_id": "skill_id",
+                    "through": "JobAddSkills"
+                }
+            ]
+        }
+    },
+    "Comments": {
+        "content_type": "Comments",
+        "type": "entry",
+        "fields": {
+            "title": "title",
+            "body": "content"
+        },
+        "links": {
+        }
+    },
+    "Skills": {
+        "content_type": "Skills",
+        "type": "entry",
+        "fields": {
+            "name": "title"
+        },
+        "links": {
+        }
+    },
+    "JobAddSkills": {
+        "content_type": "JobAddSkills",
+        "fields": {
+        },
+        "links": {
+        }
+    }
+}

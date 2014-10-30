@@ -1,0 +1,42 @@
+{
+    "Comments": {
+        "id": "583qdvqJfaY8gU2yOeO86c",
+        "note": "",
+        "displayField": "title",
+        "fields": {
+            "title": "Text",
+            "content": "Text"
+        }
+    },
+    "JobAdd": {
+        "id": "3FAFlNPhsIAA0qi4G4oUW",
+        "note": "Add new job form",
+        "displayField": "name",
+        "fields": {
+            "name": "Text",
+            "specification": "Text",
+            "Images": {
+                "id": "image",
+                "link_type": "Asset"
+            },
+            "Comments": {
+                "id": "comments",
+                "link_type": "Array",
+                "type": "Entry"
+            },
+            "Skills": {
+                "id": "skills",
+                "link_type": "Array",
+                "type": "Entry"
+            }
+        }
+    },
+    "Skills": {
+        "id": "vBJHi2yqpUEc0ku8YEKMQ",
+        "note": "",
+        "displayField": "title",
+        "fields": {
+            "title": "Text"
+        }
+    }
+}

@@ -1,5 +1,5 @@
-#path to all data
-data_dir: /tmp/data
+#PATH to all data
+data_dir: /Users/piotrprotas/RubyProjects/TESTOWO/job_adder/data
 
 ########## IMPORT DATA TO CONTENTFUL ##########
 
@@ -10,29 +10,43 @@ organization_id: <ORGANIZATION_ID>
 
 ########## EXPORT DATA ##########
 
-#adapter: mysql2, postgres,sqlite
-#user: username
-#host: localhost
-#database: database_name
-#password: root
+#Connecting to a database
+adapter: postgres
+host: localhost
+database: job_adder_development
+user: postgres
+password: postgres
+
+# adapter: mysql2, postgres,sqlite
+# user: username
+# host: localhost
+# database: database_name
+# password: root
 
 mapped:
-tables:
-  - :user_wildeisen_alergic_info
-  - :user_wildeisen_ingredient
-  - :user_wildeisen_recipe
-  - :user_wildeisen_recipe_to_alergic_info
-  - :user_wildeisen_recipe_to_ingredient
-  - :user_wildeisen_unit
+ tables:
+  - :job_adds
+  - :skills
+  - :job_add_skills
+  - :comments
 
-#file with mapping strucutre
-mapping_dir: mapping.json
+## MAPPING ##
 
-#file with contentful structure
+# JSON file with mapping structure
+# define relations between models
+# check README
+mapping_dir: contentful_mapping.json
+
+#JSON file with contentful structure
 contentful_structure_dir: contentful_structure.json
 
-#dump file with content types from contentful model
-json_with_content_types: contentful_dump.json
+## CONVERT CONTENT TYPES JSON TO IMPORT FORM
 
-#path to save converted dump_file with content types
+#dump JSON file with content types from contentful model
+#created by: curl -X GET \
+#                 -H 'Authorization: Bearer ACCESS_TOKEN' \
+#                 'https://api.contentful.com/spaces/SPACE_ID/content_types' > contentful_model.json
+json_with_content_types: contentful_model.json
+
+#PATH to save converted dump_file with content types
 import_form_dir: contentful_structure.json

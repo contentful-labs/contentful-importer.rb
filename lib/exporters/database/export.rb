@@ -32,7 +32,7 @@ module Contentful
                     :tables
 
         def initialize
-          @config = SETTINGS
+          @config = $setting_file
           @data_dir = config['data_dir']
           @collections_dir = "#{data_dir}/collections"
           @entries_dir = "#{data_dir}/entries"

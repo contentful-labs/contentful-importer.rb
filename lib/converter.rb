@@ -4,7 +4,7 @@ module Contentful
     attr_reader :config, :content_types, :import_form_dir
 
     def initialize
-      @config = SETTINGS
+      @config = $setting_file
       @import_form_dir = config['import_form_dir']
       @content_types = config['json_with_content_types']
     end
