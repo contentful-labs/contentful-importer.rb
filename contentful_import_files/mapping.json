@@ -67,12 +67,7 @@
             "last_name": "surname"
         },
         "links": {
-            "has_one": [
-                {
-                    "relation_to": "Profiles",
-                    "primary_id": "user_id"
-                }
-            ]
+            "has_one": ["Profiles"]
         }
     }
 }

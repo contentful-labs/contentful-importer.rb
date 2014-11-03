@@ -183,19 +183,20 @@ module Contentful
         end
 
         def map_has_one_association(model_name, linked_model, entry, entry_path)
-          associated_model = linked_model[:relation_to].underscore
-          associated_content_type = mapping[linked_model[:relation_to]][:content_type]
+          associated_model = linked_model.underscore
+          primary_key = model_name.singularize.foreign_key
+          associated_content_type = mapping[linked_model][:content_type]
           link_type = contentful_field_attribute(model_name, associated_content_type, :link_type)
           api_field_id = contentful_field_attribute(model_name, associated_content_type, :id)
-          add_has_one_object_to_file(api_field_id, associated_model, entry, entry_path, link_type, linked_model)
+          add_has_one_object_to_file(api_field_id, associated_model, entry, entry_path, link_type, primary_key)
         end
 
-        def add_has_one_object_to_file(api_field_id, associated_model, entry, entry_path, link_type, linked_model)
+        def add_has_one_object_to_file(api_field_id, associated_model, entry, entry_path, link_type, primary_key)
           case link_type
             when 'Entry'
               Dir.glob("#{entries_dir}/#{associated_model}/*.json").each do |file|
                 has_one_file = JSON.parse(File.read(file))
-                primary_id = has_one_file[linked_model[:primary_id]]
+                primary_id = has_one_file[primary_key]
                 if primary_id == entry['database_id']
                   has_one_object = find_has_one_object(associated_model, has_one_file['database_id'])
                   write_json_to_file(entry_path, entry.merge!(api_field_id => has_one_object))
