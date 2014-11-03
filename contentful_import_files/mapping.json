@@ -1,0 +1,78 @@
+{
+    "JobAdds": {
+        "content_type": "JobAdds",
+        "type": "entry",
+        "fields": {
+            "title": "name",
+            "description": "specification"
+        },
+        "links": {
+            "many": [
+                {
+                    "relation_to": "Comments",
+                    "primary_id": "job_add_id"
+                }
+            ],
+            "many_through": [
+                {
+                    "relation_to": "Skills",
+                    "primary_id": "job_add_id",
+                    "foreign_id": "skill_id",
+                    "through": "JobAddSkills"
+                }
+            ]
+        }
+    },
+    "Comments": {
+        "content_type": "Comments",
+        "type": "entry",
+        "fields": {
+            "title": "title",
+            "body": "content"
+        },
+        "links": {
+            "belongs_to": ["JobAdds"]
+        }
+    },
+    "Skills": {
+        "content_type": "Skills",
+        "type": "entry",
+        "fields": {
+            "name": "title"
+        },
+        "links": {
+        }
+    },
+    "JobAddSkills": {
+        "content_type": "JobAddSkills",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "Profiles": {
+        "content_type": "Profiles",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+            "belongs_to": ["Users"]
+        }
+    },
+    "Users": {
+        "content_type": "Users",
+        "type": "entry",
+        "fields": {
+            "first_name": "name",
+            "last_name": "surname"
+        },
+        "links": {
+            "has_one": [
+                {
+                    "relation_to": "Profiles",
+                    "primary_id": "user_id"
+                }
+            ]
+        }
+    }
+}

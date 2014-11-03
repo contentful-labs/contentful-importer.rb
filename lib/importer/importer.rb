@@ -17,8 +17,8 @@ module Contentful
                 :failure_logs_dir,
                 :imported_entries
 
-    def initialize
-      @config = YAML.load_file(File.expand_path('config/importer.yml'))
+    def initialize(settings)
+      @config = settings
       @data_dir = config['data_dir']
       @collections_dir = "#{data_dir}/collections"
       @entries_dir = "#{data_dir}/entries"
@@ -33,7 +33,7 @@ module Contentful
 
     def execute
       create_space
-      # import_content_types
+      import_content_types
       import_entries
     end
 
@@ -42,7 +42,7 @@ module Contentful
       if space.is_a? Contentful::Management::Array
         puts 'Contentful Management API credentials: OK'
       end
-    rescue NoMethodError => e
+    rescue NoMethodError => _error
       puts 'Contentful Management API credentials: INVALID (check README)'
     end
 
@@ -57,7 +57,7 @@ module Contentful
     def import_content_types
       Dir.glob("#{collections_dir}/*json") do |file_path|
         collection_attributes = JSON.parse(File.read(file_path))
-        content_type = space.content_types.create(name: collection_attributes['entry_type'], description: collection_attributes['note'])
+        content_type = create_new_content_type(collection_attributes)
         puts "Importing content_type: #{content_type.name}"
         create_content_type_fields(collection_attributes, content_type)
         add_content_type_id_to_file(collection_attributes, content_type.id, content_type.space.id, file_path)
@@ -101,9 +101,11 @@ module Contentful
     end
 
     def create_content_type_fields(collection_attributes, content_type)
-      collection_attributes['fields'].each do |field|
-        create_field(field, content_type)
+      fields = collection_attributes['fields'].each_with_object([]) do |field, fields|
+        fields << create_field(field)
       end
+      content_type.fields = fields
+      content_type.save
     end
 
     def import_entries_for_collection(content_type_id, dir_path, space_id)
@@ -211,11 +213,22 @@ module Contentful
       end
     end
 
-    def create_field(field, content_type)
+    def create_field(field)
       field_params = {id: field['identifier'], name: field['name'], required: field['required']}
       field_params.merge!(additional_field_params(field))
       puts "Creating field: #{field_params[:type]}"
-      content_type.fields.create(field_params)
+      create_content_type_field(field_params)
+    end
+
+    def create_content_type_field(field_params)
+      Contentful::Management::Field.new.tap do |field|
+        field.id = field_params[:id]
+        field.name = field_params[:name]
+        field.type = field_params[:type]
+        field.link_type = field_params[:link_type]
+        field.required = field_params[:required]
+        field.items = field_params[:items]
+      end
     end
 
     def active_status(ct_object)
@@ -242,6 +255,13 @@ module Contentful
         param.empty?
       else
         param.nil?
+      end
+    end
+
+    def create_new_content_type(collection_attributes)
+      space.content_types.new.tap do |content_type|
+        content_type.name = collection_attributes['entry_type']
+        content_type.description = collection_attributes['note']
       end
     end
 

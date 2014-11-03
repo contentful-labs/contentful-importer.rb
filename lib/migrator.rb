@@ -1,36 +1,32 @@
 require_relative 'exporters/database/export'
 require_relative 'importer/importer'
+require_relative 'converter'
 
 class Migrator
-  attr_reader :importer, :exporter
+  attr_reader :importer, :exporter, :converter, :settings
 
-  MESSAGE = <<-eoruby
-Actions:
-  1. Export data to JSON files.
-  2. Prepare JSON files for importing.
-  3. Import data to Contentful.
-  9. Test credentials.
--> Choose on of the options:
-  eoruby
-
-  def initialize(exporter = nil)
-    @exporter = exporter || Contentful::Exporter::Database::Export.new
-    @importer = Contentful::Importer.new
+  def initialize(settings, exporter = Contentful::Exporter::Database::Export.new(settings))
+    @settings = settings
+    @exporter = exporter
+    @importer = Contentful::Importer.new(settings)
+    @converter = Contentful::Converter.new(settings)
   end
 
-  def run
-    puts MESSAGE
-    action_choice = gets.to_i
-    case action_choice
-      when 1
+  def run(option)
+    case option.to_s
+      when '--export-json'
         exporter.export_data
         exporter.save_data_as_json
-      when 2
+      when '--prepare-json'
         exporter.create_data_relations
-      when 3
+      when '--import'
         importer.execute
-      when 9
+      when '--convert-json'
+        converter.convert_to_import_form
+      when '--test-credentials'
         importer.test_credentials
+      when '--list-tables'
+        exporter.tables_name
     end
   end
 end

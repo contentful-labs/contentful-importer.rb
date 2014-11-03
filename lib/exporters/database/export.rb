@@ -3,8 +3,6 @@ require 'active_support/core_ext/hash/compact'
 require 'active_support/core_ext/hash'
 require 'fileutils'
 require 'sequel'
-require_relative 'contentful_structure'
-require_relative 'contentful_mapping'
 require_relative 'modules/data_export'
 require_relative 'modules/json_export'
 require_relative 'modules/relations_export'
@@ -14,9 +12,6 @@ module Contentful
   module Exporter
     module Database
       class Export ##TODO CHANGE NAME
-
-        include Contentful::Exporter::Database::ContentfulStructure
-        include Contentful::Exporter::Database::ContentfulMapping
 
         include Contentful::Exporter::Database::DataExport
         include Contentful::Exporter::Database::JsonExport
@@ -36,19 +31,24 @@ module Contentful
                     :helpers_dir,
                     :tables
 
-        def initialize
-          @config = YAML.load_file(File.expand_path('config/exporter.yml'))
+        def initialize(settings)
+          @config = settings
           @data_dir = config['data_dir']
           @collections_dir = "#{data_dir}/collections"
           @entries_dir = "#{data_dir}/entries"
           @assets_dir = "#{data_dir}/assets"
           @helpers_dir = "#{data_dir}/helpers"
 
-          @contentful_structure = Contentful::Exporter::Database::ContentfulStructure::STRUCTURE.with_indifferent_access
-          @mapping = Contentful::Exporter::Database::ContentfulMapping::MAPPING.with_indifferent_access
-          @tables = Contentful::Exporter::Database::ContentfulMapping::TABLES
+          @contentful_structure = JSON.parse(File.read(config['contentful_structure_dir']), symbolize_names: true).with_indifferent_access
+          @mapping = JSON.parse(File.read(config['mapping_dir']), symbolize_names: true).with_indifferent_access
+          @tables = config['mapped']['tables']
 
           @db = Sequel.connect(:adapter => config['adapter'], :user => config['user'], :host => config['host'], :database => config['database'], :password => config['password'])
+        end
+
+        def tables_name
+          create_directory(data_dir)
+          write_json_to_file("#{data_dir}/tables.json", db.tables)
         end
 
         def export_data

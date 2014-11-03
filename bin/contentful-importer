@@ -1,4 +1,41 @@
 #!/usr/bin/env ruby
-require_relative '../lib/migrator'
+require 'yaml'
+require 'escort'
+require_relative '../lib/cli'
 
-Migrator.new.run
+Escort::App.create do |app|
+  app.options do |opts|
+    opts.opt :file, 'file', :short => '-f', :long => '--file', :type => :string
+
+    app.command '--export-json' do |command|
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--prepare-json' do |command|
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--import' do |command|
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--convert-json' do |command|
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--test-credentials' do |command|
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--list-tables' do |command|
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+  end
+end
