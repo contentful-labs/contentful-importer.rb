@@ -6,7 +6,7 @@ module Contentful
         def generate_relations_helper_indexes(relations)
           create_directory(helpers_dir)
           relations.each do |relation_type, linked_models|
-            save_relation_foreign_keys(relation_type, linked_models) if [:many, :many_through, :aggregate_many, :aggregate_through].include?(relation_type.to_sym)
+            save_relation_foreign_keys(relation_type, linked_models) if [:many, :many_through, :aggregate_many, :aggregate_through, :has_one].include?(relation_type.to_sym)
           end
         end
 
@@ -22,7 +22,7 @@ module Contentful
             when :many_through, :aggregate_through
               related_model = linked_model[:through]
               related_model_id = linked_model[:foreign_id]
-            when :many, :aggregate_many
+            when :many, :aggregate_many, :has_one
               related_model = linked_model[:relation_to]
               related_model_id = :id
           end
@@ -71,18 +71,16 @@ module Contentful
 
         def relationships(entry, entry_path, relation_type, model_name, linked_model)
           case relation_type.to_sym
-            when :has_one
-              map_has_one_association(model_name, linked_model, entry, entry_path)
             when :belongs_to
               map_belongs_to_association(model_name, linked_model, entry, entry_path)
+            when :has_one, :many
+              map_many_association(model_name, linked_model, entry, entry_path, :relation_to)
             when :many_through
               map_many_association(model_name, linked_model, entry, entry_path, :through)
-            when :many
-              map_many_association(model_name, linked_model, entry, entry_path, :relation_to)
             when :aggregate_through
-              # aggregate_data(model_name, linked_model, entry, entry_path, :through)
+              aggregate_data(model_name, linked_model, entry, entry_path, :through)
             when :aggregate_many
-              # aggregate_data(model_name, linked_model, entry, entry_path, :relation_to)
+              aggregate_data(model_name, linked_model, entry, entry_path, :relation_to)
           end
         end
 
@@ -181,39 +179,6 @@ module Contentful
           end
           associated_objects
         end
-
-        def map_has_one_association(model_name, linked_model, entry, entry_path)
-          associated_model = linked_model.underscore
-          primary_key = model_name.singularize.foreign_key
-          associated_content_type = mapping[linked_model][:content_type]
-          link_type = contentful_field_attribute(model_name, associated_content_type, :link_type)
-          api_field_id = contentful_field_attribute(model_name, associated_content_type, :id)
-          add_has_one_object_to_file(api_field_id, associated_model, entry, entry_path, link_type, primary_key)
-        end
-
-        def add_has_one_object_to_file(api_field_id, associated_model, entry, entry_path, link_type, primary_key)
-          case link_type
-            when 'Entry'
-              Dir.glob("#{entries_dir}/#{associated_model}/*.json").each do |file|
-                has_one_file = JSON.parse(File.read(file))
-                primary_id = has_one_file[primary_key]
-                if primary_id == entry['database_id']
-                  has_one_object = find_has_one_object(associated_model, has_one_file['database_id'])
-                  write_json_to_file(entry_path, entry.merge!(api_field_id => has_one_object))
-                end
-              end
-            when 'Asset'
-              puts 'NOT IMPLEMENTED YET - map_has_one_association'
-          end
-        end
-
-        def find_has_one_object(associated_model, foreign_id)
-          {
-              'type' => associated_model,
-              'id' => associated_model+"_#{foreign_id}"
-          }
-        end
-
       end
     end
   end
