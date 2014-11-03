@@ -47,6 +47,7 @@ module Contentful
         end
 
         def tables_name
+          create_directory(data_dir)
           write_json_to_file("#{data_dir}/tables.json", db.tables)
         end
 

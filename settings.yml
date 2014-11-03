@@ -1,5 +1,5 @@
 #PATH to all data
-data_dir: /Users/piotrprotas/RubyProjects/TESTOWO/job_adder/data
+data_dir: 
 
 ########## IMPORT DATA TO CONTENTFUL ##########
 
@@ -29,16 +29,18 @@ mapped:
   - :skills
   - :job_add_skills
   - :comments
+  - :users
+  - :profiles
 
 ## MAPPING ##
 
 # JSON file with mapping structure
 # define relations between models
 # check README
-mapping_dir: contentful_mapping.json
+mapping_dir: contentful_import_files/mapping.json
 
 #JSON file with contentful structure
-contentful_structure_dir: contentful_structure.json
+contentful_structure_dir: contentful_import_files/contentful_structure.json
 
 ## CONVERT CONTENT TYPES JSON TO IMPORT FORM
 
@@ -46,7 +48,7 @@ contentful_structure_dir: contentful_structure.json
 #created by: curl -X GET \
 #                 -H 'Authorization: Bearer ACCESS_TOKEN' \
 #                 'https://api.contentful.com/spaces/SPACE_ID/content_types' > contentful_model.json
-json_with_content_types: contentful_model.json
+json_with_content_types: contentful_import_files/contentful_model.json
 
 #PATH to save converted dump_file with content types
-import_form_dir: contentful_structure.json
+import_form_dir: contentful_import_files/contentful_structure.json

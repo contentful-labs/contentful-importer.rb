@@ -20,7 +20,7 @@ module Contentful
             fields: {}.merge!(create_fields(content_type))
         }
         import_form = JSON.parse(File.read(import_form_dir))
-        File.open(import_form_dir, 'w') { |file| file.write(JSON.pretty_generate(import_form.merge!(content_type['name'] => parsed_content_type))) }
+        File.open(import_form_dir, 'w') { |file| file.write(JSON.pretty_generate(import_form.merge!(content_type['name'].titleize.gsub(' ','') => parsed_content_type))) }
       end
     end
 
@@ -40,7 +40,7 @@ module Contentful
 
     def link_id(field)
       if %w( Link Array ).include? field['type']
-        field['name']
+        field['name'].capitalize
       else
         field['id']
       end
