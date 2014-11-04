@@ -1,71 +1,83 @@
 {
-    "Comments": {
-        "id": "583qdvqJfaY8gU2yOeO86c",
-        "note": "",
-        "displayField": "title",
-        "fields": {
-            "title": "Text",
-            "content": "Text",
-            "JobAdds": {
-                "id": "job_add_id",
-                "link_type": "Entry"
-            }
-        }
-    },
-    "JobAdds": {
-        "id": "3FAFlNPhsIAA0qi4G4oUW",
-        "note": "Add new job form",
+    "Ingredient": {
+        "id": "ingredient",
+        "note": "Collection of ingredients",
         "displayField": "name",
         "fields": {
             "name": "Text",
-            "specification": "Text",
-            "Images": {
-                "id": "image",
-                "link_type": "Asset"
-            },
-            "Comments": {
-                "id": "comments",
-                "link_type": "Array",
-                "type": "Entry"
-            },
-            "Skills": {
-                "id": "skills",
-                "link_type": "Array",
-                "type": "Entry"
+            "name_plural": "Text",
+            "description": "Text",
+            "active": "Boolean",
+            "Unit": {
+                "id": "unit",
+                "link_type": "Entry"
             }
         }
     },
-    "Skills": {
-        "id": "vBJHi2yqpUEc0ku8YEKMQ",
-        "note": "",
-        "displayField": "title",
+    "Recipe": {
+        "id": "recipe",
+        "displayField": "name",
         "fields": {
-            "title": "Text"
+            "random": "Number",
+            "name": "Text",
+            "description": "Text",
+            "active": "Boolean",
+            "visibility": "Integer",
+            "duration": "Integer",
+            "recipe_of_day_exclude": "Boolean",
+            "validated": "Boolean",
+            "clicks": "Integer",
+            "date_start": "Date",
+            "date_stop": "Date",
+            "RecipeIngredient": {
+                "id": "recipe_ingredients",
+                "link_type": "Array",
+                "type": "Entry"
+            },
+            "AlergicInfo": {
+                "id": "alergic_names",
+                "link_type": "Array",
+                "type": "Symbol"
+            }
         }
     },
-    "Users": {
-        "id": "users",
-        "note": "Users collection",
-        "displayField": "surname",
+    "Unit": {
+        "id": "unit",
         "fields": {
             "name": "Text",
-            "surname": "Text",
-            "Profiles": {
-                "id": "profile",
+            "description": "Text",
+            "liquid": "Boolean",
+            "standardunits": "Number"
+        }
+    },
+    "RecipeIngredient": {
+        "id": "recipe_ingredient",
+        "fields": {
+            "is_main_ingredient": "Integer",
+            "subtitle": "Text",
+            "sequence": "Integer",
+            "amount": "Number",
+            "info": "Text",
+            "old_pre_postfix": "Text",
+            "Unit": {
+                "id": "unit",
+                "link_type": "Entry"
+            },
+            "Recipe": {
+                "id": "recipe",
+                "link_type": "Entry"
+            },
+            "Ingredient": {
+                "id": "ingredient",
                 "link_type": "Entry"
             }
         }
     },
-    "Profiles": {
-        "id": "profiles",
-        "note": "Profiles collection",
-        "displayField": "nickname",
+    "AlergicInfo": {
+        "id": "alergic_info",
         "fields": {
-            "nickname": "Text",
-            "Users": {
-                "id": "users",
-                "link_type": "Entry"
-            }
+            "name": "Text",
+            "sequence": "Integer"
         }
     }
 }

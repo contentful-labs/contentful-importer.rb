@@ -1,15 +1,18 @@
 require_relative 'exporters/database/export'
 require_relative 'importer/importer'
+require_relative 'importer/worker'
 require_relative 'converter'
 
 class Migrator
-  attr_reader :importer, :exporter, :converter, :settings
+  attr_reader :importer, :exporter, :converter, :settings, :worker
 
   def initialize(settings, exporter = Contentful::Exporter::Database::Export.new(settings))
     @settings = settings
     @exporter = exporter
     @importer = Contentful::Importer.new(settings)
     @converter = Contentful::Converter.new(settings)
+
+    @worker = Contentful::Worker.new(settings)
   end
 
   def run(option)
@@ -27,6 +30,8 @@ class Migrator
         importer.test_credentials
       when '--list-tables'
         exporter.tables_name
+      when '--worker'
+        worker.execute
     end
   end
 end
