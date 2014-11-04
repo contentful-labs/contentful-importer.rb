@@ -3,10 +3,9 @@ require_relative 'importer/importer'
 require_relative 'converter'
 
 class Migrator
-  attr_reader :importer, :exporter, :converter, :settings
+  attr_reader :importer, :exporter, :converter
 
   def initialize(settings, exporter = Contentful::Exporter::Database::Export.new(settings))
-    @settings = settings
     @exporter = exporter
     @importer = Contentful::Importer.new(settings)
     @converter = Contentful::Converter.new(settings)

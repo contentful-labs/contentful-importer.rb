@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-require 'yaml'
 require 'escort'
 require_relative '../lib/cli'
 

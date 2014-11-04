@@ -76,3 +76,4 @@ Test contentful credentials.
 
 #### many_through
 map join table, add IDs to current model
+
