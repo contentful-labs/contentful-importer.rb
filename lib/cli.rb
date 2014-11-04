@@ -13,4 +13,5 @@ require 'yaml'
 # end
 
 setting_file = YAML.load_file('settings.yml')
+# Migrator.new(setting_file).run('--export-json')
 Migrator.new(setting_file).run('--worker')
