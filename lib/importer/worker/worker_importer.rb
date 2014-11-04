@@ -80,6 +80,17 @@ module Contentful
       end
     end
 
+    def import_entries2(path, space_id)
+      log_file_name = "thread_log_#{File.basename(path)}"
+      log_file = create_log_file("thread_log_#{File.basename(path)}")
+      imported_entries << CSV.read("#{success_logs_dir}/#{log_file_name}.json", 'r').flatten
+      Dir.glob("#{path}/*.json") do |entry_path|
+        content_type_id = File.basename(entry_path).match(/(\D+[a-zA-Z])/)[0]
+        puts "Importing entry for #{content_type_id}."
+        import_entry(entry_path, space_id, content_type_id)
+      end
+    end
+
     def publish_all_entries
       Dir.glob("#{collections_dir}/*json") do |dir_path|
         collection_name = File.basename(dir_path, '.json')

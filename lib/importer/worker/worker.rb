@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'thread'
-require_relative '../../../lib/importer/worker/worker_importer'
+require_relative 'worker_importer'
+
 module Contentful
   class Worker
 
@@ -10,11 +11,9 @@ module Contentful
                 :data_dir,
                 :collections_dir,
                 :entries_dir,
-                :threads_dir,
-                :worker_importer
+                :threads_dir
 
     def initialize(settings)
-      @worker_importer = Contentful::WorkerImporter.new(settings)
       @config = settings
       @data_dir = config['data_dir']
       @collections_dir = "#{data_dir}/collections"
@@ -23,8 +22,12 @@ module Contentful
     end
 
     def execute
-      create_threads_subdirectories
+      # create_threads_subdirectories
+      # split_entries
+      import_in_threads
+    end
 
+    def split_entries
       total_count = Dir.glob("#{entries_dir}/**/*.json").count
 
       per_thread_count = total_count / THREADS_COUNT
@@ -39,8 +42,9 @@ module Contentful
           puts "Processing collection: #{collection_name}"
           Dir.glob("#{dir_path}/*.json") do |entry_path|
             name = "#{content_type_id}_#{File.basename(entry_path, '.*').match(/(\d+)/)[0]}.json"
-            FileUtils.mv entry_path, "#{threads_dir}/#{current_thread}/#{name}"
+            FileUtils.cp entry_path, "#{threads_dir}/#{current_thread}/#{name}"
             entries += 1
+            #TODO keep the rest!
             if entries == per_thread_count
               entries = 0
               current_thread += 1
@@ -48,17 +52,13 @@ module Contentful
           end
         end
       end
-      create_threads
     end
 
-    def create_threads
-      threads_paths = Dir.glob("#{threads_dir}/*").each_with_object([]) do |dir_path, thread_paths|
-        thread_paths << dir_path
-      end
-
-      threads = threads_paths.each_with_object([]) do |thread_path, threads|
+    def import_in_threads
+      threads = []
+      THREADS_COUNT.times do |thread_id|
         threads << Thread.new do
-          worker_importer.send(:import_entries, thread_path)
+          Contentful::WorkerImporter.new(config).send(:import_entries2, "#{threads_dir}/#{thread_id}")
         end
       end
 

@@ -13,8 +13,8 @@ organization_id: <ORGANIZATION_ID>
 #Connecting to a database
 adapter: mysql2
 host: localhost
-#database: recipes_wildeisen_ch
-database: recipes
+database: recipes_wildeisen_ch
+#database: recipes
 user: root
 password:
 
