@@ -50,7 +50,15 @@ Export data from models to JSON files.
 
 Prepare JSON files to import form to Contentful platform.
 
+#### --import-content-types --count 5
+
+default value of count: 1
+
+contentful-importer --file settings.yml --import-content-types --count 5
+
 #### --import
+
+contentful-importer --file settings.yml --parallel-import --count 5
 
 Import data to Contentful.
 

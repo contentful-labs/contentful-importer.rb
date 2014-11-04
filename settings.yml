@@ -7,14 +7,15 @@ data_dir: /tmp/data
 access_token: <ACCESS_TOKEN>
 organization_id: <ORGANIZATION_ID>
 
+space_id: FILL_AFTER_IMPORT_CONTENT_TYPES
 
 ########## EXPORT DATA ##########
 
 #Connecting to a database
 adapter: mysql2
 host: localhost
-database: recipes_wildeisen_ch
-#database: recipes
+#database: recipes_wildeisen_ch
+database: recipes
 user: root
 password:
 

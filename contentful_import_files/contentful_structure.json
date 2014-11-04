@@ -36,8 +36,8 @@
             },
             "AlergicInfo": {
                 "id": "alergic_names",
-                "link_type": "Array",
-                "type": "Symbol"
+                "type": "Array",
+                "link_type": "Symbol"
             }
         }
     },

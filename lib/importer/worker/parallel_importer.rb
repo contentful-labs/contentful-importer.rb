@@ -4,7 +4,7 @@ require 'csv'
 require 'yaml'
 
 module Contentful
-  class WorkerImporter
+  class ParallelImporter
 
     attr_reader :space,
                 :config,
@@ -24,8 +24,8 @@ module Contentful
       @entries_dir = "#{data_dir}/entries"
       @assets_dir = "#{data_dir}/assets"
       @time_logs_dir = "#{data_dir}/logs/time.json"
-      @success_logs_dir = "#{data_dir}/logs/"
-      @failure_logs_dir = "#{data_dir}/logs/failure.json"
+      @success_logs_dir = "#{data_dir}/logs"
+      @failure_logs_dir = "#{data_dir}/logs"
       @imported_entries = []
 
       Contentful::Management::Client.new(config['access_token'])
@@ -34,7 +34,6 @@ module Contentful
     def execute
       create_space
       import_content_types
-      import_entries
     end
 
     def test_credentials
@@ -57,7 +56,7 @@ module Contentful
     def import_content_types
       Dir.glob("#{collections_dir}/*json") do |file_path|
         collection_attributes = JSON.parse(File.read(file_path))
-        content_type = create_new_content_type(collection_attributes)
+        content_type = create_new_content_type(space, collection_attributes)
         puts "Importing content_type: #{content_type.name}"
         create_content_type_fields(collection_attributes, content_type)
         add_content_type_id_to_file(collection_attributes, content_type.id, content_type.space.id, file_path)
@@ -66,28 +65,14 @@ module Contentful
       end
     end
 
-    def import_entries(path = nil)
-      log_file_name = "thread_log_#{File.basename(path)}"
-      log_file = create_log_file("thread_log_#{File.basename(path)}")
-      imported_entries << CSV.read("#{success_logs_dir}/#{log_file_name}.json", 'r').flatten
-      Dir.glob("#{path}/*.json") do |dir_path|
-        collection_name = File.basename(dir_path).match(/(\D+[a-zA-Z])/)[0]
-        puts "Importing entries for #{collection_name}."
-        collection_attributes = JSON.parse(File.read("#{collections_dir}/#{collection_name}.json"))
-        content_type_id = collection_attributes['content_type_id']
-        space_id = collection_attributes['space_id']
-        import_entries_for_collection(content_type_id, dir_path, space_id)
-      end
-    end
-
-    def import_entries2(path, space_id)
-      log_file_name = "thread_log_#{File.basename(path)}"
-      log_file = create_log_file("thread_log_#{File.basename(path)}")
-      imported_entries << CSV.read("#{success_logs_dir}/#{log_file_name}.json", 'r').flatten
+    def import_entries(path, space_id)
+      log_file_name = "success_thread_#{File.basename(path)}"
+      create_log_file(log_file_name)
+      imported_entries << CSV.read("#{success_logs_dir}/#{log_file_name}.csv", 'r').flatten
       Dir.glob("#{path}/*.json") do |entry_path|
         content_type_id = File.basename(entry_path).match(/(\D+[a-zA-Z])/)[0]
         puts "Importing entry for #{content_type_id}."
-        import_entry(entry_path, space_id, content_type_id)
+        import_entry(entry_path, space_id, content_type_id, log_file_name) unless imported_entries.flatten.include?(entry_path)
       end
     end
 
@@ -119,23 +104,13 @@ module Contentful
       content_type.save
     end
 
-    def import_entries_for_collection(content_type_id, dir_path, space_id)
-      puts "Start mapping at: #{start = Time.now}"; records = 0
-      Dir.glob(dir_path) do |file_path|
-        import_entry(file_path, space_id, content_type_id)
-        records += 1
-      end
-      # import_time = JSON.parse(File.read("#{time_logs_dir}"))
-      # File.open(time_logs_dir, 'w') { |file| file.write(JSON.pretty_generate(import_time.merge(dir_path => {total_time: "#{((Time.now - start)/60).round(2)} min.", records_mapped: "#{records}"}))) }
-    end
-
-    def import_entry(file_path, space_id, content_type_id)
+    def import_entry(file_path, space_id, content_type_id, log_file)
       entry_attributes = JSON.parse(File.read(file_path))
       entry_id = File.basename(file_path, '.json')
       puts "Creating entry: #{entry_id}."
       entry_params = create_entry_parameters(content_type_id, entry_attributes, space_id)
       entry = content_type(content_type_id, space_id).entries.create(entry_params.merge(id: entry_id))
-      import_status(entry, file_path)
+      import_status(entry, file_path, log_file)
     rescue StandardError => error
       CSV.open(failure_logs_dir, 'a') { |csv| csv << [file_path, error.message] }
     end
@@ -181,13 +156,13 @@ module Contentful
       end
     end
 
-    def import_status(entry, file_path)
+    def import_status(entry, file_path, log_file)
       if entry.is_a? Contentful::Management::Entry
         puts 'Imported successfully!'
-        CSV.open(success_logs_dir, 'a') { |csv| csv << [file_path] }
+        CSV.open("#{success_logs_dir}/#{log_file}.csv", 'a') { |csv| csv << [file_path] }
       else
         puts "### Failure! - #{entry.message} ###"
-        CSV.open(failure_logs_dir, 'a') { |csv| csv << [file_path, entry.message] }
+        CSV.open("#{failure_logs_dir}/fail_#{log_file}.csv", 'a') { |csv| csv << [file_path, entry.message] }
       end
     end
 
@@ -269,8 +244,9 @@ module Contentful
       end
     end
 
-    def create_new_content_type(collection_attributes)
+    def create_new_content_type(space, collection_attributes)
       space.content_types.new.tap do |content_type|
+        content_type.id = collection_attributes['id']
         content_type.name = collection_attributes['entry_type']
         content_type.description = collection_attributes['note']
       end
@@ -302,7 +278,7 @@ module Contentful
 
     def create_log_file(path)
       create_directory("#{data_dir}/logs")
-      File.open("#{data_dir}/logs/#{path}.json", 'w') { |file| file.write({}) }
+      File.open("#{data_dir}/logs/#{path}.csv", 'a') { |file| file.write('') }
     end
 
   end

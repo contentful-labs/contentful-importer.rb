@@ -17,7 +17,10 @@ Escort::App.create do |app|
         Command::CLI.new(options, arguments).execute
       end
     end
-    app.command '--import' do |command|
+    app.command '--import-content-types' do |command|
+      # command.options do |opts|
+      #   opts.opt :space, 'space', :short => '-s', :long => '--space', :type => :string
+      # end
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute
       end
@@ -33,6 +36,14 @@ Escort::App.create do |app|
       end
     end
     app.command '--list-tables' do |command|
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--import' do |command|
+      command.options do |opts|
+        opts.opt :count, 'count', :short => '-c', :long => '--count', :type => :integer, default: 1
+      end
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute
       end

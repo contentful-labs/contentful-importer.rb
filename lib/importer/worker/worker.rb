@@ -1,39 +1,41 @@
 require 'fileutils'
 require 'thread'
-require_relative 'worker_importer'
+require_relative 'parallel_importer'
 
 module Contentful
   class Worker
-
-    THREADS_COUNT = 5
 
     attr_reader :config,
                 :data_dir,
                 :collections_dir,
                 :entries_dir,
-                :threads_dir
+                :threads_dir,
+                :space_id
 
     def initialize(settings)
       @config = settings
+      @space_id = config['space_id']
       @data_dir = config['data_dir']
       @collections_dir = "#{data_dir}/collections"
       @entries_dir = "#{data_dir}/entries"
       @threads_dir = "#{data_dir}/threads"
     end
 
-    def execute
-      # create_threads_subdirectories
-      # split_entries
-      import_in_threads
+    #TODO extract import_entries to own action
+    def execute(threads_count)
+      create_threads_subdirectories(threads_count)
+      split_entries(threads_count)
+      import_in_threads(threads_count)
     end
 
-    def split_entries
+    def split_entries(threads_count)
       total_count = Dir.glob("#{entries_dir}/**/*.json").count
 
-      per_thread_count = total_count / THREADS_COUNT
+      per_thread_count = total_count / threads_count
       current_thread = 0
       entries = 0
 
+      #TODO REFACTOR AFTER SOLVING PROBLEM WITH KEEPING 'REST' ENTRIES
       Dir.glob("#{entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)
         if File.exist?("#{collections_dir}/#{collection_name}.json")
@@ -54,22 +56,21 @@ module Contentful
       end
     end
 
-    def import_in_threads
+    def import_in_threads(threads_count)
       threads = []
-      THREADS_COUNT.times do |thread_id|
+      threads_count.times do |thread_id|
         threads << Thread.new do
-          Contentful::WorkerImporter.new(config).send(:import_entries2, "#{threads_dir}/#{thread_id}")
+          Contentful::ParallelImporter.new(config).send(:import_entries, "#{threads_dir}/#{thread_id}", space_id)
         end
       end
-
       threads.each do |thread|
         thread.join
       end
     end
 
-    def create_threads_subdirectories
+    def create_threads_subdirectories(threads_count)
       create_directory(threads_dir)
-      THREADS_COUNT.times do |thread_id|
+      threads_count.times do |thread_id|
         create_directory("#{threads_dir}/#{thread_id}")
       end
     end
