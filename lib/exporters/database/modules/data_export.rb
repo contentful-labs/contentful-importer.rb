@@ -19,7 +19,7 @@ module Contentful
               displayField: values[:displayField],
               fields: create_fields(values[:fields])
           }
-          write_json_to_file("#{collections_dir}/#{content_type_name}.json", collection)
+          write_json_to_file("#{config.collections_dir}/#{content_type_name}.json", collection)
         end
 
         def create_fields(fields)

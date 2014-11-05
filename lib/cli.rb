@@ -16,5 +16,5 @@ end
 # setting_file = YAML.load_file('settings.yml')
 # # Migrator.new(setting_file).run('--export-json')
 # # Migrator.new(setting_file).run('--prepare-json')
-# Migrator.new(setting_file).run('--import-content-types')
-# # Migrator.new(setting_file).run('--import',count: 1)
+# # Migrator.new(setting_file).run('--import-content-types', space_id: 'wlqupchdm2mg' )
+# Migrator.new(setting_file).run('--import')

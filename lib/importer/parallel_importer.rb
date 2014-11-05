@@ -7,32 +7,11 @@ module Contentful
   class ParallelImporter
 
     attr_reader :space,
-                :space_id,
-                :config,
-                :data_dir,
-                :collections_dir,
-                :entries_dir,
-                :assets_dir,
-                :time_logs_dir,
-                :success_logs_dir,
-                :failure_logs_dir,
-                :threads_dir,
-                :imported_entries
+                :config
 
     def initialize(settings)
       @config = settings
-      @data_dir = config['data_dir']
-      @collections_dir = "#{data_dir}/collections"
-      @entries_dir = "#{data_dir}/entries"
-      @assets_dir = "#{data_dir}/assets"
-      @time_logs_dir = "#{data_dir}/logs/time.json"
-      @success_logs_dir = "#{data_dir}/logs"
-      @failure_logs_dir = "#{data_dir}/logs"
-      @threads_dir = "#{data_dir}/threads"
-      @imported_entries = []
-      @space_id = config['space_id']
-
-      Contentful::Management::Client.new(config['access_token'])
+      Contentful::Management::Client.new(config.config['access_token'])
     end
 
     def create_contentful_model(space)
@@ -55,11 +34,11 @@ module Contentful
 
 
     def import_in_threads
-      threads_count = Dir.glob("#{threads_dir}/*").count
+      threads_count = Dir.glob("#{config.threads_dir}/*").count
       threads = []
       threads_count.times do |thread_id|
         threads << Thread.new do
-          self.class.new(config).import_entries("#{threads_dir}/#{thread_id}", space_id)
+          self.class.new(config).import_entries("#{config.threads_dir}/#{thread_id}", config.space_id)
         end
       end
       threads.each do |thread|
@@ -70,28 +49,27 @@ module Contentful
     def import_entries(path, space_id)
       log_file_name = "success_thread_#{File.basename(path)}"
       create_log_file(log_file_name)
-      imported_entries << CSV.read("#{success_logs_dir}/#{log_file_name}.csv", 'r').flatten
+      config.imported_entries << CSV.read("#{config.success_logs_dir}/#{log_file_name}.csv", 'r').flatten
       Dir.glob("#{path}/*.json") do |entry_path|
         content_type_id = File.basename(entry_path).match(/(\D+[a-zA-Z])/)[0]
-        puts "Importing entry for #{content_type_id}."
-        import_entry(entry_path, space_id, content_type_id, log_file_name) unless imported_entries.flatten.include?(entry_path)
+        import_entry(entry_path, space_id, content_type_id, log_file_name) unless config.imported_entries.flatten.include?(entry_path)
       end
     end
 
     private
 
     def initialize_space(space)
-      fail 'You need to specify \'--space_id\' argument to find an existing Space or \'--space_name\' to create a new Space.' if space.nil?
+      fail 'You need to specify \'--space_id\' argument to find an existing Space or \'--space_name\' to create a new Space.' if space[:space_id].nil? && [:space_name].nil?
       @space = space[:space_id].present? ? Contentful::Management::Space.find(space[:space_id]) : create_space(space[:space_name])
     end
 
     def create_space(name_space)
       puts "Creating a space with name: #{name_space}"
-      Contentful::Management::Space.create(name: name_space, organization_id: config['organization_id'])
+      Contentful::Management::Space.create(name: name_space, organization_id: config.config['organization_id'])
     end
 
     def import_content_types
-      Dir.glob("#{collections_dir}/*json") do |file_path|
+      Dir.glob("#{config.collections_dir}/*json") do |file_path|
         collection_attributes = JSON.parse(File.read(file_path))
         content_type = create_new_content_type(space, collection_attributes)
         puts "Importing content_type: #{content_type.name}"
@@ -103,10 +81,10 @@ module Contentful
     end
 
     def publish_all_entries
-      Dir.glob("#{collections_dir}/*json") do |dir_path|
+      Dir.glob("#{config.collections_dir}/*json") do |dir_path|
         collection_name = File.basename(dir_path, '.json')
         puts "Publish entries for #{collection_name}."
-        collection_attributes = JSON.parse(File.read("#{collections_dir}/#{collection_name}.json"))
+        collection_attributes = JSON.parse(File.read("#{config.collections_dir}/#{collection_name}.json"))
         Contentful::Management::Space.find(get_space_id(collection_attributes)).entries.all.each do |entry|
           puts "Publish an entry with ID #{entry.id}."
           active_status(entry.publish)
@@ -137,8 +115,6 @@ module Contentful
       entry_params = create_entry_parameters(content_type_id, entry_attributes, space_id)
       entry = content_type(content_type_id, space_id).entries.create(entry_params.merge(id: entry_id))
       import_status(entry, file_path, log_file)
-    rescue StandardError => error
-      CSV.open(failure_logs_dir, 'a') { |csv| csv << [file_path, error.message] }
     end
 
     def create_entry_parameters(content_type_id, entry_attributes, space_id)
@@ -185,10 +161,10 @@ module Contentful
     def import_status(entry, file_path, log_file)
       if entry.is_a? Contentful::Management::Entry
         puts 'Imported successfully!'
-        CSV.open("#{success_logs_dir}/#{log_file}.csv", 'a') { |csv| csv << [file_path] }
+        CSV.open("#{config.success_logs_dir}/#{log_file}.csv", 'a') { |csv| csv << [file_path] }
       else
         puts "### Failure! - #{entry.message} ###"
-        CSV.open("#{failure_logs_dir}/fail_#{log_file}.csv", 'a') { |csv| csv << [file_path, entry.message] }
+        CSV.open("#{config.failure_logs_dir}/fail_#{log_file}.csv", 'a') { |csv| csv << [file_path, entry.message] }
       end
     end
 
@@ -297,14 +273,9 @@ module Contentful
       FileUtils.mkdir_p(path) unless File.directory?(path)
     end
 
-    def create_file_with_import_time(path)
-      create_directory("#{data_dir}/logs")
-      File.open("#{data_dir}/logs/#{path}.json", 'w') { |file| file.write({}) }
-    end
-
     def create_log_file(path)
-      create_directory("#{data_dir}/logs")
-      File.open("#{data_dir}/logs/#{path}.csv", 'a') { |file| file.write('') }
+      create_directory("#{config.data_dir}/logs")
+      File.open("#{config.data_dir}/logs/#{path}.csv", 'a') { |file| file.write('') }
     end
 
   end

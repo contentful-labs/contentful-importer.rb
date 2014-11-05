@@ -11,7 +11,7 @@ require_relative 'modules/utils'
 module Contentful
   module Exporter
     module Database
-      class Export ##TODO CHANGE NAME
+      class Export
 
         include Contentful::Exporter::Database::DataExport
         include Contentful::Exporter::Database::JsonExport
@@ -20,50 +20,31 @@ module Contentful
 
         Sequel::Model.plugin :json_serializer
 
-        attr_reader :contentful_structure,
-                    :mapping,
-                    :config,
-                    :db,
-                    :data_dir,
-                    :collections_dir,
-                    :entries_dir,
-                    :assets_dir,
-                    :helpers_dir,
-                    :tables
+        attr_reader :config
 
         def initialize(settings)
           @config = settings
-          @data_dir = config['data_dir']
-          @collections_dir = "#{data_dir}/collections"
-          @entries_dir = "#{data_dir}/entries"
-          @assets_dir = "#{data_dir}/assets"
-          @helpers_dir = "#{data_dir}/helpers"
-
-          @contentful_structure = JSON.parse(File.read(config['contentful_structure_dir']), symbolize_names: true).with_indifferent_access
-          @mapping = JSON.parse(File.read(config['mapping_dir']), symbolize_names: true).with_indifferent_access
-          @tables = config['mapped']['tables']
-
-          @db = Sequel.connect(:adapter => config['adapter'], :user => config['user'], :host => config['host'], :database => config['database'], :password => config['password'])
         end
 
         def tables_name
-          create_directory(data_dir)
-          write_json_to_file("#{data_dir}/tables.json", db.tables)
+          create_directory(config.data_dir)
+          write_json_to_file("#{config.data_dir}/table_names.json", config.db.tables)
+          puts "File with name of tables saved to #{"#{config.data_dir}/table_names.json"}"
         end
 
         def export_data
-          contentful_structure.each do |content_type, values|
+          config.contentful_structure.each do |content_type, values|
             content_type_name = content_type_name(content_type)
-            create_directory(collections_dir)
+            create_directory(config.collections_dir)
             create_content_type_json_file(content_type_name, values)
           end
         end
 
         def save_data_as_json
-          tables.each do |table|
+          config.tables.each do |table|
             model_name = table.to_s.camelize
-            content_type_name = mapping[model_name][:content_type].underscore
-            save_object_to_file(table, content_type_name, model_name, asset?(model_name) ? assets_dir : entries_dir)
+            content_type_name = config.mapping[model_name][:content_type].underscore
+            save_object_to_file(table, content_type_name, model_name, asset?(model_name) ? config.assets_dir : config.entries_dir)
           end
         end
 

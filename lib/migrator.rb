@@ -1,16 +1,18 @@
 require_relative 'exporters/database/export'
 require_relative 'importer/data_organizer'
 require_relative 'importer/parallel_importer'
+require_relative 'configuration'
 require_relative 'converter'
 
 class Migrator
   attr_reader :importer, :exporter, :converter, :data_organizer
 
-  def initialize(settings, exporter = Contentful::Exporter::Database::Export.new(settings))
-    @exporter = exporter
-    @importer = Contentful::ParallelImporter.new(settings)
-    @converter = Contentful::Converter.new(settings)
-    @data_organizer = Contentful::DataOrganizer.new(settings)
+  def initialize(settings, exporter = nil)
+    @config = Contentful::Configuration.new(settings)
+    @exporter = exporter || Contentful::Exporter::Database::Export.new(@config)
+    @importer = Contentful::ParallelImporter.new(@config)
+    @converter = Contentful::Converter.new(@config)
+    @data_organizer = Contentful::DataOrganizer.new(@config)
   end
 
   def run(action, options = {})

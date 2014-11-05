@@ -4,12 +4,12 @@ module Contentful
       module JsonExport
 
         def asset?(model_name)
-          mapping[model_name] && mapping[model_name][:type] == :asset
+          config.mapping[model_name] && config.mapping[model_name][:type] == :asset
         end
 
         def save_object_to_file(table, content_type_name, model_name, type)
           create_directory("#{type}/#{content_type_name}")
-          db[table].all.each_with_index do |row, index|
+          config.db[table].all.each_with_index do |row, index|
             result = transform_row_into_hash(model_name, content_type_name, row, index)
             write_json_to_file("#{type}/#{content_type_name}/#{result[:id]}.json", result)
           end
@@ -32,11 +32,11 @@ module Contentful
         end
 
         def mapped_field_name(field_name, model_name)
-          has_mapping_for?(field_name, model_name) ? mapping[model_name][:fields][field_name] : field_name
+          has_mapping_for?(field_name, model_name) ? config.mapping[model_name][:fields][field_name] : field_name
         end
 
         def has_mapping_for?(field_name, model_name)
-          mapping[model_name] && mapping[model_name][:fields][field_name].present?
+          config. mapping[model_name] && config.mapping[model_name][:fields][field_name].present?
         end
 
       end

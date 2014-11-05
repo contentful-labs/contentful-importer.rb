@@ -5,18 +5,10 @@ require_relative 'parallel_importer'
 module Contentful
   class DataOrganizer
 
-    attr_reader :config,
-                :data_dir,
-                :collections_dir,
-                :entries_dir,
-                :threads_dir
+    attr_reader :config
 
     def initialize(settings)
       @config = settings
-      @data_dir = config['data_dir']
-      @collections_dir = "#{data_dir}/collections"
-      @entries_dir = "#{data_dir}/entries"
-      @threads_dir = "#{data_dir}/threads"
     end
 
     def execute(threads_count)
@@ -27,7 +19,7 @@ module Contentful
     def split_entries(threads_count)
       entries_per_thread_count = total_entries_count / threads_count
       current_thread, entry_index = 0, 0
-      Dir.glob("#{entries_dir}/*") do |dir_path|
+      Dir.glob("#{config.entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)
         if has_contentful_structure?(collection_name)
           content_type_id = content_type_id_from_file(collection_name)
@@ -49,11 +41,11 @@ module Contentful
     end
 
     def has_contentful_structure?(collection_file)
-      File.exist?("#{collections_dir}/#{collection_file}.json")
+      File.exist?("#{config.collections_dir}/#{collection_file}.json")
     end
 
     def content_type_id_from_file(collection_file)
-      JSON.parse(File.read("#{collections_dir}/#{collection_file}.json"))['id']
+      JSON.parse(File.read("#{config.collections_dir}/#{collection_file}.json"))['id']
     end
 
     def new_entry_name(content_type_id, entry_path)
@@ -61,17 +53,17 @@ module Contentful
     end
 
     def copy_entry(entry_path, current_thread, content_type_id)
-      FileUtils.cp entry_path, "#{threads_dir}/#{current_thread}/#{new_entry_name(content_type_id, entry_path)}"
+      FileUtils.cp entry_path, "#{config.threads_dir}/#{current_thread}/#{new_entry_name(content_type_id, entry_path)}"
     end
 
     def total_entries_count
-      Dir.glob("#{entries_dir}/**/*.json").count
+      Dir.glob("#{config.entries_dir}/**/*.json").count
     end
 
     def create_threads_subdirectories(threads_count)
-      create_directory(threads_dir)
+      create_directory(config.threads_dir)
       threads_count.times do |thread_id|
-        create_directory("#{threads_dir}/#{thread_id}")
+        create_directory("#{config.threads_dir}/#{thread_id}")
       end
     end
 

@@ -1,17 +1,15 @@
 module Contentful
   class Converter
 
-    attr_reader :config, :content_types, :import_form_dir
+    attr_reader :config
 
     def initialize(settings)
       @config = settings
-      @import_form_dir = config['import_form_dir']
-      @content_types = config['json_with_content_types']
     end
 
     def convert_to_import_form
-      File.open(import_form_dir, 'w') { |file| file.write({}) }
-      contentful_file = JSON.parse(File.read(content_types))['items']
+      File.open(config.import_form_dir, 'w') { |file| file.write({}) }
+      contentful_file = JSON.parse(File.read(config.content_types))['items']
       contentful_file.each do |content_type|
         parsed_content_type = {
             id: content_type['sys']['id'],
@@ -19,8 +17,8 @@ module Contentful
             displayField: content_type['displayField'],
             fields: {}.merge!(create_fields(content_type))
         }
-        import_form = JSON.parse(File.read(import_form_dir))
-        File.open(import_form_dir, 'w') { |file| file.write(JSON.pretty_generate(import_form.merge!(content_type['name'].titleize.gsub(' ','') => parsed_content_type))) }
+        import_form = JSON.parse(File.read(config.import_form_dir))
+        File.open(config.import_form_dir, 'w') { |file| file.write(JSON.pretty_generate(import_form.merge!(content_type['name'].titleize.gsub(' ','') => parsed_content_type))) }
       end
     end
 
