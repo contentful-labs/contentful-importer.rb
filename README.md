@@ -50,17 +50,27 @@ Export data from models to JSON files.
 
 Prepare JSON files to import form to Contentful platform.
 
-#### --import-content-types --count 5
+#### --import-content-types --space_id ARG --space_name ARG
 
-default value of count: 1
+To find an existing Space and import content type use command:
 
-contentful-importer --file settings.yml --import-content-types --count 5
+```
+contentful-importer --file settings.yml --import-content-types --space_id SPACE_ID
+```
+
+To create new Space and import content type use command:
+
+```
+contentful-importer --file settings.yml --import-content-types --space_name NAME
+```
 
 #### --import
-
-contentful-importer --file settings.yml --parallel-import --count 5
-
 Import data to Contentful.
+
+default value of count: 1 (number of threads)
+
+contentful-importer --file settings.yml --import --count 5
+
 
 #### --convert-json
 

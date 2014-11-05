@@ -14,6 +14,7 @@ class Migrator
   end
 
   def run(action, options = {})
+    puts options
     case action.to_s
       when '--export-json'
         exporter.export_data
@@ -21,7 +22,7 @@ class Migrator
       when '--prepare-json'
         exporter.create_data_relations
       when '--import-content-types'
-        importer.execute
+        importer.execute(options)
       when '--import'
         worker.execute(options[:count])
       when '--convert-json'

@@ -31,8 +31,8 @@ module Contentful
       Contentful::Management::Client.new(config['access_token'])
     end
 
-    def execute
-      create_space
+    def execute(space)
+      initialize_space(space)
       import_content_types
     end
 
@@ -47,10 +47,14 @@ module Contentful
 
     private
 
-    def create_space
-      puts 'Name for a new created space on Contentful:'
-      name_space = gets.strip
-      @space = Contentful::Management::Space.create(name: name_space, organization_id: config['organization_id'])
+    def initialize_space(space)
+      fail 'You need to specify \'--space_id\' argument to find an existing Space or \'--space_name\' to create a new Space.' if space.nil?
+      @space = space[:space_id].present? ? Contentful::Management::Space.find(space[:space_id]) : create_space(space[:space_name])
+    end
+
+    def create_space(name_space)
+      puts "Creating a space with name: #{name_space}"
+      Contentful::Management::Space.create(name: name_space, organization_id: config['organization_id'])
     end
 
     def import_content_types
