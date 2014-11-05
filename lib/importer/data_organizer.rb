@@ -26,8 +26,7 @@ module Contentful
 
     def split_entries(threads_count)
       entries_per_thread_count = total_entries_count / threads_count
-      current_thread, entry_index = 0
-
+      current_thread, entry_index = 0, 0
       Dir.glob("#{entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)
         if has_contentful_structure?(collection_name)

@@ -1,4 +1,4 @@
-require_relative '../mime_content_type'
+require_relative 'mime_content_type'
 require 'contentful/management'
 require 'csv'
 require 'yaml'
@@ -40,8 +40,8 @@ module Contentful
       import_content_types
     end
 
-    def import_data(threads_count)
-      import_in_threads(threads_count)
+    def import_data
+      import_in_threads
     end
 
     def test_credentials
@@ -53,13 +53,13 @@ module Contentful
       puts 'Contentful Management API credentials: INVALID (check README)'
     end
 
-    private
 
-    def import_in_threads(threads_count)
+    def import_in_threads
+      threads_count = Dir.glob("#{threads_dir}/*").count
       threads = []
       threads_count.times do |thread_id|
         threads << Thread.new do
-          self.new(config).import_entries("#{threads_dir}/#{thread_id}", space_id)
+          self.class.new(config).import_entries("#{threads_dir}/#{thread_id}", space_id)
         end
       end
       threads.each do |thread|
@@ -77,6 +77,8 @@ module Contentful
         import_entry(entry_path, space_id, content_type_id, log_file_name) unless imported_entries.flatten.include?(entry_path)
       end
     end
+
+    private
 
     def initialize_space(space)
       fail 'You need to specify \'--space_id\' argument to find an existing Space or \'--space_name\' to create a new Space.' if space.nil?

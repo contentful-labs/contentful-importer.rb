@@ -38,6 +38,10 @@ contentful-importer --file=credentials.yml  --action
 ```
 
 ## Actions
+To display all actions in console, use command:
+```
+contentful-importer -h
+```
 #### --list-tables
 
 List and save to JSON file all tables name from database. Path: ``` data_dir/tables.json```

@@ -4,20 +4,31 @@ require 'escort'
 require_relative '../lib/cli'
 
 Escort::App.create do |app|
+  app.summary 'Executable file of Generic-importer Gem'
+
   app.options do |opts|
     opts.opt :file, 'file', :short => '-f', :long => '--file', :type => :string
 
     app.command '--export-json' do |command|
+      command.summary 'Query data from Database'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--convert-json' do |command|
+      command.summary 'Convert dump file from Contentful model to import form. Check README'
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute
       end
     end
     app.command '--prepare-json' do |command|
+      command.summary 'Prepare JSON files to Import'
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute
       end
     end
     app.command '--organize-files' do |command|
+      command.summary 'Organize file structure to import. Assign files to separate Threads'
       command.options do |opts|
         opts.opt :count, 'count', :short => '-c', :long => '--count', :type => :integer, default: 1
       end
@@ -26,6 +37,7 @@ Escort::App.create do |app|
       end
     end
     app.command '--import-content-types' do |command|
+      command.summary 'Find an existing Space or create new one. Import content types to Contentful platform'
       command.requires_arguments false
       command.options do |opts|
         opts.opt :space_id, 'space_id', :short => '-s', :long => '--space_id', :type => :string
@@ -35,25 +47,20 @@ Escort::App.create do |app|
         Command::CLI.new(options, arguments).execute
       end
     end
-    app.command '--convert-json' do |command|
-      command.action do |options, arguments|
-        Command::CLI.new(options, arguments).execute
-      end
-    end
-    app.command '--test-credentials' do |command|
+    app.command '--import' do |command|
+      command.summary 'Import entries to Contentful platform'
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute
       end
     end
     app.command '--list-tables' do |command|
+      command.summary 'List all names of tables from Database and save them to JSON file. Check README'
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute
       end
     end
-    app.command '--import' do |command|
-      command.options do |opts|
-        opts.opt :count, 'count', :short => '-c', :long => '--count', :type => :integer, default: 1
-      end
+    app.command '--test-credentials' do |command|
+      command.summary 'Check your Contentful-management credentials'
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute
       end

@@ -4,11 +4,10 @@ data_dir: /tmp/data
 ########## IMPORT DATA TO CONTENTFUL ##########
 
 #Contentful credentials
-access_token: <ACCESS_TOKEN>
-organization_id: <ORGANIZATION_ID>
+#access_token: <ACCESS_TOKEN>
+#organization_id: <ORGANIZATION_ID>
 
-
-space_id: FILL_AFTER_IMPORT_CONTENT_TYPES
+space_id: wlqupchdm2mg
 
 ########## EXPORT DATA ##########
 
