@@ -17,6 +17,14 @@ Escort::App.create do |app|
         Command::CLI.new(options, arguments).execute
       end
     end
+    app.command '--organize-files' do |command|
+      command.options do |opts|
+        opts.opt :count, 'count', :short => '-c', :long => '--count', :type => :integer, default: 1
+      end
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
     app.command '--import-content-types' do |command|
       command.requires_arguments false
       command.options do |opts|

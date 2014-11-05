@@ -7,6 +7,7 @@ module Contentful
   class ParallelImporter
 
     attr_reader :space,
+                :space_id,
                 :config,
                 :data_dir,
                 :collections_dir,
@@ -15,6 +16,7 @@ module Contentful
                 :time_logs_dir,
                 :success_logs_dir,
                 :failure_logs_dir,
+                :threads_dir,
                 :imported_entries
 
     def initialize(settings)
@@ -26,14 +28,20 @@ module Contentful
       @time_logs_dir = "#{data_dir}/logs/time.json"
       @success_logs_dir = "#{data_dir}/logs"
       @failure_logs_dir = "#{data_dir}/logs"
+      @threads_dir = "#{data_dir}/threads"
       @imported_entries = []
+      @space_id = config['space_id']
 
       Contentful::Management::Client.new(config['access_token'])
     end
 
-    def execute(space)
+    def create_contentful_model(space)
       initialize_space(space)
       import_content_types
+    end
+
+    def import_data(threads_count)
+      import_in_threads(threads_count)
     end
 
     def test_credentials
@@ -46,6 +54,29 @@ module Contentful
     end
 
     private
+
+    def import_in_threads(threads_count)
+      threads = []
+      threads_count.times do |thread_id|
+        threads << Thread.new do
+          self.new(config).import_entries("#{threads_dir}/#{thread_id}", space_id)
+        end
+      end
+      threads.each do |thread|
+        thread.join
+      end
+    end
+
+    def import_entries(path, space_id)
+      log_file_name = "success_thread_#{File.basename(path)}"
+      create_log_file(log_file_name)
+      imported_entries << CSV.read("#{success_logs_dir}/#{log_file_name}.csv", 'r').flatten
+      Dir.glob("#{path}/*.json") do |entry_path|
+        content_type_id = File.basename(entry_path).match(/(\D+[a-zA-Z])/)[0]
+        puts "Importing entry for #{content_type_id}."
+        import_entry(entry_path, space_id, content_type_id, log_file_name) unless imported_entries.flatten.include?(entry_path)
+      end
+    end
 
     def initialize_space(space)
       fail 'You need to specify \'--space_id\' argument to find an existing Space or \'--space_name\' to create a new Space.' if space.nil?
@@ -66,17 +97,6 @@ module Contentful
         add_content_type_id_to_file(collection_attributes, content_type.id, content_type.space.id, file_path)
         content_type.update(displayField: collection_attributes['displayField']) if collection_attributes['displayField']
         active_status(content_type.activate)
-      end
-    end
-
-    def import_entries(path, space_id)
-      log_file_name = "success_thread_#{File.basename(path)}"
-      create_log_file(log_file_name)
-      imported_entries << CSV.read("#{success_logs_dir}/#{log_file_name}.csv", 'r').flatten
-      Dir.glob("#{path}/*.json") do |entry_path|
-        content_type_id = File.basename(entry_path).match(/(\D+[a-zA-Z])/)[0]
-        puts "Importing entry for #{content_type_id}."
-        import_entry(entry_path, space_id, content_type_id, log_file_name) unless imported_entries.flatten.include?(entry_path)
       end
     end
 
