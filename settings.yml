@@ -1,21 +1,23 @@
 #PATH to all data
-data_dir:
+data_dir: /tmp/data
 
 ########## IMPORT DATA TO CONTENTFUL ##########
 
 #Contentful credentials
-access_token: <ACCESS_TOKEN>
-organization_id: <ORGANIZATION_ID>
+#access_token: <ACCESS_TOKEN>
+#organization_id: <ORGANIZATION_ID>
 
+space_id: wlqupchdm2mg
 
 ########## EXPORT DATA ##########
 
 #Connecting to a database
-adapter: postgres
+adapter: mysql2
 host: localhost
-database: job_adder_development
-user: postgres
-password: postgres
+#database: recipes_wildeisen_ch
+database: recipes
+user: root
+password:
 
 # adapter: mysql2, postgres,sqlite
 # user: username
@@ -25,12 +27,12 @@ password: postgres
 
 mapped:
  tables:
-  - :job_adds
-  - :skills
-  - :job_add_skills
-  - :comments
-  - :users
-  - :profiles
+  - :user_wildeisen_alergic_info
+  - :user_wildeisen_ingredient
+  - :user_wildeisen_recipe
+  - :user_wildeisen_recipe_to_alergic_info
+  - :user_wildeisen_recipe_to_ingredient
+  - :user_wildeisen_unit
 
 ## MAPPING ##
 

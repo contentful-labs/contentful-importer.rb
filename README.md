@@ -38,6 +38,10 @@ contentful-importer --file=credentials.yml  --action
 ```
 
 ## Actions
+To display all actions in console, use command:
+```
+contentful-importer -h
+```
 #### --list-tables
 
 List and save to JSON file all tables name from database. Path: ``` data_dir/tables.json```
@@ -50,9 +54,27 @@ Export data from models to JSON files.
 
 Prepare JSON files to import form to Contentful platform.
 
-#### --import
+#### --import-content-types --space_id ARG --space_name ARG
 
+To find an existing Space and import content type use command:
+
+```
+contentful-importer --file settings.yml --import-content-types --space_id SPACE_ID
+```
+
+To create new Space and import content type use command:
+
+```
+contentful-importer --file settings.yml --import-content-types --space_name NAME
+```
+
+#### --import
 Import data to Contentful.
+
+default value of count: 1 (number of threads)
+
+contentful-importer --file settings.yml --import --count 5
+
 
 #### --convert-json
 

@@ -1,77 +1,87 @@
 {
-    "JobAdds": {
-        "content_type": "JobAdds",
+    "UserWildeisenUnit": {
+        "content_type": "Unit",
         "type": "entry",
         "fields": {
-            "title": "name",
-            "description": "specification"
         },
         "links": {
-            "many": [
-                {
-                    "relation_to": "Comments",
-                    "primary_id": "job_add_id"
-                }
-            ],
+        }
+    },
+    "UserWildeisenAlergicInfo": {
+        "content_type": "AlergicInfo",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenIngredient": {
+        "content_type": "Ingredient",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+            "belongs_to": [
+                "UserWildeisenUnit"
+            ]
+        }
+    },
+    "UserWildeisenRecipe": {
+        "content_type": "Recipe",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
             "many_through": [
                 {
-                    "relation_to": "Skills",
-                    "primary_id": "job_add_id",
-                    "foreign_id": "skill_id",
-                    "through": "JobAddSkills"
+                    "relation_to": "UserWildeisenAlergicInfo",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "alergic_info_id",
+                    "through": "UserWildeisenRecipeToAlergicInfo"
+                }
+            ],
+            "many": [
+                {
+                    "primary_id": "recipe_id",
+                    "relation_to": "UserWildeisenRecipeToIngredient"
+                }
+            ],
+            "aggregate_through": [
+                {
+                    "relation_to": "UserWildeisenAlergicInfo",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "alergic_info_id",
+                    "through": "UserWildeisenRecipeToAlergicInfo",
+                    "field": "name"
+                }
+            ],
+            "aggregate_many": [
+                {
+                    "primary_id": "recipe_id",
+                    "relation_to": "UserWildeisenRecipeToIngredient",
+                    "field": "amount"
                 }
             ]
         }
     },
-    "Comments": {
-        "content_type": "Comments",
-        "type": "entry",
-        "fields": {
-            "title": "title",
-            "body": "content"
-        },
-        "links": {
-            "belongs_to": ["JobAdds"]
-        }
-    },
-    "Skills": {
-        "content_type": "Skills",
-        "type": "entry",
-        "fields": {
-            "name": "title"
-        },
-        "links": {
-        }
-    },
-    "JobAddSkills": {
-        "content_type": "JobAddSkills",
-        "fields": {
-        },
-        "links": {
-        }
-    },
-    "Profiles": {
-        "content_type": "Profiles",
+    "UserWildeisenRecipeToIngredient": {
+        "content_type": "RecipeIngredient",
         "type": "entry",
         "fields": {
         },
         "links": {
-            "belongs_to": ["Users"]
+            "belongs_to": [
+                "UserWildeisenRecipe",
+                "UserWildeisenIngredient",
+                "UserWildeisenUnit"
+            ]
         }
     },
-    "Users": {
-        "content_type": "Users",
-        "type": "entry",
+    "UserWildeisenRecipeToAlergicInfo": {
+        "content_type": "RecipeToAlergicInfo",
         "fields": {
-            "first_name": "name",
-            "last_name": "surname"
         },
         "links": {
-            "has_one": [
-                {
-                    "relation_to": "Profiles",
-                    "primary_id": "user_id"
-                }]
         }
     }
 }
