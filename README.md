@@ -32,8 +32,8 @@ The Contentful organization id can be found in your account settings.
 
 Once you installed the Gem and created the YAML file with the settings you can invoke the tool using:
 
-``` bash
-contentful-importer --file=settings.yml  [--action](https://github.com/contentful/generic-importer.rb#actions)
+```
+contentful-importer --file=settings.yml  --action
 ```
 
 ## Actions
@@ -57,11 +57,21 @@ Create import form JSON files with Content types
 
 #### --export-json
 
-In (settings.yml)[https://github.com/contentful/generic-importer.rb#setting-file] file, you can define table names, which data you want to export from database. The easiest way to get table names is to use the command [--list-tables](https://github.com/contentful/generic-importer.rb#--list-tables)
+In [settings.yml](https://github.com/contentful/generic-importer.rb#setting-file) file, you can define table names, which data you want to export from database. The easiest way to get table names is to use the command [--list-tables](https://github.com/contentful/generic-importer.rb#--list-tables)
 
 #### --prepare-json
 
 Prepare JSON files to import form to Contentful platform.
+
+#### --organize-files --thread
+
+Default value of thread: 1 (number of Threads, maximum value: 2)
+
+Organize file structure,split them depending on number of Threads.
+
+```
+contentful-importer --file settings.yml --organize-files --thread NUMBER
+```
 
 #### --import-content-types --space_id ARG --space_name ARG
 
@@ -80,9 +90,7 @@ contentful-importer --file settings.yml --import-content-types --space_name NAME
 #### --import
 Import data to Contentful.
 
-default value of count: 1 (number of Threads)
-
-```contentful-importer --file settings.yml --import --count 5```
+```contentful-importer --file settings.yml --import```
 
 #### --convert-json
 
@@ -342,7 +350,7 @@ import_form_dir: contentful_import_files/contentful_structure.json
 
 ### Import
 Before you start import data, read [how to use it](https://github.com/contentful/generic-importer.rb#usage).
-When you specify credentials, you can (test them)[https://github.com/contentful/generic-importer.rb#--test-credentials].
+When you specify credentials, you can [test them](https://github.com/contentful/generic-importer.rb#--test-credentials).
 
 After you [import content types](https://github.com/contentful/generic-importer.rb#--import-content-types---space_id-arg---space_name-arg) to Space, you need to specify ```space_id``` parameter.
 

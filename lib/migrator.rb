@@ -24,7 +24,7 @@ class Migrator
       when '--prepare-json'
         exporter.create_data_relations
       when '--organize-files'
-        data_organizer.execute(options[:count])
+        data_organizer.execute(options[:thread])
       when '--import-content-types'
         importer.create_contentful_model(options)
       when '--import'

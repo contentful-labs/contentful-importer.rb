@@ -35,7 +35,8 @@ Escort::App.create do |app|
     app.command '--organize-files' do |command|
       command.summary 'Organize file structure to import. Assign files to separate Threads'
       command.options do |opts|
-        opts.opt :count, 'count', :short => '-c', :long => '--count', :type => :integer, default: 1
+        opts.opt :thread, 'thread', :short => '-c', :long => '--thread', :type => :integer, default: 1
+        opts.validate(:thread, 'argument must be set to 1 or 2 exclusive. ') { |option| option > 0 && option <= 2 }
       end
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute

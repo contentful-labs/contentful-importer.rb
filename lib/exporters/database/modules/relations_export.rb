@@ -91,7 +91,7 @@ module Contentful
         end
 
         def map_belongs_to_association(model_name, linked_model, entry, entry_path)
-          ct_link_type = contentful_field_attribute(model_name, linked_model, :link_type)
+          ct_link_type = contentful_field_attribute(model_name, linked_model, :type)
           ct_field_id = contentful_field_attribute(model_name, linked_model, :id)
           save_belongs_to_entries(linked_model, ct_link_type, ct_field_id, entry, entry_path)
         end

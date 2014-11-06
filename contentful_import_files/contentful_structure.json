@@ -1,6 +1,7 @@
 {
     "Ingredient": {
         "id": "ingredient",
+        "name":"Ingredient",
         "description": "Collection of ingredients",
         "displayField": "name",
         "fields": {
@@ -16,6 +17,7 @@
     },
     "Recipe": {
         "id": "recipe",
+        "name":"Recipe",
         "displayField": "name",
         "fields": {
             "random": "Number",
@@ -43,6 +45,7 @@
     },
     "Unit": {
         "id": "unit",
+        "name":"Unit",
         "fields": {
             "name": "Text",
             "description": "Text",
@@ -52,6 +55,7 @@
     },
     "RecipeIngredient": {
         "id": "recipe_ingredient",
+        "name":"RecipeIngredient",
         "fields": {
             "is_main_ingredient": "Integer",
             "subtitle": "Text",
@@ -75,6 +79,7 @@
     },
     "AlergicInfo": {
         "id": "alergic_info",
+        "name":" Alergic Info",
         "fields": {
             "name": "Text",
             "sequence": "Integer"

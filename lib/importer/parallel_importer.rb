@@ -2,12 +2,14 @@ require_relative 'mime_content_type'
 require 'contentful/management'
 require 'csv'
 require 'yaml'
+require 'api_cache'
 
 module Contentful
   class ParallelImporter
 
     attr_reader :space,
                 :config
+    attr_accessor :content_type
 
     def initialize(settings)
       @config = settings
@@ -113,7 +115,8 @@ module Contentful
       entry_id = File.basename(file_path, '.json')
       puts "Creating entry: #{entry_id}."
       entry_params = create_entry_parameters(content_type_id, entry_attributes, space_id)
-      entry = content_type(content_type_id, space_id).entries.create(entry_params.merge(id: entry_id))
+      content_type = content_type(content_type_id, space_id)
+      entry = content_type.entries.create(entry_params.merge(id: entry_id))
       import_status(entry, file_path, log_file)
     end
 
@@ -169,7 +172,9 @@ module Contentful
     end
 
     def content_type(content_type_id, space_id)
-      Contentful::Management::ContentType.find(space_id, content_type_id)
+      @content_type = APICache.get("content_type_#{content_type_id}") do
+        Contentful::Management::ContentType.find(space_id, content_type_id)
+      end
     end
 
     def add_content_type_id_to_file(collection, content_type_id, space_id, file_path)
@@ -178,7 +183,7 @@ module Contentful
 
     def create_entry(params, space_id, content_type_id)
       entry_id = get_id(params)
-      content_type = Contentful::Management::ContentType.find(space_id, content_type_id)
+      content_type = content_type(content_type_id,space_id)
       content_type.entries.new.tap do |entry|
         entry.id = entry_id
       end
