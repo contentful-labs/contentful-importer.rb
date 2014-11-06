@@ -32,7 +32,7 @@ module Contentful
           puts "File with name of tables saved to #{"#{config.data_dir}/table_names.json"}"
         end
 
-        def export_data
+        def create_content_type_json
           config.contentful_structure.each do |content_type, values|
             content_type_name = content_type_name(content_type)
             create_directory(config.collections_dir)

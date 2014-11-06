@@ -17,8 +17,9 @@ class Migrator
 
   def run(action, options = {})
     case action.to_s
+      when '--content-types-json'
+        exporter.create_content_type_json
       when '--export-json'
-        exporter.export_data
         exporter.save_data_as_json
       when '--prepare-json'
         exporter.create_data_relations

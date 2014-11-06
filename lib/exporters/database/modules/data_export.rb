@@ -14,8 +14,8 @@ module Contentful
         def create_content_type_json_file(content_type_name, values)
           collection = {
               id: values[:id],
-              entry_type: content_type_name,
-              note: values[:note],
+              name: values[:name],
+              description: values[:description],
               displayField: values[:displayField],
               fields: create_fields(values[:fields])
           }
@@ -25,12 +25,29 @@ module Contentful
         def create_fields(fields)
           fields.each_with_object([]) do |(field, value), results|
             results << {
-                name: value.is_a?(Hash) ? value[:id] : field.capitalize,
-                identifier: value.is_a?(Hash) ? value[:id] : field,
-                input_type: value.is_a?(Hash) ? value[:link_type] : value,
-                link_type: value.is_a?(Hash) ? value[:type] : nil
+                name: create_field(field, value).capitalize,
+                id: create_field(field, value),
+                type: create_type_field(value),
+                link_type: create_link_type_field(value),
+                link: create_link_field(value)
             }.compact
           end
+        end
+
+        def create_field(field, value)
+          value.is_a?(Hash) ? value[:id] : field
+        end
+
+        def create_link_type_field(value)
+          value.is_a?(Hash) ? value[:link_type] : nil
+        end
+
+        def create_type_field(value)
+          value.is_a?(Hash) ? value[:type] : value
+        end
+
+        def create_link_field(value)
+          value.is_a?(Hash) ? value[:link] : nil
         end
 
       end

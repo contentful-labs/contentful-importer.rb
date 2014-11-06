@@ -1,7 +1,7 @@
 {
     "Ingredient": {
         "id": "ingredient",
-        "note": "Collection of ingredients",
+        "description": "Collection of ingredients",
         "displayField": "name",
         "fields": {
             "name": "Text",
@@ -10,7 +10,7 @@
             "active": "Boolean",
             "Unit": {
                 "id": "unit",
-                "link_type": "Entry"
+                "type": "Entry"
             }
         }
     },
@@ -31,13 +31,13 @@
             "date_stop": "Date",
             "RecipeIngredient": {
                 "id": "recipe_ingredients",
-                "link_type": "Array",
-                "type": "Entry"
+                "type": "Array",
+                "link_type": "Entry"
             },
             "AlergicInfo": {
                 "id": "alergic_names",
                 "type": "Array",
-                "link_type": "Symbol"
+                "link": "Symbol"
             }
         }
     },
@@ -61,15 +61,15 @@
             "old_pre_postfix": "Text",
             "Unit": {
                 "id": "unit",
-                "link_type": "Entry"
+                "type": "Entry"
             },
             "Recipe": {
                 "id": "recipe",
-                "link_type": "Entry"
+                "type": "Entry"
             },
             "Ingredient": {
                 "id": "ingredient",
-                "link_type": "Entry"
+                "type": "Entry"
             }
         }
     },

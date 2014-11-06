@@ -3,10 +3,12 @@ module Contentful
     module Database
       module RelationsExport
 
+        RELATIONS = [:many, :many_through, :aggregate_many, :aggregate_through, :has_one]
+
         def generate_relations_helper_indexes(relations)
           create_directory(config.helpers_dir)
           relations.each do |relation_type, linked_models|
-            save_relation_foreign_keys(relation_type, linked_models) if [:many, :many_through, :aggregate_many, :aggregate_through, :has_one].include?(relation_type.to_sym)
+            save_relation_foreign_keys(relation_type, linked_models) if RELATIONS.include?(relation_type.to_sym)
           end
         end
 

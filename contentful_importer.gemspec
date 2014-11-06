@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'http', '~> 0.6'
   spec.add_dependency 'multi_json', '~> 1'
-  spec.add_dependency 'contentful-management', '~> 0.2'
+  spec.add_dependency 'contentful-management', '~> 0.3.1'
   spec.add_dependency 'sequel','~> 4.15'
   spec.add_dependency 'mysql2','~> 0.3'
   spec.add_dependency 'activesupport','~> 4.1'

@@ -51,6 +51,10 @@ Specify path, where the should be saved, you can do that in **settings.yml*** fi
 ```
 Path to **table_names.json**: __data_dir/table_names.json__
 
+#### --content-types-json
+
+Create import form JSON files with Content types
+
 #### --export-json
 
 In (settings.yml)[https://github.com/contentful/generic-importer.rb#setting-file] file, you can define table names, which data you want to export from database. The easiest way to get table names is to use the command [--list-tables](https://github.com/contentful/generic-importer.rb#--list-tables)

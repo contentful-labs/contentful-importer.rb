@@ -163,8 +163,8 @@ module Contentful
         puts 'Imported successfully!'
         CSV.open("#{config.success_logs_dir}/#{log_file}.csv", 'a') { |csv| csv << [file_path] }
       else
-        puts "### Failure! - #{entry.message} ###"
-        CSV.open("#{config.failure_logs_dir}/fail_#{log_file}.csv", 'a') { |csv| csv << [file_path, entry.message] }
+        puts "### Failure! - #{entry.message}  - #{entry.response.raw}###"
+        CSV.open("#{config.failure_logs_dir}/fail_#{log_file}.csv", 'a') { |csv| csv << [file_path, entry.message, entry.response.raw] }
       end
     end
 
@@ -202,7 +202,7 @@ module Contentful
     end
 
     def create_field(field)
-      field_params = {id: field['identifier'], name: field['name'], required: field['required']}
+      field_params = {id: field['id'], name: field['name'], required: field['required']}
       field_params.merge!(additional_field_params(field))
       puts "Creating field: #{field_params[:type]}"
       create_content_type_field(field_params)
@@ -228,7 +228,7 @@ module Contentful
     end
 
     def additional_field_params(field)
-      field_type = field['input_type']
+      field_type = field['type']
       if field_type == 'Entry' || field_type == 'Asset'
         {type: 'Link', link_type: field_type}
       elsif field_type == 'Array'
@@ -249,8 +249,8 @@ module Contentful
     def create_new_content_type(space, collection_attributes)
       space.content_types.new.tap do |content_type|
         content_type.id = collection_attributes['id']
-        content_type.name = collection_attributes['entry_type']
-        content_type.description = collection_attributes['note']
+        content_type.name = collection_attributes['name']
+        content_type.description = collection_attributes['description']
       end
     end
 

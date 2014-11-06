@@ -4,10 +4,10 @@ data_dir: /tmp/data
 ########## IMPORT DATA TO CONTENTFUL ##########
 
 #Contentful credentials
-access_token: <ACCESS_TOKEN>
-organization_id: <ORGANIZATION_ID>
+access_token:
+organization_id:
 
-space_id: 36ochuqffqcb
+space_id:
 
 ########## EXPORT DATA ##########
 
@@ -38,8 +38,9 @@ mapped:
 
 mapping_dir: contentful_import_files/mapping.json
 
-contentful_structure_dir: contentful_import_files/contentful_structure.json
+contentful_structure_dir:
 
+## CONVERT
 json_with_content_types: contentful_import_files/contentful_model.json
-
 import_form_dir: contentful_import_files/contentful_structure.json
+
