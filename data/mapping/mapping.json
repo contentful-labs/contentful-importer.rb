@@ -1,0 +1,565 @@
+{
+    "UserWildeisenRecipeOfDay": {
+        "content_type": "Rezepte des Tages",
+        "type": "entry",
+        "fields": {
+            "date": "recipe_of_day"
+        },
+        "links": {
+            "belongs_to": [
+                {
+                    "relation_to": "UserWildeisenRecipe",
+                    "foreign_id": "recipe_id"
+                }
+            ]
+        }
+    },
+    "UserWildeisenProductGroup": {
+        "content_type": "Produktgruppe",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenProduct": {
+        "content_type": "Produkt",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+            "belongs_to": [
+                {
+                    "relation_to": "UserWildeisenImage",
+                    "foreign_id": "image_id"
+                }
+            ],
+            "many_through": [
+                {
+                    "relation_to": "UserWildeisenProductGroup",
+                    "primary_id": "product_id",
+                    "foreign_id": "product_group_id",
+                    "through": "UserWildeisenProductToProductGroup"
+                },
+                {
+                    "relation_to": "UserWildeisenProductVendor",
+                    "primary_id": "product_id",
+                    "foreign_id": "product_vendor_id",
+                    "through": "UserWildeisenProductToProductVendor"
+                }
+            ]
+        }
+    },
+    "UserWildeisenProductToProductGroup": {
+        "content_type": "ProductToProductGroup",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenUnit": {
+        "content_type": "Mengeneinheit",
+        "type": "entry",
+        "fields": {
+            "description": "name",
+            "name": "abbreviation"
+
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenRecipeToIngredient": {
+        "content_type": "Zutatenangabe",
+        "type": "entry",
+        "fields": {
+            "subtitle": "name",
+            "info": "additional_info",
+            "is_main_ingredient": "main_ingredient"
+        },
+        "links": {
+            "belongs_to": [
+                {
+                    "relation_to": "UserWildeisenIngredient",
+                    "foreign_id": "ingredient_id"
+                },
+                {
+                    "relation_to": "UserWildeisenUnit",
+                    "foreign_id": "unit_id"
+                }
+            ]
+//            aggregate postfix
+        }
+    },
+    "UserWildeisenSujet": {
+        "content_type": "Kampagnen Sujets",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+            "belongs_to": [
+                {
+                    "relation_to": "UserWildeisenProductVendor",
+                    "foreign_id": "product_vendor_id"
+                },
+                {
+                    "relation_to": "UserWildeisenImage",
+                    "foreign_id": "image_id"
+                }
+            ]
+        }
+    },
+    "UserWildeisenProductVendor": {
+        "content_type": "Kampagnen Händler",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenCampaign": {
+        "content_type": "Kampagne",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+            "belongs_to": [
+                {
+                    "relation_to": "UserWildeisenCampaignType",
+                    "foreign_id": "campaign_type_id"
+                },
+                {
+                    "relation_to": "UserWildeisenCampaignAppearance",
+                    "foreign_id": "campaign_appearance_id"
+                }
+            ],
+            "many_through": [
+                {
+                    "relation_to": "UserWildeisenSujet",
+                    "primary_id": "campaign_id",
+                    "foreign_id": "sujet_id",
+                    "through": "UserWildeisenCampaignToSujet"
+                }
+            ]
+        }
+    },
+    "UserWildeisenCampaignToSujet": {
+        "content_type": "Kampagnen Sujet",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenCampaignType": {
+        "content_type": "Kampagnen-Typ",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenCampaignAppearance": {
+        "content_type": "Kampagnen Werbeplatz",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenOccasion": {
+        "content_type": "Anlass",
+        "type": "entry",
+        "fields": {
+            "name": "slug"
+        },
+        "links": {
+        },
+        "format": {
+            "slug": "for_tests"
+        }
+    },
+    "UserWildeisenAlergicInfo": {
+        "content_type": "Diät",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenSlideshow": {
+        "content_type": "Bilderstrecke",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+//aggregate name recipe_ id (text) belongs_to
+        }
+    },
+    "UserWildeisenRecipe": {
+        "content_type": "Rezept",
+        "type": "entry",
+        "fields": {
+            "duration": "total_time"
+        },
+        "links": {
+            "many_through": [
+                {
+                    "relation_to": "UserWildeisenAlergicInfo",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "alergic_info_id",
+                    "through": "UserWildeisenRecipeToAlergicInfo"
+                },
+                {
+                    "relation_to": "UserWildeisenImage",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "image_id",
+                    "through": "UserWildeisenRecipeToImage"
+                },
+                {
+                    "relation_to": "UserWildeisenIngredient",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "ingredient_id",
+                    "through": "UserWildeisenRecipeToIngredient"
+                },
+//                {
+//                    "relation_to": "UserWildeisenPreparationForm",  obadac
+//                    "primary_id": "recipe_id",
+//                    "foreign_id": "preparation_form_id",
+//                    "through": "UserWildeisenRecipeToPreparationForm"
+//                },
+                {
+                    "relation_to": "UserWildeisenBake",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "bake_id",
+                    "through": "UserWildeisenRecipeToPreparationForm"
+                },
+                {
+                    "relation_to": "UserWildeisenOccasion",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "occasion_id",
+                    "through": "UserWildeisenRecipeToOccasion"
+                },
+                {
+                    "relation_to": "UserWildeisenPreparationWay",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "preparation_way_id",
+                    "through": "UserWildeisenRecipeToPreparationWay"
+                },
+                {
+                    "relation_to": "UserWildeisenNutrientContent",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "nutrient_content_id",
+                    "through": "UserWildeisenRecipeToNutrientContent"
+                },
+                {
+                    "relation_to": "UserWildeisenCuisine",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "cuisine_id",
+                    "through": "UserWildeisenRecipeToCuisine"
+                },
+                {
+                    "relation_to": "UserWildeisenIssue",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "issue_id",
+                    "through": "UserWildeisenRecipeToIssue"
+                },
+                {
+                    "relation_to": "UserWildeisenRecipeCategory",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "recipe_category_id",
+                    "through": "UserWildeisenRecipeToRecipeCategory"
+                }
+            ],
+            "many": [
+                {
+                    "primary_id": "recipe_id",
+                    "relation_to": "UserWildeisenRelatedRecipe"
+                }
+            ]
+        }
+    },
+    "UserWildeisenCuisine": {
+        "content_type": "Länderküche",
+        "type": "entry",
+        "fields": {
+            "name": "slug"
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenRecipeToAlergicInfo": {
+        "content_type": "RecipeToAlergicInfo",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenRecipeCategory": {
+        "content_type": "Rezept Kategorie",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenImage": {
+        "content_type": "Bild",
+        "type": "asset",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenRecipeToImage": {
+        "content_type": "RecipeToImage",
+        "type": "asset",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenBake": {
+        "content_type": "Speise",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+            "many_through": [
+                {
+                    "relation_to": "UserWildeisenProduct",
+                    "primary_id": "bake_id",
+                    "foreign_id": "product_id",
+                    "through": "UserWildeisenBakeToProduct"
+                }
+            ]
+        }
+    },
+    "UserWildeisenIngredient": {
+        "content_type": "Zutat",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+            "many_through": [
+                {
+                    "relation_to": "UserWildeisenIngredientCategory",
+                    "primary_id": "ingredient_id",
+                    "foreign_id": "ingredient_category_id",
+                    "through": "UserWildeisenIngredientToIngredientCategory"
+                }
+            ]
+        }
+    },
+    "UserWildeisenIngredientCategory": {
+        "content_type": "Lebensmittel Kategorie",
+        "type": "entry",
+        "fields": {
+            "name": "slug"
+        },
+        "links": {
+            "many_through": [
+                {
+                    "relation_to": "UserWildeisenProduct",
+                    "primary_id": "ingredient_category_id",
+                    "foreign_id": "product_id",
+                    "through": "UserWildeisenIngredientCategoryToProduct"
+                }
+            ]
+        }
+    },
+    "UserWildeisenIngredientCategoryToProduct": {
+        "content_type": "IngredientCategoryToProduct",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenBakeToProduct": {
+        "content_type": "Werbeprodukte",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenIngredientPostfix": {
+        "content_type": "PreparationPostfix",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenIngredientToIngredientCategory": {
+        "content_type": "Kategorien",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenIssue": {
+        "content_type": "Magazin Ausgabe",
+        "type": "entry",
+        "fields": {
+            "date": "publish_date",
+            "isdoublenumber": "double_issue"
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenNutrientContent": {
+        "content_type": "Nährwert Kategorie",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+            "belongs_to": [
+                {
+                    "relation_to": "UserWildeisenUnit",
+                    "foreign_id": "unit_id"
+                }
+            ]
+        }
+    },
+    "UserWildeisenPreparationForm": {
+        "content_type": "Nährwert Kategorie",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenPreparationWay": {
+        "content_type": "Zubereitungsmethode",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenRecipeToBake": {
+        "content_type": "Zubereitungsmethode",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenRecipeToCuisine": {
+        "content_type": "LänderkücheToRezept",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenRelatedRecipe": {
+        "content_type": "Ahnliche rezepte",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenProductToProductVendor": {
+        "content_type": "ProductToProductVendor",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenRecipeToIssue": {
+        "content_type": "Rezept Ausgabe",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+            "many_through": [
+                {
+                    "relation_to": "UserWildeisenIssue",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "issue_id",
+                    "through": "UserWildeisenMagazineToIssue"
+                }
+            ]
+        }
+    },
+    "UserWildeisenRecipeToNutrientContent": {
+        "content_type": "Nährwert-Angabe",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+            "belongs_to": [
+                {
+                    "relation_to": "UserWildeisenNutrientContent",
+                    "foreign_id": "nutrient_content_id"
+                }
+            ]
+        }
+    },
+    "UserWildeisenRecipeToOccasion": {
+        "content_type": "RecipeToOccasion",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenRecipeToPreparationForm": {
+        "content_type": "RecipeToPreparationForm",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenRecipeToPreparationWay": {
+        "content_type": "RecipeToPreparationWay",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenRecipeToTag": {
+        "content_type": "RecipeToTag",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenMagazineToIssue": {
+        "content_type": "MagazineToIssue",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenRecipeToRecipeCategory": {
+        "content_type": "RecipeToRecipeCategory",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    }
+}
+
+//
+//    "UserWildeisenRecipe": {
+//        "content_type": "Autor",
+//        "type": "entry",
+//        "fields": {
+//        },
+//        "links": {
+//        }
+//    },
+
+
+

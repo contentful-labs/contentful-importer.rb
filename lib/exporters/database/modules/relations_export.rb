@@ -45,7 +45,7 @@ module Contentful
 
         def map_relations_to_links(model_name, relations)
           records = 0
-          Dir.glob("#{config.entries_dir}/#{model_content_type(model_name).underscore}/*json") do |entry_path|
+          Dir.glob("#{config.entries_dir}/#{model_content_type(model_name).underscore.tr(' ', '_')}/*json") do |entry_path|
             map_entry_relations(entry_path, model_name, relations, records)
             records += 1
           end
@@ -91,8 +91,8 @@ module Contentful
         end
 
         def map_belongs_to_association(model_name, linked_model, entry, entry_path)
-          ct_link_type = contentful_field_attribute(model_name, linked_model, :type)
-          ct_field_id = contentful_field_attribute(model_name, linked_model, :id)
+          ct_link_type = contentful_field_attribute(model_name, linked_model[:relation_to], :type)
+          ct_field_id = contentful_field_attribute(model_name, linked_model[:relation_to], :id)
           save_belongs_to_entries(linked_model, ct_link_type, ct_field_id, entry, entry_path)
         end
 
@@ -101,8 +101,8 @@ module Contentful
         end
 
         def save_belongs_to_entries(linked_model, ct_link_type, ct_field_id, entry, entry_path)
-          content_type = model_content_type(linked_model).underscore
-          foreign_id = content_type.singularize.foreign_key
+          content_type = model_content_type(linked_model[:relation_to]).underscore.tr(' ','_')
+          foreign_id = linked_model[:foreign_id]
           if entry[foreign_id].present?
             case ct_link_type
               when 'Asset'

@@ -1,0 +1,81 @@
+#PATH to all data
+data_dir: /tmp/data
+
+########## IMPORT DATA TO CONTENTFUL ##########
+
+#Contentful credentials
+access_token: e548877d1c317ee58e5710c793bd2d92419149b1e3c50d47755a19a5deadda00
+organization_id: 1EQPR5IHrPx94UY4AViTYO
+space_id: z22cf51s69i0
+
+########## EXPORT DATA ##########
+
+#Connecting to a database
+adapter: mysql2
+host: localhost
+#database: recipes_wildeisen_ch
+database: new_recipes
+user: root
+password:
+
+# adapter: mysql2, postgres,sqlite
+# user: username
+# host: localhost
+# database: database_name
+# password: root
+
+mapped:
+  tables:
+  - :user_wildeisen_image
+  - :user_wildeisen_alergic_info
+  - :user_wildeisen_bake
+  - :user_wildeisen_bake_to_product
+  - :user_wildeisen_campaign
+  - :user_wildeisen_campaign_appearance
+  - :user_wildeisen_campaign_to_sujet
+  - :user_wildeisen_campaign_type
+  - :user_wildeisen_cuisine
+  - :user_wildeisen_ingredient
+  - :user_wildeisen_ingredient_category
+  - :user_wildeisen_ingredient_category_to_product
+  - :user_wildeisen_ingredient_postfix
+  - :user_wildeisen_ingredient_to_ingredient_category
+  - :user_wildeisen_issue
+  - :user_wildeisen_nutrient_content
+  - :user_wildeisen_occasion
+  - :user_wildeisen_preparation_form
+  - :user_wildeisen_preparation_way
+  - :user_wildeisen_product
+  - :user_wildeisen_product_group
+  - :user_wildeisen_product_to_product_group
+  - :user_wildeisen_product_to_product_vendor
+  - :user_wildeisen_product_vendor
+  - :user_wildeisen_recipe
+  - :user_wildeisen_recipe_category
+  - :user_wildeisen_recipe_of_day
+  - :user_wildeisen_recipe_to_alergic_info
+  - :user_wildeisen_recipe_to_bake
+  - :user_wildeisen_recipe_to_cuisine
+  - :user_wildeisen_recipe_to_ingredient
+  - :user_wildeisen_recipe_to_issue
+  - :user_wildeisen_recipe_to_nutrient_content
+  - :user_wildeisen_recipe_to_occasion
+  - :user_wildeisen_recipe_to_preparation_form
+  - :user_wildeisen_recipe_to_preparation_way
+  - :user_wildeisen_recipe_to_recipe_category
+  - :user_wildeisen_recipe_to_tag
+  - :user_wildeisen_related_recipe
+  - :user_wildeisen_sujet
+  - :user_wildeisen_unit
+  - :user_wildeisen_magazine_to_issue
+
+## MAPPING ##
+
+mapping_dir: data/mapping/mapping.json
+
+contentful_structure_dir: data/mapping/contentful_structure.json
+
+## CONVERT
+json_with_content_types: data/mapping/contentful_model.json
+import_form_dir: data/mapping/contentful_structure.json
+

@@ -43,7 +43,7 @@ module Contentful
         def save_data_as_json
           config.tables.each do |table|
             model_name = table.to_s.camelize
-            content_type_name = config.mapping[model_name][:content_type].underscore
+            content_type_name = config.mapping[model_name][:content_type]
             save_object_to_file(table, content_type_name, model_name, asset?(model_name) ? config.assets_dir : config.entries_dir)
           end
         end
