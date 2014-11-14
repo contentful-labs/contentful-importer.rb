@@ -26,7 +26,7 @@ module Contentful
               related_model_id = linked_model[:foreign_id]
             when :many, :aggregate_many, :has_one
               related_model = linked_model[:relation_to]
-              related_model_id = :id
+              related_model_id = linked_model[:foreign_id] || :id
           end
           save_foreign_keys(related_model, primary_id, related_model_id)
         end
@@ -40,7 +40,11 @@ module Contentful
 
         def add_index_to_helper_hash(results, row, primary_id, id)
           id, primary_id = id.to_sym, primary_id.to_sym
-          results[row[primary_id]].nil? ? results[row[primary_id]] = [row[id]] : results[row[primary_id]] << row[id]
+          if  results[row[primary_id]].nil?
+            results[row[primary_id]] = [row[id]]
+          else
+            results[row[primary_id]] << row[id]
+          end
         end
 
         def map_relations_to_links(model_name, relations)
@@ -83,6 +87,8 @@ module Contentful
               aggregate_data(model_name, linked_model, entry, entry_path, :through)
             when :aggregate_many
               aggregate_data(model_name, linked_model, entry, entry_path, :relation_to)
+            when :aggregate_belongs
+              aggregate_belongs(linked_model, entry, entry_path, :relation_to)
           end
         end
 
@@ -101,7 +107,7 @@ module Contentful
         end
 
         def save_belongs_to_entries(linked_model, ct_link_type, ct_field_id, entry, entry_path)
-          content_type = model_content_type(linked_model[:relation_to]).underscore.tr(' ','_')
+          content_type = model_content_type(linked_model[:relation_to]).underscore.tr(' ', '_')
           foreign_id = linked_model[:foreign_id]
           if entry[foreign_id].present?
             case ct_link_type
@@ -120,30 +126,42 @@ module Contentful
           end
         end
 
-        def save_many_entries(linked_model, ct_field_id, entry, entry_path, related_to)
+        def save_many_entries(linked_model, ct_field_id, entry, entry_path, related_to, ct_type)
           related_model = linked_model[related_to].underscore
-          contentful_name = model_content_type(linked_model[:relation_to]).underscore
-          associated_objects = add_associated_object_to_file(entry, related_model, contentful_name, linked_model[:primary_id])
-          write_json_to_file(entry_path, entry.merge!(ct_field_id => associated_objects)) if associated_objects.present?
+          contentful_name = model_content_type(linked_model[:relation_to]).underscore.tr(' ', '_')
+          objects = entry[ct_field_id] || []
+          associated_objects = add_associated_object_to_file(entry, related_model, contentful_name, linked_model[:primary_id], ct_type)
+          objects.concat(associated_objects) if objects.present? && associated_objects.present?
+          save_objects = objects.present? ? objects : associated_objects
+          write_json_to_file(entry_path, entry.merge!(ct_field_id => save_objects)) if save_objects.present?
         end
 
         def map_many_association(model_name, linked_model, entry, entry_path, related_to)
           ct_field_id = contentful_field_attribute(model_name, linked_model[:relation_to], :id)
-          save_many_entries(linked_model, ct_field_id, entry, entry_path, related_to)
+          ct_type = config.mapping[linked_model[:relation_to]][:type] if config.mapping[linked_model[:relation_to]]
+          save_many_entries(linked_model, ct_field_id, entry, entry_path, related_to, ct_type)
         end
 
-        def add_associated_object_to_file(entry, related_model, contentful_name, primary_id)
+        #TODO REMOVE line 141 if contentful_name == 'user_wildeisen_recipe_to_preparation_form'
+        def add_associated_object_to_file(entry, related_model, contentful_name, primary_id, ct_type)
           Dir.glob("#{config.helpers_dir}/#{primary_id}_#{related_model}.json") do |through_file|
             hash_with_foreign_keys = JSON.parse(File.read(through_file))
-            return build_hash_with_associated_objects(hash_with_foreign_keys, entry, contentful_name)
+            contentful_name = 'form_' + contentful_name if related_model == 'user_wildeisen_recipe_to_preparation_form'
+            return build_hash_with_associated_objects(hash_with_foreign_keys, entry, contentful_name, ct_type)
           end
         end
 
-        def build_hash_with_associated_objects(hash_with_foreign_keys, entry, contentful_name)
+        def build_hash_with_associated_objects(hash_with_foreign_keys, entry, contentful_name, ct_type)
           if hash_with_foreign_keys.has_key?(entry['database_id'].to_s)
             associated_objects = hash_with_foreign_keys[entry['database_id'].to_s].each_with_object([]) do |foreign_key, result|
+              type = case ct_type
+                       when 'entry'
+                         contentful_name
+                       when 'asset'
+                         'File'
+                     end
               result << {
-                  'type' => contentful_name,
+                  'type' => type,
                   'id' => "#{contentful_name}_#{foreign_key}"
               }
             end
@@ -155,6 +173,19 @@ module Contentful
         def aggregate_data(model_name, linked_model, entry, entry_path, related_to)
           ct_field_id = contentful_field_attribute(model_name, linked_model[:relation_to], :id)
           save_aggregated_entries(linked_model, ct_field_id, entry, entry_path, related_to)
+        end
+
+        def aggregate_belongs(linked_model, entry, entry_path, related_to)
+          save_aggregate_belongs_entries(linked_model, entry, entry_path, related_to) if entry[linked_model[:primary_id]]
+        end
+
+        def save_aggregate_belongs_entries(linked_model, entry, entry_path, related_to)
+          related_model = linked_model[related_to]
+          ct_field_id = linked_model[:save_as] || linked_model[:field]
+          related_model_directory = config.mapping[related_model][:content_type].underscore.tr(' ', '_')
+          associated_foreign_key = related_model_directory + '_' + entry[linked_model[:primary_id]].to_s
+          associated_object = JSON.parse(File.read("#{config.entries_dir}/#{related_model_directory}/#{associated_foreign_key}.json"))[linked_model[:field]]
+          write_json_to_file(entry_path, entry.merge!(ct_field_id => associated_object))
         end
 
         def save_aggregated_entries(linked_model, ct_field_id, entry, entry_path, related_to)
@@ -180,6 +211,63 @@ module Contentful
             end
           end
           associated_objects
+        end
+
+########################################################################
+#TODO REMOVE AFTER RECIPES IMPORT
+        def map_assets_url
+          content_types = %w(rezept kampagnen_sujets produkt bilderstrecke)
+          content_types.each do |entry_dir|
+            puts entry_dir
+            Dir.glob("#{config.entries_dir}/#{entry_dir}/*") do |entry_file|
+              entry_file = JSON.parse(File.read(entry_file))
+              entry_image = entry_file['image'].present? ? entry_file['image'] : entry_file['images']
+              if entry_image
+                if entry_image.is_a?(Array)
+                  entry_image.each do |asset|
+                    add_path_to_url(entry_dir, asset['id'])
+                  end
+                else
+                  add_path_to_url(entry_dir, entry_file['image']['asset_id'])
+                end
+              end
+            end
+          end
+        end
+
+        #TODO REMOVE AFTER RECIPES IMPORT
+        def add_path_to_url(entry_dir, asset_id)
+          asset_file = JSON.parse(File.read("#{config.assets_dir}/bild/#{asset_id}.json"))
+          asset_url = asset_file['url']
+          asset_file['url'] = case entry_dir
+                                when 'rezept', 'bilderstrecke'
+                                  'http://wildeisen-migration.s3.amazonaws.com/' + asset_url
+                                when 'kampagnen_sujets'
+                                  'http://www.wildeisen.ch/fileadmin/www.wildeisen.ch/documents/Bilder/Sujets/' + asset_url
+                                when 'produkt'
+                                  'http://www.wildeisen.ch/fileadmin/www.wildeisen.ch/documents/Bilder/Produkte/' + asset_url
+                              end
+          write_json_to_file("#{config.assets_dir}/bild/#{asset_id}.json", asset_file)
+        end
+
+        #TODO REMOVE AFTER RECIPES IMPORT
+        def special_mapping
+          %w(zutatenangabe nährwert_angabe).each do |content_type|
+            special_case(content_type)
+          end
+        end
+
+        def special_case(content_type)
+          Dir.glob("#{config.entries_dir}/#{content_type}/*") do |entry_file|
+            puts entry_file
+            entry_attr = JSON.parse(File.read(entry_file))
+            new_name = entry_attr['amount'].to_s + ' '
+            new_name += entry_attr['abbreviation'] + ' ' if entry_attr['abbreviation'].present?
+            new_name += entry_attr['amount'] > 1 ? (entry_attr['name_plural'].present? ? entry_attr['name_plural'] : entry_attr['name']) : (entry_attr['name'].present? ? entry_attr['name'] : '' )
+            entry_attr['internal_name'] = new_name
+            entry_attr['is_group_separator'] = entry_attr['group_name'].present? ? true : false if content_type == 'zutatenangabe'
+            write_json_to_file(entry_file, entry_attr)
+          end
         end
       end
     end

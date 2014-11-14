@@ -6,7 +6,7 @@ require 'api_cache'
 
 module Contentful
   class ParallelImporter
-
+    ASSETS_IDS = []
     attr_reader :space,
                 :config
     attr_accessor :content_type
@@ -55,6 +55,33 @@ module Contentful
       Dir.glob("#{path}/*.json") do |entry_path|
         content_type_id = File.basename(entry_path).match(/(\D+[a-zA-Z])/)[0]
         import_entry(entry_path, space_id, content_type_id, log_file_name) unless config.imported_entries.flatten.include?(entry_path)
+      end
+    end
+
+    def import_only_assets
+      create_log_file('assets_log')
+      ASSETS_IDS << CSV.read("#{config.data_dir}/logs/assets_log.csv", 'r')
+      Dir.glob("#{config.assets_dir}/**/*json") do |file_path|
+        asset_attributes = JSON.parse(File.read(file_path))
+        if asset_attributes['url'] && asset_attributes['url'].start_with?('http://') && !ASSETS_IDS.flatten.include?(asset_attributes['id'])
+          puts "Import asset - #{asset_attributes['id']} "
+          asset_title = asset_attributes['name'].present? ? asset_attributes['name'] : asset_attributes['id']
+          asset_file = Contentful::Management::File.new.tap do |file|
+            file.properties[:contentType] = 'image/jpg'
+            file.properties[:fileName] = asset_title
+            file.properties[:upload] = asset_attributes['url']
+          end
+          space = Contentful::Management::Space.find(config.config['space_id'])
+          asset = space.assets.create(id: "#{asset_attributes['id']}", title: "#{asset_title}", description: '', file: asset_file)
+          if asset.is_a?(Contentful::Management::Asset)
+            puts "Process asset - #{asset.id} "
+            asset.process_file
+            CSV.open("#{config.success_logs_dir}/assets_log.csv", 'a') { |csv| csv << [asset.id] }
+          else
+            puts "Error - #{asset.message} "
+            CSV.open("#{config.success_logs_dir}/assets_failure.csv", 'a') { |csv| csv << [asset_attributes['id']] }
+          end
+        end
       end
     end
 
@@ -183,20 +210,25 @@ module Contentful
 
     def create_entry(params, space_id, content_type_id)
       entry_id = get_id(params)
-      content_type = content_type(content_type_id,space_id)
+      content_type = content_type(content_type_id, space_id)
       content_type.entries.new.tap do |entry|
         entry.id = entry_id
       end
     end
 
     def create_asset(space_id, params)
-      asset_file = Contentful::Management::File.new.tap do |file|
-        file.properties[:contentType] = file_content_type(params)
-        file.properties[:fileName] = params['type']
-        file.properties[:upload] = params['id']
+      if params['id']
+        space = Contentful::Management::Space.find(space_id)
+        found_asset = space.assets.find(params['id'])
+        asset = found_asset.is_a?(Contentful::Management::Asset) ? found_asset : create_asset_file(params)
+        asset
       end
-      space = Contentful::Management::Space.find(space_id)
-      space.assets.create(title: "#{params['type']}", description: '', file: asset_file).process_file
+    end
+
+    def create_asset_file(params)
+      Contentful::Management::Asset.new.tap do |asset|
+        asset.id = params['id']
+      end
     end
 
     def create_location_file(params)

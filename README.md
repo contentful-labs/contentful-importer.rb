@@ -1,6 +1,54 @@
 Rails database to Contentful importer
 =================
 
+## How to import Recipes database to Contentful
+
+1. Setup settings.yml file (paths and credentials)
+
+2. Export data from database to JSON files.
+
+``` contentful-importer --file settings.yml --export-json ```
+
+3. Create JSON files with content types
+
+``` contentful-importer --file settings.yml --content-types-json ```
+You can import them to existing Space:
+
+``` contentful-importer --file settings.yml --import-content-types --space_id 'space_id' ```
+
+or create new one:
+
+``` contentful-importer --file settings.yml --import-content-types --space_name 'space_name' ```
+
+4. Map models JSON files (mapping)
+
+``` contentful-importer --file settings.yml --prepare-json ```
+
+5. Map models JSON files (mapping)
+
+``` contentful-importer --file settings.yml --prepare-json ```
+
+6. Special cases (mapping) only for Recipes DB.
+IMPORTANT: You can do this only one time! It change structure of the file, run this once again may cause the addition of unwanted data.
+
+``` contentful-importer --file settings.yml --recipes-special-mapping ```
+
+7. Prepare files to import. Specify number of threads.
+
+``` contentful-importer --file settings.yml --organize-files --thread 2 ```
+
+8. Import assets only.
+
+``` contentful-importer --file settings.yml --import-assets ```
+
+9. Import entries.
+``` contentful-importer --file settings.yml --import ```
+
+You can import asset and entries simultaneously.
+
+
+
+
 ## Description
 
 Migrate content from database to the [Contentful](https://www.contentful.com) platform

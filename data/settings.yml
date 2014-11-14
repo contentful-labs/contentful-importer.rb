@@ -1,19 +1,18 @@
 #PATH to all data
-data_dir: /tmp/data
+data_dir: DEFINE_BEFORE_EXPORTING_DATA
 
 ########## IMPORT DATA TO CONTENTFUL ##########
 
 #Contentful credentials
-access_token: e548877d1c317ee58e5710c793bd2d92419149b1e3c50d47755a19a5deadda00
-organization_id: 1EQPR5IHrPx94UY4AViTYO
-space_id: z22cf51s69i0
+access_token:
+organization_id:
+space_id: DEFINE_AFTER_CREATING_SPACE
 
 ########## EXPORT DATA ##########
 
 #Connecting to a database
 adapter: mysql2
 host: localhost
-#database: recipes_wildeisen_ch
 database: new_recipes
 user: root
 password:
@@ -27,6 +26,9 @@ password:
 mapped:
   tables:
   - :user_wildeisen_image
+  - :user_wildeisen_recipe_to_image
+  - :user_wildeisen_author
+  - :user_wildeisen_slideshow
   - :user_wildeisen_alergic_info
   - :user_wildeisen_bake
   - :user_wildeisen_bake_to_product
@@ -60,6 +62,7 @@ mapped:
   - :user_wildeisen_recipe_to_issue
   - :user_wildeisen_recipe_to_nutrient_content
   - :user_wildeisen_recipe_to_occasion
+  - :user_wildeisen_recipe_to_season
   - :user_wildeisen_recipe_to_preparation_form
   - :user_wildeisen_recipe_to_preparation_way
   - :user_wildeisen_recipe_to_recipe_category
@@ -68,6 +71,7 @@ mapped:
   - :user_wildeisen_sujet
   - :user_wildeisen_unit
   - :user_wildeisen_magazine_to_issue
+
 
 ## MAPPING ##
 

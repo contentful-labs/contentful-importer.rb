@@ -35,6 +35,11 @@ class Migrator
         importer.test_credentials
       when '--list-tables'
         exporter.tables_name
+      when '--recipes-special-mapping'
+        exporter.special_mapping
+        exporter.map_assets_url
+      when '--import-assets'
+        importer.import_only_assets
     end
   end
 end

@@ -8,10 +8,11 @@ module Contentful
         end
 
         def save_object_to_file(table, content_type_name, model_name, type)
-          create_directory("#{type}/#{content_type_name.underscore.tr(' ', '_')}")
+          content_type_name = content_type_name.underscore.tr(' ', '_')
+          create_directory("#{type}/#{content_type_name}")
           config.db[table].all.each_with_index do |row, index|
-            result = transform_row_into_hash(model_name, content_type_name.underscore.tr(' ', '_'), row, index)
-            write_json_to_file("#{type}/#{content_type_name.underscore.tr(' ', '_')}/#{result[:id]}.json", result)
+            result = transform_row_into_hash(model_name, content_type_name, row, index)
+            write_json_to_file("#{type}/#{content_type_name}/#{result[:id]}.json", result)
           end
         end
 
@@ -19,26 +20,39 @@ module Contentful
           id = row[:id] || index
           puts "Saving #{content_type_name} - id: #{id}"
           db_object = map_fields(model_name, row)
-          # object = format_fields(model_name, db_object)
-          db_object[:id] ="#{content_type_name}_#{id}"
+          db_object[:id] = model_id(model_name, content_type_name, id)
           db_object[:database_id] = id
+          db_object[:import_id] = id  #TODO REMOVE AFTER RECIPES IMPORT
           db_object
+        end
+
+        def model_id(model_name, content_type_name, id)
+          prefix = config.mapping[model_name][:prefix_id] || ''
+          prefix + "#{content_type_name}_#{id}"
         end
 
         def map_fields(model_name, row)
           row.each_with_object({}) do |(field_name, field_value), result|
             field_name = mapped_field_name(field_name, model_name)
-            result[field_name] = field_value
+            formatted_value = formatted_field_value(field_name, field_value, model_name)
+            result[field_name] = formatted_value
+            copy_field_value(field_name, formatted_value, model_name, result) if copy_field?(field_name, model_name)
           end
         end
 
-        # def format_fields(model_name, row)
-        #   row.each_with_object({}) do |(field_name, field_value), result|
-        #     if config.mapping[model_name] && config.mapping[model_name][:format] && config.mapping[model_name][:format][field_name].present?
-        #       result[field_name] = field_value.downcase.gsub(' ', '-').gsub('ä', 'a').gsub('ü', 'u').gsub('ö', 'o')
-        #     end
-        #   end
-        # end
+        def formatted_field_value(field_name, field_value, model_name)
+          has_mapping_value?(field_name, model_name) ? format_value(field_name, field_value, model_name) : field_value
+        end
+
+        def copy_field_value(field_name, field_value, model_name, result)
+          copy_field = config.mapping[model_name][:copy][field_name]
+          result[copy_field] = format_value(copy_field, field_value, model_name)
+        end
+
+        def format_value(field_name, field_value, model_name)
+          char_map = config.mapping[model_name][:format][field_name]
+          field_value.underscore.gsub(/[\säüö]+/) { |match| char_map[match] }
+        end
 
         def mapped_field_name(field_name, model_name)
           has_mapping_for?(field_name, model_name) ? config.mapping[model_name][:fields][field_name] : field_name
@@ -46,6 +60,14 @@ module Contentful
 
         def has_mapping_for?(field_name, model_name)
           config.mapping[model_name] && config.mapping[model_name][:fields][field_name].present?
+        end
+
+        def has_mapping_value?(field_name, model_name)
+          config.mapping[model_name] && config.mapping[model_name][:format] && config.mapping[model_name][:format][field_name].present?
+        end
+
+        def copy_field?(field_name, model_name)
+          config.mapping[model_name] && config.mapping[model_name][:copy] && config.mapping[model_name][:copy][field_name].present?
         end
 
       end
