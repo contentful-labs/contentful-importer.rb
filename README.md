@@ -24,24 +24,20 @@ or create new one:
 
 ``` contentful-importer --file settings.yml --prepare-json ```
 
-5. Map models JSON files (mapping)
-
-``` contentful-importer --file settings.yml --prepare-json ```
-
-6. Special cases (mapping) only for Recipes DB.
+5. Special cases (mapping) only for Recipes DB.
 IMPORTANT: You can do this only one time! It change structure of the file, run this once again may cause the addition of unwanted data.
 
 ``` contentful-importer --file settings.yml --recipes-special-mapping ```
 
-7. Prepare files to import. Specify number of threads.
+6. Prepare files to import. Specify number of threads.
 
 ``` contentful-importer --file settings.yml --organize-files --thread 2 ```
 
-8. Import assets only.
+7. Import assets only.
 
 ``` contentful-importer --file settings.yml --import-assets ```
 
-9. Import entries.
+8. Import entries.
 ``` contentful-importer --file settings.yml --import ```
 
 You can import asset and entries simultaneously.

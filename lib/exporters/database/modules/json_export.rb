@@ -3,12 +3,19 @@ module Contentful
     module Database
       module JsonExport
 
+        CHAR_MAP = {
+            ' ' => '_',
+            'ä' => 'a',
+            'ü' => 'u',
+            'ö' => 'o'
+        }
+
         def asset?(model_name)
           config.mapping[model_name] && config.mapping[model_name][:type] == 'asset'
         end
 
         def save_object_to_file(table, content_type_name, model_name, type)
-          content_type_name = content_type_name.underscore.tr(' ', '_')
+          content_type_name = content_type_name.underscore.gsub(/[\säüö]+/) { |match| CHAR_MAP[match] }
           create_directory("#{type}/#{content_type_name}")
           config.db[table].all.each_with_index do |row, index|
             result = transform_row_into_hash(model_name, content_type_name, row, index)
@@ -22,7 +29,7 @@ module Contentful
           db_object = map_fields(model_name, row)
           db_object[:id] = model_id(model_name, content_type_name, id)
           db_object[:database_id] = id
-          db_object[:import_id] = id  #TODO REMOVE AFTER RECIPES IMPORT
+          db_object[:import_id] = id.to_s #TODO REMOVE AFTER RECIPES IMPORT
           db_object
         end
 

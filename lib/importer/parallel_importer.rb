@@ -54,7 +54,8 @@ module Contentful
       config.imported_entries << CSV.read("#{config.success_logs_dir}/#{log_file_name}.csv", 'r').flatten
       Dir.glob("#{path}/*.json") do |entry_path|
         content_type_id = File.basename(entry_path).match(/(\D+[a-zA-Z])/)[0]
-        import_entry(entry_path, space_id, content_type_id, log_file_name) unless config.imported_entries.flatten.include?(entry_path)
+        entry_file_name = File.basename(entry_path)
+        import_entry(entry_path, space_id, content_type_id, log_file_name) unless config.imported_entries.flatten.include?(entry_file_name)
       end
     end
 
@@ -139,11 +140,10 @@ module Contentful
 
     def import_entry(file_path, space_id, content_type_id, log_file)
       entry_attributes = JSON.parse(File.read(file_path))
-      entry_id = File.basename(file_path, '.json')
-      puts "Creating entry: #{entry_id}."
+      puts "Creating entry: #{entry_attributes['id']}."
       entry_params = create_entry_parameters(content_type_id, entry_attributes, space_id)
       content_type = content_type(content_type_id, space_id)
-      entry = content_type.entries.create(entry_params.merge(id: entry_id))
+      entry = content_type.entries.create(entry_params)
       import_status(entry, file_path, log_file)
     end
 
@@ -179,8 +179,10 @@ module Contentful
 
     def parse_attributes_from_array(params, space_id, content_type_id)
       params.each_with_object([]) do |attr, array_attributes|
-        value = if attr['type']
+        value = if attr['type'].present? && attr['type'] != 'File'
                   create_entry(attr, space_id, content_type_id)
+                elsif attr['type'] == 'File'
+                  create_asset(space_id, attr)
                 else
                   attr
                 end
@@ -190,8 +192,9 @@ module Contentful
 
     def import_status(entry, file_path, log_file)
       if entry.is_a? Contentful::Management::Entry
+        entry_file_name = File.basename(file_path)
         puts 'Imported successfully!'
-        CSV.open("#{config.success_logs_dir}/#{log_file}.csv", 'a') { |csv| csv << [file_path] }
+        CSV.open("#{config.success_logs_dir}/#{log_file}.csv", 'a') { |csv| csv << [entry_file_name] }
       else
         puts "### Failure! - #{entry.message}  - #{entry.response.raw}###"
         CSV.open("#{config.failure_logs_dir}/fail_#{log_file}.csv", 'a') { |csv| csv << [file_path, entry.message, entry.response.raw] }
@@ -228,6 +231,7 @@ module Contentful
     def create_asset_file(params)
       Contentful::Management::Asset.new.tap do |asset|
         asset.id = params['id']
+        asset.link_type = 'Asset'
       end
     end
 

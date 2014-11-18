@@ -17,13 +17,25 @@ module Contentful
     end
 
     def split_entries(threads_count)
-      entries_per_thread_count = total_entries_count / threads_count
+      entries_per_thread_count = count_files / threads_count
       current_thread, entry_index = 0, 0
       Dir.glob("#{config.entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)
         if has_contentful_structure?(collection_name)
           content_type_id = content_type_id_from_file(collection_name)
-          organize_entries(content_type_id, current_thread, dir_path, entry_index, entries_per_thread_count)
+          # organize_entries(content_type_id, current_thread, dir_path, entry_index, entries_per_thread_count)
+          puts "Processing collection: #{content_type_id}"
+          Dir.glob("#{dir_path}/*.json") do |entry_path|
+            copy_entry(entry_path, current_thread, content_type_id)
+            entry_index += 1
+            if entry_index == entries_per_thread_count
+              entry_index = 0
+              current_thread += 1
+              if current_thread == threads_count
+                current_thread = 0
+              end
+            end
+          end
         end
       end
     end
@@ -71,5 +83,16 @@ module Contentful
       FileUtils.mkdir_p(path) unless File.directory?(path)
     end
 
+
+    def count_files
+      total_number = 0
+      Dir.glob("#{config.entries_dir}/*") do |dir_path|
+        collection_name = File.basename(dir_path)
+        if has_contentful_structure?(collection_name)
+          total_number += Dir.glob("#{config.entries_dir}/#{collection_name}/*").count
+        end
+      end
+      total_number
+    end
   end
 end
