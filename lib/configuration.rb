@@ -11,6 +11,7 @@ module Contentful
                 :failure_logs_dir,
                 :threads_dir,
                 :imported_entries,
+                :published_entries,
                 :contentful_structure,
                 :mapping,
                 :db,
@@ -30,6 +31,7 @@ module Contentful
       @failure_logs_dir = "#{data_dir}/logs"
       @threads_dir = "#{data_dir}/threads"
       @imported_entries = []
+      @published_entries = []
       @space_id = config['space_id']
       @helpers_dir = "#{data_dir}/helpers"
       create_structure_files

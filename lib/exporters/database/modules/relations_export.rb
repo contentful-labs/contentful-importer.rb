@@ -3,7 +3,7 @@ module Contentful
     module Database
       module RelationsExport
 
-        RELATIONS = [:many, :many_through, :aggregate_many, :aggregate_through, :has_one]
+        RELATIONS = [:many, :many_through, :aggregate_many, :aggregate_through, :has_one, :aggregate_has_one]
         CHAR_MAP = {
             ' ' => '_',
             'ä' => 'a',
@@ -30,7 +30,7 @@ module Contentful
             when :many_through, :aggregate_through
               related_model = linked_model[:through]
               related_model_id = linked_model[:foreign_id]
-            when :many, :aggregate_many, :has_one
+            when :many, :aggregate_many, :has_one, :aggregate_has_one
               related_model = linked_model[:relation_to]
               related_model_id = linked_model[:foreign_id] || :id
           end
@@ -98,6 +98,8 @@ module Contentful
               aggregate_data(model_name, linked_model, entry, entry_path, :relation_to)
             when :aggregate_belongs
               aggregate_belongs(linked_model, entry, entry_path, :relation_to)
+            when :aggregate_has_one
+              aggregate_has_one(linked_model, entry, entry_path, :relation_to)
           end
         end
 
@@ -138,9 +140,13 @@ module Contentful
           contentful_name = model_content_type(linked_model[:relation_to]).underscore.gsub(/[\säüö]+/) { |match| CHAR_MAP[match] }
           objects = entry[ct_field_id] || []
           associated_objects = add_associated_object_to_file(entry, related_model, contentful_name, linked_model[:primary_id], ct_type)
-          objects.concat(associated_objects) if objects.present? && associated_objects.present?
+          objects.concat(associated_objects) if objects.present? && associated_objects.present? && objects.is_a?(Array)
           save_objects = objects.present? ? objects : associated_objects
-          write_json_to_file(entry_path, entry.merge!(ct_field_id => save_objects)) if save_objects.present?
+          if related_model == 'user_wildeisen_recipe_to_image_two'
+            write_json_to_file(entry_path, entry.merge!(ct_field_id => save_objects.first)) if save_objects.present?
+          else
+            write_json_to_file(entry_path, entry.merge!(ct_field_id => save_objects)) if save_objects.present?
+          end
         end
 
         def save_has_one_entry(linked_model, ct_field_id, entry, entry_path, related_to, ct_type)
@@ -197,6 +203,27 @@ module Contentful
 
         def aggregate_belongs(linked_model, entry, entry_path, related_to)
           save_aggregate_belongs_entries(linked_model, entry, entry_path, related_to) if entry[linked_model[:primary_id]]
+        end
+
+        def aggregate_has_one(linked_model, entry, entry_path, related_to)
+          aggregate_has_one_entries(linked_model, entry, entry_path, related_to)
+        end
+
+        def aggregate_has_one_entries(linked_model, entry, entry_path, related_to)
+          ct_field_id = linked_model[:save_as] || linked_model[:field]
+          related_model = linked_model[related_to].underscore
+          related_model_directory = config.mapping[linked_model[related_to]][:content_type].underscore.gsub(/[\säüö]+/) { |match| CHAR_MAP[match] }
+          save_aggregated_has_one_data(entry_path, entry, related_model, related_model_directory, linked_model, ct_field_id)
+        end
+
+        def save_aggregated_has_one_data(entry_path, entry, related_model, related_model_directory, linked_model, ct_field_id)
+          primary_id = linked_model[:primary_id]
+          hash_with_foreign_keys = JSON.parse(File.read("#{config.helpers_dir}/#{primary_id}_#{related_model}.json"))
+          if hash_with_foreign_keys.has_key?(entry['database_id'].to_s)
+            related_file_id = hash_with_foreign_keys[entry['database_id'].to_s].first if hash_with_foreign_keys[entry['database_id'].to_s].present?
+            entry[ct_field_id] = JSON.parse(File.read("#{config.entries_dir}/#{related_model_directory}/#{related_model_directory}_#{related_file_id}.json"))[linked_model[:field]]
+            write_json_to_file(entry_path, entry)
+          end
         end
 
         def save_aggregate_belongs_entries(linked_model, entry, entry_path, related_to)

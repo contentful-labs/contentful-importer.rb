@@ -7,38 +7,38 @@ Rails database to Contentful importer
 
 2. Export data from database to JSON files.
 
-``` contentful-importer --file settings.yml --export-json ```
+``` contentful-importer --config-file settings.yml --export-json ```
 
 3. Create JSON files with content types
 
-``` contentful-importer --file settings.yml --content-types-json ```
+``` contentful-importer --config-file settings.yml --create-content-model-from-json ```
 You can import them to existing Space:
 
-``` contentful-importer --file settings.yml --import-content-types --space_id 'space_id' ```
+``` contentful-importer --config-file settings.yml --import-content-types --space_id 'space_id' ```
 
 or create new one:
 
-``` contentful-importer --file settings.yml --import-content-types --space_name 'space_name' ```
+``` contentful-importer --config-file settings.yml --import-content-types --space_name 'space_name' ```
 
 4. Map models JSON files (mapping)
 
-``` contentful-importer --file settings.yml --prepare-json ```
+``` contentful-importer --config-file settings.yml --prepare-json ```
 
 5. Special cases (mapping) only for Recipes DB.
 IMPORTANT: You can do this only one time! It change structure of the file, run this once again may cause the addition of unwanted data.
 
-``` contentful-importer --file settings.yml --recipes-special-mapping ```
+``` contentful-importer --config-file settings.yml --recipes-special-mapping ```
 
 6. Prepare files to import. Specify number of threads.
 
-``` contentful-importer --file settings.yml --organize-files --thread 2 ```
+``` contentful-importer --config-file settings.yml --threads --thread 2 ```
 
 7. Import assets only.
 
-``` contentful-importer --file settings.yml --import-assets ```
+``` contentful-importer --config-file settings.yml --import-assets ```
 
 8. Import entries.
-``` contentful-importer --file settings.yml --import ```
+``` contentful-importer --config-file settings.yml --import ```
 
 You can import asset and entries simultaneously.
 
@@ -77,7 +77,7 @@ The Contentful organization id can be found in your account settings.
 Once you installed the Gem and created the YAML file with the settings you can invoke the tool using:
 
 ```
-contentful-importer --file=settings.yml  --action
+contentful-importer --config-file=settings.yml  --action
 ```
 
 ## Actions
@@ -88,14 +88,14 @@ contentful-importer -h
 #### --list-tables
 This action will create JSON file with all table names from your database and save it to ```data_dir/table_names.json```. These values ​​will be needed to export data from the database.
 
-Specify path, where the should be saved, you can do that in **settings.yml*** file.
+Specify path, where the should be saved, you can do that in **settings.yml** file.
 
 ```
  data_dir: PATH_TO_ALL_DATA
 ```
 Path to **table_names.json**: __data_dir/table_names.json__
 
-#### --content-types-json
+#### --create-content-model-from-json
 
 Create import form JSON files with Content types
 
@@ -107,14 +107,14 @@ In [settings.yml](https://github.com/contentful/generic-importer.rb#setting-file
 
 Prepare JSON files to import form to Contentful platform.
 
-#### --organize-files --thread
+#### --threads --thread
 
 Default value of thread: 1 (number of Threads, maximum value: 2)
 
 Organize file structure,split them depending on number of Threads.
 
 ```
-contentful-importer --file settings.yml --organize-files --thread NUMBER
+contentful-importer --config-file settings.yml --threads --thread NUMBER
 ```
 
 #### --import-content-types --space_id ARG --space_name ARG
@@ -122,19 +122,19 @@ contentful-importer --file settings.yml --organize-files --thread NUMBER
 To find an existing Space and import content types use command:
 
 ```
-contentful-importer --file settings.yml --import-content-types --space_id SPACE_ID
+contentful-importer --config-file settings.yml --import-content-types --space_id SPACE_ID
 ```
 
 To create a new Space and import content types use command:
 
 ```
-contentful-importer --file settings.yml --import-content-types --space_name NAME
+contentful-importer --config-file settings.yml --import-content-types --space_name NAME
 ```
 
 #### --import
 Import data to Contentful.
 
-```contentful-importer --file settings.yml --import```
+```contentful-importer --config-file settings.yml --import```
 
 #### --convert-json
 
@@ -164,7 +164,7 @@ import_form_dir: example_path/contentful_structure.json
 
 Before you start import data to Contentful, is goo to check if specified Contentful credentials in a **settings.yml** file are correct, use command:
 
-```contentful-importer --file settings.yml --test-credentials```
+```contentful-importer --config-file settings.yml --test-credentials```
 
 ## Mapping
 
@@ -230,7 +230,7 @@ This method should only be used if the other class contains the foreign key. If 
 Results:
 It will assign the associate object, save his ID ```(model_name + id)``` in JSON file.
 
-_**users/users1.json_**
+_users/users1.json_
  ```
  ...
   "profile": {
@@ -308,7 +308,7 @@ Example:
 It will map join table and save objects IDs in current model.
 
 Results:
-_**users/job_adds_1.json_**
+_users/job_adds_1.json_
 
 ```
   "skills": [

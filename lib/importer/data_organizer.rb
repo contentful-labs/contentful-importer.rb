@@ -21,7 +21,7 @@ module Contentful
       current_thread, entry_index = 0, 0
       Dir.glob("#{config.entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)
-        if has_contentful_structure?(collection_name)
+        if has_contentful_structure?(collection_name) && collection_name == 'rezept_ausgabe'
           content_type_id = content_type_id_from_file(collection_name)
           # organize_entries(content_type_id, current_thread, dir_path, entry_index, entries_per_thread_count)
           puts "Processing collection: #{content_type_id}"
@@ -88,7 +88,7 @@ module Contentful
       total_number = 0
       Dir.glob("#{config.entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)
-        if has_contentful_structure?(collection_name)
+        if has_contentful_structure?(collection_name)  && collection_name == 'rezept_ausgabe'
           total_number += Dir.glob("#{config.entries_dir}/#{collection_name}/*").count
         end
       end

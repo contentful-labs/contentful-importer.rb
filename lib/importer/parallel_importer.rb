@@ -34,11 +34,13 @@ module Contentful
       puts 'Contentful Management API credentials: INVALID (check README)'
     end
 
+    def number_of_threads
+      Dir.glob("#{config.threads_dir}/*").count
+    end
 
     def import_in_threads
-      threads_count = Dir.glob("#{config.threads_dir}/*").count
       threads = []
-      threads_count.times do |thread_id|
+      number_of_threads.times do |thread_id|
         threads << Thread.new do
           self.class.new(config).import_entries("#{config.threads_dir}/#{thread_id}", config.space_id)
         end
@@ -51,10 +53,11 @@ module Contentful
     def import_entries(path, space_id)
       log_file_name = "success_thread_#{File.basename(path)}"
       create_log_file(log_file_name)
-      config.imported_entries << CSV.read("#{config.success_logs_dir}/#{log_file_name}.csv", 'r').flatten
+      load_log_files
       Dir.glob("#{path}/*.json") do |entry_path|
         content_type_id = File.basename(entry_path).match(/(\D+[a-zA-Z])/)[0]
         entry_file_name = File.basename(entry_path)
+        puts entry_path
         import_entry(entry_path, space_id, content_type_id, log_file_name) unless config.imported_entries.flatten.include?(entry_file_name)
       end
     end
@@ -67,23 +70,59 @@ module Contentful
         if asset_attributes['url'] && asset_attributes['url'].start_with?('http://') && !ASSETS_IDS.flatten.include?(asset_attributes['id'])
           puts "Import asset - #{asset_attributes['id']} "
           asset_title = asset_attributes['name'].present? ? asset_attributes['name'] : asset_attributes['id']
-          asset_file = Contentful::Management::File.new.tap do |file|
-            file.properties[:contentType] = 'image/jpg'
-            file.properties[:fileName] = asset_title
-            file.properties[:upload] = asset_attributes['url']
-          end
+          asset_file = create_asset_file(asset_title, asset_attributes)
           space = Contentful::Management::Space.find(config.config['space_id'])
           asset = space.assets.create(id: "#{asset_attributes['id']}", title: "#{asset_title}", description: '', file: asset_file)
-          if asset.is_a?(Contentful::Management::Asset)
-            puts "Process asset - #{asset.id} "
-            asset.process_file
-            CSV.open("#{config.success_logs_dir}/assets_log.csv", 'a') { |csv| csv << [asset.id] }
-          else
-            puts "Error - #{asset.message} "
-            CSV.open("#{config.success_logs_dir}/assets_failure.csv", 'a') { |csv| csv << [asset_attributes['id']] }
-          end
+          asset_status(asset, asset_attributes)
         end
       end
+    end
+
+    #TODO ADD MIME TYPE
+    def create_asset_file(asset_title, params)
+      Contentful::Management::File.new.tap do |file|
+        file.properties[:contentType] = 'image/jpg'
+        file.properties[:fileName] = asset_title
+        file.properties[:upload] = params['url']
+      end
+    end
+
+    def asset_status(asset, asset_attributes)
+      if asset.is_a?(Contentful::Management::Asset)
+        puts "Process asset - #{asset.id} "
+        asset.process_file
+        CSV.open("#{config.success_logs_dir}/assets_log.csv", 'a') { |csv| csv << [asset.id] }
+      else
+        puts "Error - #{asset.message} "
+        CSV.open("#{config.success_logs_dir}/assets_failure.csv", 'a') { |csv| csv << [asset_attributes['id']] }
+      end
+    end
+
+    def publish_entries_in_threads
+      threads =[]
+      number_of_threads.times do |thread_id|
+        threads << Thread.new do
+          self.class.new(config).publish_all_entries("#{config.threads_dir}/#{thread_id}")
+        end
+      end
+      threads.each do |thread|
+        thread.join
+      end
+    end
+
+    def publish_all_entries(thread_dir)
+      create_log_file('log_published_entries')
+      config.published_entries << CSV.read("#{config.success_logs_dir}/log_published_entries.csv", 'r').flatten
+      Dir.glob("#{thread_dir}/*json") do |entry_file|
+        entry_id = JSON.parse(File.read(entry_file))['id']
+        publish_entry(entry_id) unless config.published_entries.flatten.include?(entry_id)
+      end
+    end
+
+    def publish_entry(entry_id)
+      puts "Publish entries for #{entry_id}."
+      entry = Contentful::Management::Entry.find(config.config['space_id'], entry_id).publish
+      publish_status(entry, entry_id)
     end
 
     private
@@ -107,18 +146,6 @@ module Contentful
         add_content_type_id_to_file(collection_attributes, content_type.id, content_type.space.id, file_path)
         content_type.update(displayField: collection_attributes['displayField']) if collection_attributes['displayField']
         active_status(content_type.activate)
-      end
-    end
-
-    def publish_all_entries
-      Dir.glob("#{config.collections_dir}/*json") do |dir_path|
-        collection_name = File.basename(dir_path, '.json')
-        puts "Publish entries for #{collection_name}."
-        collection_attributes = JSON.parse(File.read("#{config.collections_dir}/#{collection_name}.json"))
-        Contentful::Management::Space.find(get_space_id(collection_attributes)).entries.all.each do |entry|
-          puts "Publish an entry with ID #{entry.id}."
-          active_status(entry.publish)
-        end
       end
     end
 
@@ -202,7 +229,7 @@ module Contentful
     end
 
     def content_type(content_type_id, space_id)
-      @content_type = APICache.get("content_type_#{content_type_id}") do
+      @content_type = APICache.get("content_type_#{content_type_id}", :period => -5) do
         Contentful::Management::ContentType.find(space_id, content_type_id)
       end
     end
@@ -223,12 +250,12 @@ module Contentful
       if params['id']
         space = Contentful::Management::Space.find(space_id)
         found_asset = space.assets.find(params['id'])
-        asset = found_asset.is_a?(Contentful::Management::Asset) ? found_asset : create_asset_file(params)
+        asset = found_asset.is_a?(Contentful::Management::Asset) ? found_asset : initialize_asset_file(params)
         asset
       end
     end
 
-    def create_asset_file(params)
+    def initialize_asset_file(params)
       Contentful::Management::Asset.new.tap do |asset|
         asset.id = params['id']
         asset.link_type = 'Asset'
@@ -265,6 +292,17 @@ module Contentful
         puts "### Failure! - #{ct_object.message} ! ###"
       else
         puts 'Successfully activated!'
+        CSV.open("#{config.success_logs_dir}/log_published_entries.csv", 'a') { |csv| csv << [ct_object.id] } if ct_object.is_a? Contentful::Management::Entry
+      end
+    end
+
+    def publish_status(ct_object, entry_id)
+      if ct_object.is_a? Contentful::Management::Error
+        puts "### Failure! - #{ct_object.message} ! ###"
+        CSV.open("#{config.success_logs_dir}/failure_published_entries.csv", 'a') { |csv| csv << [entry_id] }
+      else
+        puts 'Successfully activated!'
+        CSV.open("#{config.success_logs_dir}/log_published_entries.csv", 'a') { |csv| csv << [ct_object.id] }
       end
     end
 
@@ -317,6 +355,14 @@ module Contentful
     def create_log_file(path)
       create_directory("#{config.data_dir}/logs")
       File.open("#{config.data_dir}/logs/#{path}.csv", 'a') { |file| file.write('') }
+    end
+
+    def load_log_files
+      Dir.glob("#{config.success_logs_dir}/*.csv") do |log_files|
+        file_name = File.basename(log_files)
+        imported_ids = CSV.read(log_files, 'r').flatten
+        config.imported_entries << imported_ids if file_name.start_with?('success_thread') && !config.imported_entries.include?(imported_ids)
+      end
     end
 
   end

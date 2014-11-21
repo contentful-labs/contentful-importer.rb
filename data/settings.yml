@@ -6,14 +6,14 @@ data_dir: /Users/piotrprotas/Documents/recipes_import
 #Contentful credentials
 access_token: e548877d1c317ee58e5710c793bd2d92419149b1e3c50d47755a19a5deadda00
 organization_id: 1EQPR5IHrPx94UY4AViTYO
-space_id: t3i69ejwv9rc
+space_id: l9qj50bqgqik
 
 ########## EXPORT DATA ##########
 
 #Connecting to a database
 adapter: mysql2
 host: localhost
-database: new_recipes
+database: recipes_last
 user: root
 password:
 
@@ -27,7 +27,6 @@ mapped:
   tables:
 #  - :user_wildeisen_image
 #  - :user_wildeisen_author
-#  - :user_wildeisen_slideshow
 #  - :user_wildeisen_alergic_info
 #  - :user_wildeisen_bake
 #  - :user_wildeisen_bake_to_product
@@ -48,8 +47,6 @@ mapped:
 #  - :user_wildeisen_preparation_way
 #  - :user_wildeisen_product
 #  - :user_wildeisen_product_group
-#  - :user_wildeisen_product_to_product_group
-#  - :user_wildeisen_product_to_product_vendor
 #  - :user_wildeisen_product_vendor
 #  - :user_wildeisen_recipe
 #  - :user_wildeisen_recipe_category
@@ -60,19 +57,21 @@ mapped:
 #  - :user_wildeisen_recipe_to_ingredient
 #  - :user_wildeisen_recipe_to_issue
 #  - :user_wildeisen_recipe_to_nutrient_content
-#  - :user_wildeisen_recipe_to_occasion
-#  - :user_wildeisen_recipe_to_season
-   - :user_wildeisen_season
+#  - :user_wildeisen_season
 #  - :user_wildeisen_recipe_to_preparation_form
 #  - :user_wildeisen_recipe_to_preparation_way
 #  - :user_wildeisen_recipe_to_recipe_category
 #  - :user_wildeisen_recipe_to_tag
+#  - :user_wildeisen_tag
 #  - :user_wildeisen_related_recipe
 #  - :user_wildeisen_sujet
 #  - :user_wildeisen_unit
 #  - :user_wildeisen_magazine_to_issue
+#  - :user_wildeisen_recipe_to_image
+#  - :user_wildeisen_recipe_to_image_two
 
-
+#  - :user_wildeisen_product_to_product_group
+#  - :user_wildeisen_product_to_product_vendor
 ## MAPPING ##
 
 mapping_dir: data/mapping/mapping.json

@@ -687,7 +687,7 @@
                 "type": "Asset",
                 "link": "Link"
             },
-            "Zutat": {
+            "Zutatenangabe": {
                 "id": "ingredients",
                 "type": "Array",
                 "link_type": "Entry",
@@ -707,7 +707,7 @@
                 "link": "Link"
             },
             "tip": "Text",
-            "Nährwert Kategorie": {
+            "Nährwert-Angabe": {
                 "id": "nutrition_facts",
                 "type": "Array",
                 "link_type": "Entry",
@@ -771,13 +771,13 @@
                 "type": "Entry",
                 "link": "Link"
             },
-            "Generelle tags": {
+            "Tags": {
                 "id": "tags",
                 "type": "Array",
                 "link_type": null,
                 "link": "Symbol"
             },
-            "Magazin Ausgabe": {
+            "Rezept Ausgabe": {
                 "id": "magazine_issues",
                 "type": "Array",
                 "link_type": "Entry",
@@ -794,7 +794,7 @@
                 "link_type": "Entry",
                 "link": "Link"
             },
-            "Ahnliche rezepte": {
+            "Rezept": {
                 "id": "related_recipes",
                 "type": "Array",
                 "link_type": "Entry",

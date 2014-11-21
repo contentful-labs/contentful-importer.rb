@@ -31,13 +31,15 @@ class Migrator
         importer.import_data
       when '--convert-json'
         converter.convert_to_import_form
+      when '--publish-entries'
+        importer.publish_entries_in_threads
       when '--test-credentials'
         importer.test_credentials
       when '--list-tables'
         exporter.tables_name
       when '--recipes-special-mapping'
         exporter.special_mapping
-        # exporter.map_assets_url
+        exporter.map_assets_url
       when '--import-assets'
         importer.import_only_assets
     end

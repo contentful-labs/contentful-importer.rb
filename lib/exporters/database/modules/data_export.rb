@@ -1,10 +1,12 @@
+require 'i18n'
+
 module Contentful
   module Exporter
     module Database
       module DataExport
 
         def content_type_name(content_type)
-          content_type.gsub(' ', '_').underscore
+          I18n.transliterate(content_type).underscore.tr(' ','_')
         end
 
         def create_directory(path)

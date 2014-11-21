@@ -11,6 +11,9 @@
 //                    "foreign_id": "recipe_id"
 //                }
 //            ]
+        },
+        "copy": {
+            "date": "internal_name"
         }
     },
     "UserWildeisenProductGroup": {
@@ -150,10 +153,15 @@
         "content_type": "Kampagne",
         "type": "entry",
         "fields": {
-            "campaign_priority_id": "priority"
+            "campaign_priority_id": "priority",
+            "date_stop": "date_end"
         },
         "links": {
 //            "belongs_to": [
+//                {
+//                    "relation_to": "UserWildeisenProductVendor",
+//                    "foreign_id": "product_vendor_id"
+//                },
 //                {
 //                    "relation_to": "UserWildeisenCampaignType",
 //                    "foreign_id": "campaign_type_id"
@@ -243,9 +251,12 @@
             "slug": {
                 " ": "_"
             }
+        },
+        "copy": {
+            "name": "slug"
         }
     },
-    "UserWildeisenSlideshow": {
+    "UserWildeisenRecipeToImage": {
         "content_type": "Bilderstrecke",
         "type": "entry",
         "fields": {
@@ -256,7 +267,7 @@
 //                    "relation_to": "UserWildeisenImage",
 //                    "primary_id": "recipe_id",
 //                    "foreign_id": "image_id",
-//                    "through": "UserWildeisenRecipeToImage"
+//                    "through": "UserWildeisenRecipeToImageTwo"
 //                }
 //            ],
 //            "aggregate_belongs": [
@@ -283,23 +294,23 @@
             ],
             "has_one": [
                 {
-                    "relation_to": "UserWildeisenRecipeToImage",
+                    "relation_to": "UserWildeisenRecipesImages",
                     "primary_id": "recipe_id",
                     "foreign_id": "image_id"
                 }
             ],
             "many_through": [
                 {
+                    "relation_to": "UserWildeisenRecipeToImage",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "recipe_id",
+                    "through": "UserWildeisenRecipeToImageTwo"
+                },
+                {
                     "relation_to": "UserWildeisenAlergicInfo",
                     "primary_id": "recipe_id",
                     "foreign_id": "alergic_info_id",
                     "through": "UserWildeisenRecipeToAlergicInfo"
-                },
-                {
-                    "relation_to": "UserWildeisenIngredient",
-                    "primary_id": "recipe_id",
-                    "foreign_id": "ingredient_id",
-                    "through": "UserWildeisenRecipeToIngredient"
                 },
                 {
                     "relation_to": "UserWildeisenPreparationForm",
@@ -332,43 +343,57 @@
                     "through": "UserWildeisenRecipeToPreparationWay"
                 },
                 {
-                    "relation_to": "UserWildeisenNutrientContent",
-                    "primary_id": "recipe_id",
-                    "foreign_id": "nutrient_content_id",
-                    "through": "UserWildeisenRecipeToNutrientContent"
-                },
-                {
                     "relation_to": "UserWildeisenCuisine",
                     "primary_id": "recipe_id",
                     "foreign_id": "cuisine_id",
                     "through": "UserWildeisenRecipeToCuisine"
                 },
                 {
-                    "relation_to": "UserWildeisenIssue",
-                    "primary_id": "recipe_id",
-                    "foreign_id": "issue_id",
-                    "through": "UserWildeisenRecipeToIssue"
-                },
-                {
                     "relation_to": "UserWildeisenRecipeCategory",
                     "primary_id": "recipe_id",
                     "foreign_id": "recipe_category_id",
                     "through": "UserWildeisenRecipeToRecipeCategory"
+                },
+                {
+                    "relation_to": "UserWildeisenRecipe",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "related_recipe_id",
+                    "through": "UserWildeisenRelatedRecipe"
                 }
             ],
             "many": [
                 {
+                    "relation_to": "UserWildeisenRecipeToIngredient",
                     "primary_id": "recipe_id",
-                    "relation_to": "UserWildeisenRelatedRecipe",
-                    "foreign_id": "related_recipe_id"
+                    "foreign_id": "ingredient_id"
+                },
+                {
+                    "relation_to": "UserWildeisenRecipeToNutrientContent",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "nutrient_content_id"
+                },
+                {
+                    "relation_to": "UserWildeisenRecipeToIssue",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "issue_id"
                 }
             ],
-            "aggregate_belongs": [
+            "aggregate_has_one": [
                 {
                     "relation_to": "UserWildeisenRecipeOfDay",
                     "primary_id": "recipe_id",
                     "field": "date",
                     "save_as": "recipe_of_day"
+                }
+            ],
+            "aggregate_through": [
+                {
+                    "relation_to": "UserWildeisenTag",
+                    "primary_id": "recipe_id",
+                    "foreign_id": "tag_id",
+                    "through": "UserWildeisenRecipeToTag",
+                    "field": "name",
+                    "save_as": "tags"
                 }
             ]
         },
@@ -416,6 +441,17 @@
         "fields": {
         },
         "links": {
+        },
+        "format": {
+            "slug": {
+                " ": "-",
+                "ä": "a",
+                "ü": "u",
+                "ö": "o"
+            }
+        },
+        "copy": {
+            "name": "slug"
         }
     },
     "UserWildeisenImage": {
@@ -426,7 +462,15 @@
         "links": {
         }
     },
-    "UserWildeisenRecipeToImage": {
+    "UserWildeisenRecipeToImageTwo": {
+        "content_type": "Bilderstrecke",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenRecipesImages": {
         "content_type": "Bild",
         "type": "asset",
         "fields": {
@@ -571,13 +615,6 @@
 //                    "relation_to": "UserWildeisenUnit",
 //                    "foreign_id": "unit_id"
 //                }
-//            ],
-//            "aggregate_belongs": [
-//                {
-//                    "relation_to": "UserWildeisenUnit",
-//                    "primary_id": "unit_id",
-//                    "field": "abbreviation"
-//                }
 //            ]
         }
     },
@@ -658,12 +695,10 @@
         "fields": {
         },
         "links": {
-//            "many_through": [
+//            "belongs_to": [
 //                {
 //                    "relation_to": "UserWildeisenIssue",
-//                    "primary_id": "recipe_id",
-//                    "foreign_id": "issue_id",
-//                    "through": "UserWildeisenMagazineToIssue"
+//                    "foreign_id": "issue_id"
 //                }
 //            ],
 //            "aggregate_belongs": [
@@ -739,6 +774,14 @@
     },
     "UserWildeisenRecipeToTag": {
         "content_type": "RecipeToTag",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "UserWildeisenTag": {
+        "content_type": "Tags",
         "type": "entry",
         "fields": {
         },
