@@ -17,13 +17,13 @@ class Migrator
 
   def run(action, options = {})
     case action.to_s
-      when '--content-types-json'
+      when '--create-content-model-from-json'
         exporter.create_content_type_json
       when '--export-json'
         exporter.save_data_as_json
       when '--prepare-json'
         exporter.create_data_relations
-      when '--organize-files'
+      when '--threads'
         data_organizer.execute(options[:thread])
       when '--import-content-types'
         importer.create_contentful_model(options)
@@ -37,9 +37,6 @@ class Migrator
         importer.test_credentials
       when '--list-tables'
         exporter.tables_name
-      when '--recipes-special-mapping'
-        exporter.special_mapping
-        exporter.map_assets_url
       when '--import-assets'
         importer.import_only_assets
     end

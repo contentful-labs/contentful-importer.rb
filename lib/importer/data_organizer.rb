@@ -18,7 +18,7 @@ module Contentful
 
     #TODO REFACTOR
     def split_entries(threads_count)
-      entries_per_thread_count = count_files / threads_count
+      entries_per_thread_count = total_entries_count / threads_count
       current_thread, entry_index = 0, 0
       Dir.glob("#{config.entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)
@@ -68,10 +68,6 @@ module Contentful
       FileUtils.cp entry_path, "#{config.threads_dir}/#{current_thread}/#{new_entry_name(content_type_id, entry_path)}"
     end
 
-    def total_entries_count
-      Dir.glob("#{config.entries_dir}/**/*.json").count
-    end
-
     def create_threads_subdirectories(threads_count)
       create_directory(config.threads_dir)
       threads_count.times do |thread_id|
@@ -83,8 +79,7 @@ module Contentful
       FileUtils.mkdir_p(path) unless File.directory?(path)
     end
 
-
-    def count_files
+    def total_entries_count
       total_number = 0
       Dir.glob("#{config.entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)

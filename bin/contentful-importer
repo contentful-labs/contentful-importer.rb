@@ -6,9 +6,9 @@ Escort::App.create do |app|
   app.summary 'Executable file of Generic-importer Gem'
 
   app.options do |opts|
-    opts.opt :file, 'file', :short => '-f', :long => '--file', :type => :string
+    opts.opt :file, '--config-file', :short => '-f', :long => '--config-file', :type => :string
 
-    app.command '--content-types-json' do |command|
+    app.command '--create-content-model-from-json' do |command|
       command.summary 'Query data from Database'
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute
@@ -32,7 +32,7 @@ Escort::App.create do |app|
         Command::CLI.new(options, arguments).execute
       end
     end
-    app.command '--organize-files' do |command|
+    app.command '--threads' do |command|
       command.summary 'Organize file structure to import. Assign files to separate Threads'
       command.options do |opts|
         opts.opt :thread, 'thread', :short => '-c', :long => '--thread', :type => :integer, default: 1
