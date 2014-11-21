@@ -78,10 +78,9 @@ module Contentful
       end
     end
 
-    #TODO ADD MIME TYPE
     def create_asset_file(asset_title, params)
       Contentful::Management::File.new.tap do |file|
-        file.properties[:contentType] = 'image/jpg'
+        file.properties[:contentType] = file_content_type(params)
         file.properties[:fileName] = asset_title
         file.properties[:upload] = params['url']
       end
@@ -292,7 +291,6 @@ module Contentful
         puts "### Failure! - #{ct_object.message} ! ###"
       else
         puts 'Successfully activated!'
-        CSV.open("#{config.success_logs_dir}/log_published_entries.csv", 'a') { |csv| csv << [ct_object.id] } if ct_object.is_a? Contentful::Management::Entry
       end
     end
 

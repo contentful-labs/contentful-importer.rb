@@ -16,14 +16,14 @@ module Contentful
       split_entries(threads_count)
     end
 
+    #TODO REFACTOR
     def split_entries(threads_count)
       entries_per_thread_count = count_files / threads_count
       current_thread, entry_index = 0, 0
       Dir.glob("#{config.entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)
-        if has_contentful_structure?(collection_name) && collection_name == 'rezept_ausgabe'
+        if has_contentful_structure?(collection_name)
           content_type_id = content_type_id_from_file(collection_name)
-          # organize_entries(content_type_id, current_thread, dir_path, entry_index, entries_per_thread_count)
           puts "Processing collection: #{content_type_id}"
           Dir.glob("#{dir_path}/*.json") do |entry_path|
             copy_entry(entry_path, current_thread, content_type_id)
@@ -88,11 +88,10 @@ module Contentful
       total_number = 0
       Dir.glob("#{config.entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)
-        if has_contentful_structure?(collection_name)  && collection_name == 'rezept_ausgabe'
-          total_number += Dir.glob("#{config.entries_dir}/#{collection_name}/*").count
-        end
+          total_number += Dir.glob("#{config.entries_dir}/#{collection_name}/*").count if has_contentful_structure?(collection_name)
       end
       total_number
     end
   end
+
 end

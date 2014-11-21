@@ -20,12 +20,10 @@ module Contentful
 
         def transform_row_into_hash(model_name, content_type_name, row, index)
           id = row[:id] || index
-          id = row[:recipe_id] || index + 10000 if content_type_name == 'bilderstrecke'
           puts "Saving #{content_type_name} - id: #{id}"
           db_object = map_fields(model_name, row)
           db_object[:id] = model_id(model_name, content_type_name, id)
           db_object[:database_id] = id
-          db_object[:import_id] = id.to_s #TODO REMOVE AFTER RECIPES IMPORT
           db_object
         end
 

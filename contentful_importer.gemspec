@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'pg', '~> 0.17.0'
   spec.add_dependency 'escort','~> 0.4.0'
   spec.add_dependency 'api_cache', ' ~> 0.3.0'
+  spec.add_dependency 'i18n', '~> 0.6'
 
   spec.add_development_dependency 'bundler', '~> 1.6'
   spec.add_development_dependency 'rake'

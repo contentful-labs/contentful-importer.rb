@@ -1,15 +1,11 @@
+require 'i18n'
+
 module Contentful
   module Exporter
     module Database
       module RelationsExport
 
         RELATIONS = [:many, :many_through, :aggregate_many, :aggregate_through, :has_one, :aggregate_has_one]
-        CHAR_MAP = {
-            ' ' => '_',
-            'ä' => 'a',
-            'ü' => 'u',
-            'ö' => 'o'
-        }
 
         def generate_relations_helper_indexes(relations)
           create_directory(config.helpers_dir)
@@ -55,7 +51,8 @@ module Contentful
 
         def map_relations_to_links(model_name, relations)
           records = 0
-          model_subdirectory = model_content_type(model_name).underscore.gsub(/[\säüö]+/) { |match| CHAR_MAP[match] }
+
+          model_subdirectory = I18n.transliterate(model_content_type(model_name)).underscore.tr(' ','_')
           Dir.glob("#{config.entries_dir}/#{model_subdirectory}/*json") do |entry_path|
             map_entry_relations(entry_path, model_name, relations, records)
             records += 1
@@ -118,7 +115,7 @@ module Contentful
         end
 
         def save_belongs_to_entries(linked_model, ct_link_type, ct_field_id, entry, entry_path)
-          content_type = model_content_type(linked_model[:relation_to]).underscore.gsub(/[\säüö]+/) { |match| CHAR_MAP[match] }
+          content_type = I18n.transliterate(model_content_type(linked_model[:relation_to])).underscore.tr(' ','_')
           foreign_id = linked_model[:foreign_id]
           if entry[foreign_id].present?
             case ct_link_type
@@ -137,21 +134,17 @@ module Contentful
 
         def save_many_entries(linked_model, ct_field_id, entry, entry_path, related_to, ct_type)
           related_model = linked_model[related_to].underscore
-          contentful_name = model_content_type(linked_model[:relation_to]).underscore.gsub(/[\säüö]+/) { |match| CHAR_MAP[match] }
+          contentful_name = I18n.transliterate(model_content_type(linked_model[:relation_to])).underscore.tr(' ','_')
           objects = entry[ct_field_id] || []
           associated_objects = add_associated_object_to_file(entry, related_model, contentful_name, linked_model[:primary_id], ct_type)
           objects.concat(associated_objects) if objects.present? && associated_objects.present? && objects.is_a?(Array)
           save_objects = objects.present? ? objects : associated_objects
-          if related_model == 'user_wildeisen_recipe_to_image_two'
-            write_json_to_file(entry_path, entry.merge!(ct_field_id => save_objects.first)) if save_objects.present?
-          else
             write_json_to_file(entry_path, entry.merge!(ct_field_id => save_objects)) if save_objects.present?
-          end
         end
 
         def save_has_one_entry(linked_model, ct_field_id, entry, entry_path, related_to, ct_type)
           related_model = linked_model[related_to].underscore
-          contentful_name = model_content_type(linked_model[:relation_to]).underscore.gsub(/[\säüö]+/) { |match| CHAR_MAP[match] }
+          contentful_name = I18n.transliterate(model_content_type(linked_model[:relation_to])).underscore.tr(' ','_')
           associated_object = add_associated_object_to_file(entry, related_model, contentful_name, linked_model[:primary_id], ct_type)
           write_json_to_file(entry_path, entry.merge!(ct_field_id => associated_object.first)) if associated_object.present?
         end
@@ -168,11 +161,9 @@ module Contentful
           save_has_one_entry(linked_model, ct_field_id, entry, entry_path, related_to, ct_type)
         end
 
-        #TODO REMOVE line 141 if contentful_name == 'user_wildeisen_recipe_to_preparation_form'
         def add_associated_object_to_file(entry, related_model, contentful_name, primary_id, ct_type)
           Dir.glob("#{config.helpers_dir}/#{primary_id}_#{related_model}.json") do |through_file|
             hash_with_foreign_keys = JSON.parse(File.read(through_file))
-            contentful_name = 'form_' + contentful_name if related_model == 'user_wildeisen_recipe_to_preparation_form'
             return build_hash_with_associated_objects(hash_with_foreign_keys, entry, contentful_name, ct_type)
           end
         end
@@ -229,7 +220,7 @@ module Contentful
         def save_aggregate_belongs_entries(linked_model, entry, entry_path, related_to)
           related_model = linked_model[related_to]
           ct_field_id = linked_model[:save_as] || linked_model[:field]
-          related_model_directory = config.mapping[related_model][:content_type].underscore.gsub(/[\säüö]+/) { |match| CHAR_MAP[match] }
+          related_model_directory = I18n.transliterate(config.mapping[related_model][:content_type]).underscore.tr(' ','_')
           associated_foreign_key = related_model_directory + '_' + entry[linked_model[:primary_id]].to_s
           associated_object = JSON.parse(File.read("#{config.entries_dir}/#{related_model_directory}/#{associated_foreign_key}.json"))[linked_model[:field]]
           write_json_to_file(entry_path, entry.merge!(ct_field_id => associated_object))
@@ -258,65 +249,6 @@ module Contentful
             end
           end
           associated_objects
-        end
-
-########################################################################
-#TODO REMOVE AFTER RECIPES IMPORT
-        def map_assets_url
-          content_types = %w(rezept kampagnen_sujets produkt bilderstrecke)
-          content_types.each do |entry_dir|
-            puts "Mapping Assets URL for #{entry_dir}"
-            Dir.glob("#{config.entries_dir}/#{entry_dir}/*") do |entry_file|
-              entry_file = JSON.parse(File.read(entry_file))
-              entry_image = entry_file['image'].present? ? entry_file['image'] : entry_file['images']
-              if entry_image
-                if entry_image.is_a?(Array)
-                  entry_image.each do |asset|
-                    add_path_to_url(entry_dir, asset['id'])
-                  end
-                else
-                  add_path_to_url(entry_dir, entry_file['image']['id'])
-                end
-              end
-            end
-          end
-        end
-
-        #TODO REMOVE AFTER RECIPES IMPORT
-        def add_path_to_url(entry_dir, asset_id)
-          asset_file = JSON.parse(File.read("#{config.assets_dir}/bild/#{asset_id}.json"))
-          asset_url = asset_file['url']
-          if asset_url && !asset_url.start_with?('http://')
-            asset_file['url'] = case entry_dir
-                                  when 'rezept', 'bilderstrecke'
-                                    'http://wildeisen-migration.s3.amazonaws.com/' + asset_url
-                                  when 'kampagnen_sujets'
-                                    'http://www.wildeisen.ch/fileadmin/www.wildeisen.ch/documents/Bilder/Sujets/' + asset_url
-                                  when 'produkt'
-                                    'http://www.wildeisen.ch/fileadmin/www.wildeisen.ch/documents/Bilder/Produkte/' + asset_url
-                                end
-            write_json_to_file("#{config.assets_dir}/bild/#{asset_id}.json", asset_file)
-          end
-        end
-
-        #TODO REMOVE AFTER RECIPES IMPORT
-        def special_mapping
-          %w(zutatenangabe nahrwert_angabe).each do |content_type|
-            puts "Special mapping for: #{content_type}"
-            special_case(content_type)
-          end
-        end
-
-        def special_case(content_type)
-          Dir.glob("#{config.entries_dir}/#{content_type}/*") do |entry_file|
-            entry_attr = JSON.parse(File.read(entry_file))
-            new_name = entry_attr['amount'].to_s + ' '
-            new_name += entry_attr['abbreviation'] + ' ' if entry_attr['abbreviation'].present?
-            new_name += entry_attr['amount'] > 1 ? (entry_attr['name_plural'].present? ? entry_attr['name_plural'] : entry_attr['name']) : (entry_attr['name'].present? ? entry_attr['name'] : '')
-            entry_attr['internal_name'] = new_name
-            entry_attr['is_group_separator'] = entry_attr['group_name'].present? ? true : false if content_type == 'zutatenangabe'
-            write_json_to_file(entry_file, entry_attr)
-          end
         end
       end
     end
