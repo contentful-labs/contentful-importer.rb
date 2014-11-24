@@ -203,7 +203,7 @@ module Contentful
         def aggregate_has_one_entries(linked_model, entry, entry_path, related_to)
           ct_field_id = linked_model[:save_as] || linked_model[:field]
           related_model = linked_model[related_to].underscore
-          related_model_directory = config.mapping[linked_model[related_to]][:content_type].underscore.gsub(/[\säüö]+/) { |match| CHAR_MAP[match] }
+          related_model_directory = I18n.transliterate(config.mapping[linked_model[related_to]][:content_type]).underscore.tr(' ','_')
           save_aggregated_has_one_data(entry_path, entry, related_model, related_model_directory, linked_model, ct_field_id)
         end
 

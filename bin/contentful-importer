@@ -7,6 +7,7 @@ Escort::App.create do |app|
 
   app.options do |opts|
     opts.opt :file, '--config-file', :short => '-f', :long => '--config-file', :type => :string
+    opts.opt :exporter, '--exporter', :short => '-e', :long => '--exporter', :type => :string, default: 'database'
 
     app.command '--create-content-model-from-json' do |command|
       command.summary 'Query data from Database'

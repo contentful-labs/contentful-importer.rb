@@ -1,0 +1,18 @@
+{
+    "ExampleModelName": {
+        "content_type": "model name",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "ExampleModelNameTwo": {
+        "content_type": "model name two",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    }
+}

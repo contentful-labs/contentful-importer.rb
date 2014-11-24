@@ -5,14 +5,24 @@ require_relative 'configuration'
 require_relative 'converter'
 
 class Migrator
+
   attr_reader :importer, :exporter, :converter, :data_organizer
 
-  def initialize(settings, exporter = nil)
+  def initialize(settings, exporter)
     @config = Contentful::Configuration.new(settings)
-    @exporter = exporter || Contentful::Exporter::Database::Export.new(@config)
+    @exporter = initialize_exporter(exporter)
     @importer = Contentful::ParallelImporter.new(@config)
     @converter = Contentful::Converter.new(@config)
     @data_organizer = Contentful::DataOrganizer.new(@config)
+  end
+
+  def initialize_exporter(option)
+    case option
+      when 'database'
+        Contentful::Exporter::Database::Export.new(@config)
+      else
+        raise ArgumentError, 'Invalid Exporter'
+    end
   end
 
   def run(action, options = {})

@@ -5,10 +5,11 @@ require_relative 'parallel_importer'
 module Contentful
   class DataOrganizer
 
-    attr_reader :config
+    attr_reader :config, :split_params
 
     def initialize(settings)
       @config = settings
+      @split_params = {entry_index: 0, current_thread: 0}
     end
 
     def execute(threads_count)
@@ -16,40 +17,36 @@ module Contentful
       split_entries(threads_count)
     end
 
-    #TODO REFACTOR
     def split_entries(threads_count)
       entries_per_thread_count = total_entries_count / threads_count
-      current_thread, entry_index = 0, 0
       Dir.glob("#{config.entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)
-        if has_contentful_structure?(collection_name)
+       if has_contentful_structure?(collection_name)
           content_type_id = content_type_id_from_file(collection_name)
-          puts "Processing collection: #{content_type_id}"
-          Dir.glob("#{dir_path}/*.json") do |entry_path|
-            copy_entry(entry_path, current_thread, content_type_id)
-            entry_index += 1
-            if entry_index == entries_per_thread_count
-              entry_index = 0
-              current_thread += 1
-              if current_thread == threads_count
-                current_thread = 0
-              end
-            end
-          end
+          process_collection_files(content_type_id, dir_path, entries_per_thread_count, threads_count)
         end
       end
     end
 
-    def organize_entries(content_type_id, current_thread, dir_path, entry_index, entries_per_thread_count)
+    def process_collection_files(content_type_id, dir_path, entries_per_thread_count, threads_count)
       puts "Processing collection: #{content_type_id}"
       Dir.glob("#{dir_path}/*.json") do |entry_path|
-        copy_entry(entry_path, current_thread, content_type_id)
-        entry_index += 1
-        if entry_index == entries_per_thread_count
-          entry_index = 0
-          current_thread += 1
-        end
+        copy_entry(entry_path, split_params[:current_thread], content_type_id)
+        split_params[:entry_index] += 1
+        count_index_files(entries_per_thread_count, threads_count)
       end
+    end
+
+    def count_index_files(entries_per_thread_count, threads_count)
+      if split_params[:entry_index] == entries_per_thread_count
+        split_params[:entry_index] = 0
+        set_current_thread(threads_count)
+      end
+    end
+
+    def set_current_thread(threads_count)
+      split_params[:current_thread] += 1
+      split_params[:current_thread] = 0 if  split_params[:current_thread] == threads_count
     end
 
     def has_contentful_structure?(collection_file)
@@ -83,7 +80,7 @@ module Contentful
       total_number = 0
       Dir.glob("#{config.entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)
-          total_number += Dir.glob("#{config.entries_dir}/#{collection_name}/*").count if has_contentful_structure?(collection_name)
+        total_number += Dir.glob("#{config.entries_dir}/#{collection_name}/*").count if has_contentful_structure?(collection_name)
       end
       total_number
     end
