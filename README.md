@@ -5,7 +5,7 @@ Rails database to Contentful importer
 
 Migrate data from database to the [Contentful](https://www.contentful.com) platform.
 
-This tool fetch data from database and save as JSON file on your local hard drive. It will allow you to import database's data to Contentful.
+This tool fetch data from database and save as JSON files on your local hard drive. It will allow you to import database's data to Contentful.
 
 ## Installation
 
