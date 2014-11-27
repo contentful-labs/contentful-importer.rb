@@ -1,5 +1,5 @@
 #PATH to all data
-data_dir: DEFINE_BEFORE_EXPORTING_DATA
+data_dir: /tmp/data
 
 
 ########## IMPORT DATA TO CONTENTFUL ##########
@@ -28,10 +28,15 @@ mapped:
 
 
 ## MAPPING ##
-mapping_dir: /rails_to_contentful/example_data/mapping.json
-contentful_structure_dir: /rails_to_contentful/example_data/contentful_structure.json
+mapping_dir: /Users/piotrprotas/rails_to_contentful/example_data/mapping.json
+contentful_structure_dir: /Users/piotrprotas//rails_to_contentful/example_data/contentful_structure.json
 
 
 ## CONVERT
-content_model_json:
-import_form_dir:
+content_model_json: /Users/piotrprotas//rails_to_contentful/example_data/contentful_model.json
+import_form_dir: /Users/piotrprotas//rails_to_contentful/example_data/contentful_structure.json
+
+
+## WORDPRESS
+
+wordpress_xml_path: /Users/piotrprotas//rails_to_contentful/example_data/wordpress.xml

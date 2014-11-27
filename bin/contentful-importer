@@ -21,7 +21,7 @@ Escort::App.create do |app|
         Command::CLI.new(options, arguments).execute
       end
     end
-    app.command '--convert-json' do |command|
+    app.command '--convert-content-model-to-json' do |command|
       command.summary 'Convert dump file from Contentful model to import form. Check README'
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute

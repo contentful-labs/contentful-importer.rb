@@ -1,0 +1,187 @@
+{
+  "sys": {
+    "type": "Array"
+  },
+  "total": 3,
+  "skip": 0,
+  "limit": 100,
+  "items": [
+    {
+      "fields": [
+        {
+          "name": "title",
+          "id": "title",
+          "type": "Text"
+        },
+        {
+          "name": "comments",
+          "id": "comments",
+          "type": "Array",
+          "items": {
+            "type": "Symbol"
+          }
+        },
+        {
+          "name": "content",
+          "id": "content",
+          "type": "Text"
+        }
+      ],
+      "name": "Post",
+      "sys": {
+        "id": "KHqITFZXeCIokyOEc4k0k",
+        "type": "ContentType",
+        "createdAt": "2014-11-26T13:15:08.574Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1E7acJL8I5XUXAMHQt9Grs"
+          }
+        },
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "1j2osuxmfs25"
+          }
+        },
+        "firstPublishedAt": "2014-11-26T13:16:17.537Z",
+        "publishedCounter": 1,
+        "publishedAt": "2014-11-26T13:16:17.537Z",
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1E7acJL8I5XUXAMHQt9Grs"
+          }
+        },
+        "publishedVersion": 39,
+        "version": 40,
+        "updatedAt": "2014-11-26T13:16:17.583Z",
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1E7acJL8I5XUXAMHQt9Grs"
+          }
+        }
+      },
+      "displayField": "title"
+    },
+    {
+      "fields": [
+        {
+          "name": "posts",
+          "id": "posts",
+          "type": "Array",
+          "items": {
+            "type": "Link",
+            "linkType": "Entry"
+          }
+        },
+        {
+          "name": "title",
+          "id": "title",
+          "type": "Text"
+        }
+      ],
+      "name": "Blog",
+      "sys": {
+        "id": "3gldgGyAyci8ak0cykKeou",
+        "type": "ContentType",
+        "createdAt": "2014-11-26T13:49:24.203Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1E7acJL8I5XUXAMHQt9Grs"
+          }
+        },
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "1j2osuxmfs25"
+          }
+        },
+        "firstPublishedAt": "2014-11-26T13:49:45.142Z",
+        "publishedCounter": 2,
+        "publishedAt": "2014-11-26T13:50:09.425Z",
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1E7acJL8I5XUXAMHQt9Grs"
+          }
+        },
+        "publishedVersion": 25,
+        "version": 26,
+        "updatedAt": "2014-11-26T13:50:09.461Z",
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1E7acJL8I5XUXAMHQt9Grs"
+          }
+        }
+      },
+      "displayField": "title"
+    },
+    {
+      "fields": [
+        {
+          "name": "author",
+          "id": "author",
+          "type": "Text"
+        },
+        {
+          "name": "content",
+          "id": "content",
+          "type": "Text"
+        }
+      ],
+      "name": "Comment",
+      "sys": {
+        "id": "1flsrsfABCEcuowGuwWcYm",
+        "type": "ContentType",
+        "createdAt": "2014-11-26T13:50:21.355Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1E7acJL8I5XUXAMHQt9Grs"
+          }
+        },
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "1j2osuxmfs25"
+          }
+        },
+        "firstPublishedAt": "2014-11-26T13:50:44.599Z",
+        "publishedCounter": 1,
+        "publishedAt": "2014-11-26T13:50:44.599Z",
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1E7acJL8I5XUXAMHQt9Grs"
+          }
+        },
+        "publishedVersion": 31,
+        "version": 32,
+        "updatedAt": "2014-11-26T13:50:44.652Z",
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1E7acJL8I5XUXAMHQt9Grs"
+          }
+        }
+      },
+      "displayField": "author"
+    }
+  ]
+}

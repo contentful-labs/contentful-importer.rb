@@ -1,4 +1,4 @@
-Rails database to Contentful importer
+Contentful Generic-importer
 =================
 
 ## Description
@@ -98,7 +98,7 @@ Import data to Contentful.
 
 ```contentful-importer --config-file settings.yml --import```
 
-#### --convert-json
+#### --convert-content-model-to-json
 
 To improve creation of the JSON file with contentful structure,needed to mapping, you can retrieve the entire structure of Space from Contentful platform and save it to the file JSON.
 
@@ -412,7 +412,7 @@ mapping_dir: example_path/mapping.json
 ```yml
 contentful_structure_dir: contentful_import_files/contentful_structure.json
 ```
-* [Dump JSON file](https://github.com/contentful/generic-importer.rb#--convert-json) with content types from contentful model:
+* [Dump JSON file](https://github.com/contentful/generic-importer.rb#--convert-content-model-to-json) with content types from contentful model:
 
 ```yml
 import_form_dir: contentful_import_files/contentful_structure.json
@@ -422,7 +422,7 @@ import_form_dir: contentful_import_files/contentful_structure.json
 Before you start import data, read [how to use it](https://github.com/contentful/generic-importer.rb#usage).
 When you specify credentials, you can [test them](https://github.com/contentful/generic-importer.rb#--test-credentials).
 
-After you [import content types](https://github.com/contentful/generic-importer.rb#--import-content-types---space_id-arg---space_name-arg) to Space, you need to specify ```space_id``` parameter.
+After you [import content types](https://github.com/contentful/generic-importer.rb#--import-content-types-args) to Space, you need to specify ```space_id``` parameter.
 
 Example:
 ```yml

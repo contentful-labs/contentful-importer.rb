@@ -1,14 +1,22 @@
 {
-    "ExampleModelName": {
-        "content_type": "model name",
+    "Blog": {
+        "content_type": "Blog",
         "type": "entry",
         "fields": {
         },
         "links": {
         }
     },
-    "ExampleModelNameTwo": {
-        "content_type": "model name two",
+    "Post": {
+        "content_type": "Post",
+        "type": "entry",
+        "fields": {
+        },
+        "links": {
+        }
+    },
+    "Comments": {
+        "content_type": "Comment",
         "type": "entry",
         "fields": {
         },

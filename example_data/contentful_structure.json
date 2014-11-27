@@ -1,3 +1,43 @@
 {
-
+  "Post": {
+    "id": "KHqITFZXeCIokyOEc4k0k",
+    "name": "Post",
+    "description": null,
+    "displayField": "title",
+    "fields": {
+      "title": "Text",
+      "Comments": {
+        "id": "comments",
+        "type": "Array",
+        "link_type": null,
+        "link": "Symbol"
+      },
+      "content": "Text"
+    }
+  },
+  "Blog": {
+    "id": "3gldgGyAyci8ak0cykKeou",
+    "name": "Blog",
+    "description": null,
+    "displayField": "title",
+    "fields": {
+      "Posts": {
+        "id": "posts",
+        "type": "Array",
+        "link_type": "Entry",
+        "link": "Link"
+      },
+      "title": "Text"
+    }
+  },
+  "Comment": {
+    "id": "1flsrsfABCEcuowGuwWcYm",
+    "name": "Comment",
+    "description": null,
+    "displayField": "author",
+    "fields": {
+      "author": "Text",
+      "content": "Text"
+    }
+  }
 }
