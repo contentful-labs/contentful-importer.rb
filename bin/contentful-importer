@@ -72,5 +72,11 @@ Escort::App.create do |app|
         Command::CLI.new(options, arguments).execute
       end
     end
+    app.command '--extract-wordpress-blog-json' do |command|
+      command.summary 'Extract data from WrodPress XML dump'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
   end
 end

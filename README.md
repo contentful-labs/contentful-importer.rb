@@ -128,11 +128,11 @@ Before you start import data to Contentful, check if the specified the Contentfu
 
 ```contentful-importer --config-file settings.yml --test-credentials```
 
-#### --extract_wordpress-blog
+#### --extract-wordpress-blog-json
 
 Before you start extracting  data from XML file, you need to specify which **Exporter** you want to use.
 
-```contentful-importer --config-file settings.yml --exporter wordpress --extract_wordpress-blog```
+```contentful-importer --config-file settings.yml --exporter wordpress --extract-wordpress-blog-json```
 
 After this action, JSON files with wordpress data will be created at you local hard drive. Path to this files is defined in settings.yml file, ```data_dir``` parameter.
 
@@ -445,7 +445,10 @@ In settings.yml file define path to xml file.
 wordpress_xml_path: PATH_TO_XML/file.xml
 ```
 
-
+Command to extract data:
+```
+contentful-importer --config-file settings.yml --exporter wordpress --extract-wordpress-blog-json
+```
 
 # Import
 Before you start import data, read [how to use it](https://github.com/contentful/generic-importer.rb#usage).
