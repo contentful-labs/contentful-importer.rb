@@ -42,6 +42,7 @@ module Contentful
         private
 
         def extract_blog
+          puts 'Extracting blog data...'
           create_directory("#{config.entries_dir}/blog")
           blog = extracted_data
           write_json_to_file("#{config.entries_dir}/blog/blog.json", blog)

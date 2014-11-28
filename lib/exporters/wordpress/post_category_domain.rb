@@ -12,6 +12,7 @@ module Contentful
         end
 
         def extract_tags
+          puts 'Extracting post tags...'
           post_domains('category[domain=post_tag]').each_with_object([]) do |tag, tags|
             normalized_tag = normalized_data(tag, '//wp:tag')
             tags << normalized_tag unless normalized_tag.empty?
@@ -19,6 +20,7 @@ module Contentful
         end
 
         def extract_categories
+          puts 'Extracting post categories...'
           post_domains('category[domain=category]').each_with_object([]) do |category, categories|
             normalized_categories = normalized_data(category, '//wp:category')
             categories << normalized_categories unless normalized_categories.empty?

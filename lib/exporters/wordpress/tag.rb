@@ -9,6 +9,7 @@ module Contentful
         end
 
         def tags_extractor
+          puts 'Extracting blog tags...'
           create_directory("#{config.entries_dir}/tag")
           extract_tags
         end

@@ -128,6 +128,16 @@ Before you start import data to Contentful, check if the specified the Contentfu
 
 ```contentful-importer --config-file settings.yml --test-credentials```
 
+#### --extract_wordpress-blog
+
+Before you start extracting  data from XML file, you need to specify which **Exporter** you want to use.
+
+```contentful-importer --config-file settings.yml --exporter wordpress --extract_wordpress-blog```
+
+After this action, JSON files with wordpress data will be created at you local hard drive. Path to this files is defined in settings.yml file, ```data_dir``` parameter.
+
+# Database Exporter
+
 ## Mapping
 
 Examples of mapping, might be found at [import-example.rb](https://github.com/contentful/importer-example.rb/tree/master/contentful_import_files)
@@ -418,7 +428,26 @@ contentful_structure_dir: contentful_import_files/contentful_structure.json
 import_form_dir: contentful_import_files/contentful_structure.json
 ```
 
-### Import
+# WordPress Importer
+
+This tool will import the following content from a WordPress XML export file:
+
+* Blog with posts and comments
+* Categories, tags and terms from custom taxonomies
+* Attachments
+* Authors
+
+To start using this tool, you need to [export blog's content](http://en.support.wordpress.com/export/) from WordPress and save as XML file.
+
+In settings.yml file define path to xml file.
+
+```yml
+wordpress_xml_path: PATH_TO_XML/file.xml
+```
+
+
+
+# Import
 Before you start import data, read [how to use it](https://github.com/contentful/generic-importer.rb#usage).
 When you specify credentials, you can [test them](https://github.com/contentful/generic-importer.rb#--test-credentials).
 

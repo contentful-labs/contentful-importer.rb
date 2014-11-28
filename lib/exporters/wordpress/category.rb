@@ -9,6 +9,7 @@ module Contentful
         end
 
         def categories_extractor
+          puts 'Extracting blog categories...'
           create_directory("#{config.entries_dir}/category")
           extract_categories
         end

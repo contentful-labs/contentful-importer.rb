@@ -11,6 +11,7 @@ module Contentful
         end
 
         def post_extractor
+          puts 'Extracting posts...'
           create_directory("#{config.entries_dir}/post")
           extract_posts
         end

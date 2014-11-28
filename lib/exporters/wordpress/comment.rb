@@ -11,6 +11,7 @@ module Contentful
         end
 
         def comments_extractor
+          puts 'Extracting post comments...'
           create_directory("#{config.entries_dir}/comment")
           extract_comments
         end
