@@ -132,6 +132,18 @@ Before you start import data to Contentful, check if the specified the Contentfu
 
 Examples of mapping, might be found at [import-example.rb](https://github.com/contentful/importer-example.rb/tree/master/contentful_import_files)
 
+### FIELDS
+
+To change name of model name field for new one, we need to add mapping for that field:
+```
+ "fields": {
+             "model_name": "new_api_contentful_field_name",
+             "model_name": "new_api_contentful_field_name",
+             "model_name": "new_api_contentful_field_name"
+         },
+```
+
+
 ### RELATIONS TYPES
 
 #### belongs_to
@@ -148,8 +160,8 @@ Example:
         "links": {
            "belongs_to": [
                           {
-                              "relation_to": "JobAdds",
-                              "foreign_id": "job_add_id"
+                              "relation_to": "ModelName",
+                              "foreign_id": "model_foreign_id"
                           }
                       ]
         }
@@ -164,7 +176,7 @@ Result:
   ...
   "job_add_id": {
     "type": "Entry",
-    "id": "job_adds_1"
+    "id": "model_name_3"
   },
 }
 
@@ -185,8 +197,8 @@ This method should only be used if the other class contains the foreign key. If 
          "links": {
              "has_one": [
                  {
-                     "relation_to": "Profiles",
-                     "primary_id": "user_id"
+                     "relation_to": "ModelName",
+                     "primary_id": "primary_key_name"
                  }
              ]
          }
@@ -196,26 +208,25 @@ This method should only be used if the other class contains the foreign key. If 
 Results:
 It will assign the associate object, save his ID ```(model_name + id)``` in JSON file.
 
-_users/users1.json_
  ```
  ...
-  "profile": {
+  "model_name": {
     "type": "profiles",
-    "id": "profiles_3"
+    "id": "content_type_id_3"
   }
  ```
 
 #### many
 
 ```
-    "JobAdds": {
+    "ModelName": {
     ...
         },
         "links": {
             "many": [
                         {
-                            "relation_to": "Comments",
-                            "primary_id": "job_add_id"
+                            "relation_to": "related_model_name",
+                            "primary_id": "primary_key_name"
                         }
                     ],
                 }
@@ -229,41 +240,42 @@ Results:
 Example:
 ```
 {
-  "id": "job_adds_1",
+  "id": "content_type_id",
   ...
 
   "comments": [
     {
-      "type": "comments",
-      "id": "comments_1"
+      "type": "related_content_type_name",
+      "id": "related_model_name_id"
     },
     {
-      "type": "comments",
-      "id": "comments_2"
+      "type": "related_content_type_name",
+      "id": "related_model_name_id"
     },
     {
-      "type": "comments",
-      "id": "comments_4"
+      "type": "related_content_type_name",
+      "id": "related_model_name_id"
     },
     {
-      "type": "comments",
-      "id": "comments_7"
+      "type": "related_content_type_name",
+      "id": "related_model_name_id"
     }
   ]
 }
 ```
 
 #### many_through
+
 Example:
 
 ```
         "links": {
             "many_through": [
                 {
-                    "relation_to": "Skills",
-                    "primary_id": "job_add_id",
-                    "foreign_id": "skill_id",
-                    "through": "JobAddSkills"
+                    "relation_to": "related_model_name",
+                    "primary_id": "primary_key_name",
+                    "foreign_id": "foreign_key_name",
+                    "through": "join_table_name"
                 }
             ]
         }
@@ -272,24 +284,38 @@ Example:
 It will map join table and save objects IDs in current model.
 
 Results:
-_users/job_adds_1.json_
 
 ```
-  "skills": [
+  "content_type_name": [
     {
-      "type": "skills",
-      "id": "skills_1"
+      "type": "content_type_name",
+      "id": "related_model_foreign_id"
     },
     {
-      "type": "skills",
-      "id": "skills_2"
+      "type": "content_type_name",
+      "id": "related_model_foreign_id"
     },
     {
-      "type": "skills",
-      "id": "skills_3"
+      "type": "content_type_name",
+      "id": "related_model_foreign_id"
     }
   ]
 ```
+#### aggregate_belongs
+
+It will save value with key of related model
+```
+        "links": {
+            "many_through": [
+                {
+                    "relation_to": "related_model_name",
+                    "primary_id": "primary_key_name",
+                    "field": "aggregated_field_name"
+                }
+            ]
+        }
+```
+
 
 ## Contentful Structure
 
