@@ -1,11 +1,14 @@
+
 require_relative 'mime_content_type'
 require 'contentful/management'
 require 'csv'
 require 'yaml'
 require 'api_cache'
-
 module Contentful
   class ParallelImporter
+
+    Encoding.default_external = 'utf-8'
+
     ASSETS_IDS = []
     attr_reader :space,
                 :config
@@ -13,7 +16,7 @@ module Contentful
 
     def initialize(settings)
       @config = settings
-      Contentful::Management::Client.new(config.config['access_token'])
+      Contentful::Management::Client.new(config.config['access_token'], default_locale: config.config['default_locale'] )
     end
 
     def create_contentful_model(space)
@@ -55,9 +58,8 @@ module Contentful
       create_log_file(log_file_name)
       load_log_files
       Dir.glob("#{path}/*.json") do |entry_path|
-        content_type_id = File.basename(entry_path).match(/(\D+[a-zA-Z])/)[0]
+        content_type_id = File.basename(entry_path).match(/(.+)_\d+/)[1]
         entry_file_name = File.basename(entry_path)
-        puts entry_path
         import_entry(entry_path, space_id, content_type_id, log_file_name) unless config.imported_entries.flatten.include?(entry_file_name)
       end
     end
@@ -67,7 +69,7 @@ module Contentful
       ASSETS_IDS << CSV.read("#{config.data_dir}/logs/assets_log.csv", 'r')
       Dir.glob("#{config.assets_dir}/**/*json") do |file_path|
         asset_attributes = JSON.parse(File.read(file_path))
-        if asset_attributes['url'] && asset_attributes['url'].start_with?('http://') && !ASSETS_IDS.flatten.include?(asset_attributes['id'])
+        if asset_attributes['url'] && asset_attributes['url'].start_with?('http') && !ASSETS_IDS.flatten.include?(asset_attributes['id'])
           puts "Import asset - #{asset_attributes['id']} "
           asset_title = asset_attributes['name'].present? ? asset_attributes['name'] : asset_attributes['id']
           asset_file = create_asset_file(asset_title, asset_attributes)
@@ -332,7 +334,7 @@ module Contentful
     end
 
     def file_content_type(params)
-      MimeContentType::EXTENSION_LIST[File.extname(params['id'])]
+      MimeContentType::EXTENSION_LIST[File.extname(params['url'])]
     end
 
     def format_json(item)

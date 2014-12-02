@@ -53,7 +53,7 @@ class Migrator
         exporter.tables_name
       when '--import-assets'
         importer.import_only_assets
-      when '--extract_wordpress-blog'
+      when '--extract-wordpress-blog-json'
         exporter.export_blog
     end
   end

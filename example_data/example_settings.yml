@@ -1,5 +1,5 @@
 #PATH to all data
-data_dir: /tmp/data
+data_dir:
 
 
 ########## IMPORT DATA TO CONTENTFUL ##########
@@ -7,8 +7,8 @@ data_dir: /tmp/data
 #Contentful credentials - Define before import data to Contentful.
 access_token:
 organization_id:
-space_id: DEFINE_AFTER_CREATING_SPACE
-
+space_id:
+default_locale: 'locale-code'
 
 ########## EXPORT DATA ##########
 
@@ -28,15 +28,15 @@ mapped:
 
 
 ## MAPPING ##
-mapping_dir: /Users/piotrprotas/rails_to_contentful/example_data/mapping.json
-contentful_structure_dir: /Users/piotrprotas//rails_to_contentful/example_data/contentful_structure.json
+mapping_dir:
+contentful_structure_dir:
 
 
 ## CONVERT
-content_model_json: /Users/piotrprotas//rails_to_contentful/example_data/contentful_model.json
-import_form_dir: /Users/piotrprotas//rails_to_contentful/example_data/contentful_structure.json
+content_model_json:
+import_form_dir:
 
 
 ## WORDPRESS
 
-wordpress_xml_path: /Users/piotrprotas//rails_to_contentful/example_data/wordpress.xml
+wordpress_xml_path:

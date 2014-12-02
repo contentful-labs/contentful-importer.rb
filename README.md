@@ -454,10 +454,23 @@ contentful-importer --config-file settings.yml --exporter wordpress --extract-wo
 Before you start import data, read [how to use it](https://github.com/contentful/generic-importer.rb#usage).
 When you specify credentials, you can [test them](https://github.com/contentful/generic-importer.rb#--test-credentials).
 
+#### Space ID
+
 After you [import content types](https://github.com/contentful/generic-importer.rb#--import-content-types-args) to Space, you need to specify ```space_id``` parameter.
 
 Example:
 ```yml
 space_id: space_id
 ```
+
+#### Default locale
+
+To specify in which locale you want to create all Entries and Assets, set ```default_locale``` parameter in settings.yml file
+
+```yml
+default_locale: de-DE
+```
+
+
+
 

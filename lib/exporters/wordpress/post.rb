@@ -23,9 +23,9 @@ module Contentful
         private
 
         def extract_posts
-          posts.each_with_object([]) do |post, posts|
-            normalized_post = extract_data(post)
-            write_json_to_file("#{config.entries_dir}/post/#{post_id(post)}.json", normalized_post)
+          posts.each_with_object([]) do |post_xml, posts|
+            normalized_post = extract_data(post_xml)
+            write_json_to_file("#{config.entries_dir}/post/#{post_id(post_xml)}.json", normalized_post)
             posts << normalized_post
           end
         end
@@ -34,51 +34,54 @@ module Contentful
           xml.xpath('//item').to_a
         end
 
-        def extract_data(post)
-          linked_comments = link_entry(comments(post))
-          linked_tags = link_entry(tags(post))
-          linked_categories = link_entry(categories(post))
-          post = {id: post_id(post), title: title(post), wordpress_url: url(post), content: content(post), attachment: link_asset(attachment(post))}
-          post.merge!(comments: linked_comments) unless linked_comments.empty?
-          post.merge!(tags: linked_tags) unless linked_tags.empty?
-          post.merge!(categories: linked_categories) unless linked_categories.empty?
-          post
+        ## TODO REFACTOR - MOVE TO SEPARATE CLASS
+        def extract_data(xml_post)
+          linked_comments = link_entry(comments(xml_post))
+          linked_tags = link_entry(tags(xml_post))
+          linked_categories = link_entry(categories(xml_post))
+          created = Date.strptime(created_at(xml_post))
+          post_entry = {id: post_id(xml_post), title: title(xml_post), wordpress_url: url(xml_post), content: content(xml_post), created_at: created}
+          post_entry.merge!(attachment: link_asset(attachment(xml_post))) unless attachment(xml_post).nil?
+          post_entry.merge!(comments: linked_comments) unless linked_comments.empty?
+          post_entry.merge!(tags: linked_tags) unless linked_tags.empty?
+          post_entry.merge!(categories: linked_categories) unless linked_categories.empty?
+          post_entry
         end
 
-        def attachment(post)
-          PostAttachment.new(post, config).attachment_extractor
+        def attachment(xml_post)
+          PostAttachment.new(xml_post, config).attachment_extractor
         end
 
-        def comments(post)
-          Comment.new(post, config).comments_extractor
+        def comments(xml_post)
+          Comment.new(xml_post, config).comments_extractor
         end
 
-        def tags(post)
-          PostCategoryDomain.new(xml, post, config).extract_tags
+        def tags(xml_post)
+          PostCategoryDomain.new(xml, xml_post, config).extract_tags
         end
 
-        def categories(post)
-          PostCategoryDomain.new(xml, post, config).extract_categories
+        def categories(xml_post)
+          PostCategoryDomain.new(xml, xml_post, config).extract_categories
         end
 
-        def title(post)
-          post.xpath('title').text
+        def title(xml_post)
+          xml_post.xpath('title').text
         end
 
-        def url(post)
-          post.xpath('link').text
+        def url(xml_post)
+          xml_post.xpath('link').text
         end
 
-        def content(post)
-          post.xpath('content:encoded').text
+        def content(xml_post)
+          xml_post.xpath('content:encoded').text
         end
 
-        def created_at(post)
-          post.xpath('wp:post_date').text
+        def created_at(xml_post)
+          xml_post.xpath('wp:post_date').text
         end
 
-        def comment_status(post)
-          post.xpath('wp:comment_status').text
+        def comment_status(xml_post)
+          xml_post.xpath('wp:comment_status').text
         end
 
       end

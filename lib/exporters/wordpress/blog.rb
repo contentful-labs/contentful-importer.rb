@@ -1,3 +1,5 @@
+require 'time'
+
 module Contentful
   module Exporter
     module Wordpress
@@ -45,7 +47,7 @@ module Contentful
           puts 'Extracting blog data...'
           create_directory("#{config.entries_dir}/blog")
           blog = extracted_data
-          write_json_to_file("#{config.entries_dir}/blog/blog.json", blog)
+          write_json_to_file("#{config.entries_dir}/blog/blog_1.json", blog)
         end
 
         def extracted_data

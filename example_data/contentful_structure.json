@@ -12,7 +12,38 @@
         "link_type": null,
         "link": "Symbol"
       },
-      "content": "Text"
+      "content": "Text",
+      "Tags": {
+        "id": "tags",
+        "type": "Array",
+        "link_type": "Entry",
+        "link": "Link"
+      },
+      "Categories": {
+        "id": "categories",
+        "type": "Array",
+        "link_type": "Entry",
+        "link": "Link"
+      },
+      "wordpress_url": "Text",
+      "Attachment": {
+        "id": "attachment",
+        "type": "Asset",
+        "link": "Link"
+      }
+    }
+  },
+  "Comment": {
+    "id": "1flsrsfABCEcuowGuwWcYm",
+    "name": "Comment",
+    "description": null,
+    "displayField": "content",
+    "fields": {
+      "author_email": "Text",
+      "content": "Text",
+      "author": "Text",
+      "authorUrl": "Text",
+      "created_at": "Date"
     }
   },
   "Blog": {
@@ -27,17 +58,39 @@
         "link_type": "Entry",
         "link": "Link"
       },
-      "title": "Text"
+      "title": "Text",
+      "Categories": {
+        "id": "categories",
+        "type": "Array",
+        "link_type": "Entry",
+        "link": "Link"
+      },
+      "Tags": {
+        "id": "tags",
+        "type": "Array",
+        "link_type": "Entry",
+        "link": "Link"
+      }
     }
   },
-  "Comment": {
-    "id": "1flsrsfABCEcuowGuwWcYm",
-    "name": "Comment",
+  "Tag": {
+    "id": "wO1krKenNQcWMSqaeysWo",
+    "name": "Tag",
     "description": null,
-    "displayField": "author",
+    "displayField": "nicename",
     "fields": {
-      "author": "Text",
-      "content": "Text"
+      "nicename": "Text",
+      "name": "Text"
+    }
+  },
+  "Category": {
+    "id": "5PIooPqWmAcYyQ04c2KUcQ",
+    "name": "Category",
+    "description": null,
+    "displayField": "name",
+    "fields": {
+      "nicename": "Text",
+      "name": "Text"
     }
   }
 }

@@ -33,12 +33,12 @@ module Contentful
               author: author(comment),
               author_email: author_email(comment),
               author_url: author_url(comment),
-              created_at: created_at(comment)
+              created_at: Date.parse(created_at(comment))
           }
         end
 
         def entry_id(comment)
-          "#{post_id(post)}_#{id(comment)}"
+          'comment_'+ "#{post_id(post)}_#{id(comment)}"
         end
 
         def id(comment)
