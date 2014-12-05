@@ -6,7 +6,7 @@ module Contentful
       module JsonExport
 
         def asset?(model_name)
-          config.mapping[model_name] && config.mapping[model_name][:type] == 'asset'
+          mapping[model_name] && mapping[model_name][:type] == 'asset'
         end
 
         def save_object_to_file(table, content_type_name, model_name, type)
@@ -28,7 +28,7 @@ module Contentful
         end
 
         def model_id(model_name, content_type_name, id)
-          prefix = config.mapping[model_name][:prefix_id] || ''
+          prefix = mapping[model_name][:prefix_id] || ''
           prefix + "#{content_type_name}_#{id}"
         end
 
@@ -46,7 +46,7 @@ module Contentful
         end
 
         def copy_field_value(field_name, field_value, model_name, result)
-          copy_field = config.mapping[model_name][:copy][field_name]
+          copy_field = mapping[model_name][:copy][field_name]
           result[copy_field] = format_value(field_value.to_s)
         end
 
@@ -56,19 +56,19 @@ module Contentful
         end
 
         def mapped_field_name(field_name, model_name)
-          has_mapping_for?(field_name, model_name) ? config.mapping[model_name][:fields][field_name] : field_name
+          has_mapping_for?(field_name, model_name) ? mapping[model_name][:fields][field_name] : field_name
         end
 
         def has_mapping_for?(field_name, model_name)
-          config.mapping[model_name] && config.mapping[model_name][:fields][field_name].present?
+          mapping[model_name] && mapping[model_name][:fields][field_name].present?
         end
 
         def has_mapping_value?(field_name, model_name)
-          config.mapping[model_name] && config.mapping[model_name][:format] && config.mapping[model_name][:format][field_name].present?
+          mapping[model_name] && mapping[model_name][:format] && mapping[model_name][:format][field_name].present?
         end
 
         def copy_field?(field_name, model_name)
-          config.mapping[model_name] && config.mapping[model_name][:copy] && config.mapping[model_name][:copy][field_name].present?
+          mapping[model_name] && mapping[model_name][:copy] && mapping[model_name][:copy][field_name].present?
         end
 
       end

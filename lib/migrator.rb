@@ -11,7 +11,7 @@ class Migrator
   attr_reader :importer, :exporter, :converter, :data_organizer, :config
 
   def initialize(settings, exporter)
-    @config = Contentful::Configuration.new(settings)
+    @config = Contentful::Configuration.new(settings, exporter)
     @exporter = initialize_exporter(exporter)
     @importer = Contentful::ParallelImporter.new(@config)
     @converter = Contentful::Converter.new(@config)
@@ -25,7 +25,7 @@ class Migrator
       when 'wordpress'
         Contentful::Exporter::Wordpress::Export.new(config)
       else
-        raise ArgumentError, 'Invalid Exporter'
+        fail ArgumentError, 'Invalid Exporter - Check README!'
     end
   end
 

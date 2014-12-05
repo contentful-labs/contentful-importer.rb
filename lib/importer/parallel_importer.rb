@@ -69,15 +69,23 @@ module Contentful
       ASSETS_IDS << CSV.read("#{config.data_dir}/logs/assets_log.csv", 'r')
       Dir.glob("#{config.assets_dir}/**/*json") do |file_path|
         asset_attributes = JSON.parse(File.read(file_path))
-        if asset_attributes['url'] && asset_attributes['url'].start_with?('http') && !ASSETS_IDS.flatten.include?(asset_attributes['id'])
+        if asset_url_param_start_with_http?(asset_attributes) && asset_not_imported_yet?(asset_attributes)
           puts "Import asset - #{asset_attributes['id']} "
-          asset_title = asset_attributes['name'].present? ? asset_attributes['name'] : asset_attributes['id']
+          asset_title = asset_attributes['napinge'].present? ? asset_attributes['name'] : asset_attributes['id']
           asset_file = create_asset_file(asset_title, asset_attributes)
           space = Contentful::Management::Space.find(config.config['space_id'])
           asset = space.assets.create(id: "#{asset_attributes['id']}", title: "#{asset_title}", description: '', file: asset_file)
           asset_status(asset, asset_attributes)
         end
       end
+    end
+
+    def asset_url_param_start_with_http?(asset_attributes)
+      asset_attributes['url'] && asset_attributes['url'].start_with?('http')
+    end
+
+    def asset_not_imported_yet?(asset_attributes)
+      !ASSETS_IDS.flatten.include?(asset_attributes['id'])
     end
 
     def create_asset_file(asset_title, params)

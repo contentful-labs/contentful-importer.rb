@@ -5,7 +5,6 @@ require 'json'
 
 require_relative 'blog'
 require_relative 'post'
-require_relative 'comment'
 require_relative 'category'
 require_relative 'tag'
 require_relative 'post_category_domain'
@@ -20,13 +19,17 @@ module Contentful
 
         def initialize(settings)
           @config = settings
-          @wordpress_xml = Nokogiri::XML(File.open(config.config['wordpress_xml_path']))
+          @wordpress_xml = wordpress_xml_document
         end
 
         def export_blog
           Blog.new(wordpress_xml, config).blog_extractor
         end
 
+        def wordpress_xml_document
+          fail ArgumentError, 'Set PATH to contentful structure JSON file. Check README' unless config.config['wordpress_xml_path'] && config.config['wordpress_xml_path'].present?
+          Nokogiri::XML(File.open(config.config['wordpress_xml_path']))
+        end
       end
     end
   end

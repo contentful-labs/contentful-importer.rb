@@ -37,7 +37,7 @@ module Contentful
         end
 
         def id(category)
-          'category_' + category.xpath('wp:term_id').text
+          "category_#{category.xpath('wp:term_id').text}"
         end
 
         def nice_name(category)

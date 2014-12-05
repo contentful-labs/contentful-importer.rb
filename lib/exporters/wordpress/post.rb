@@ -17,7 +17,7 @@ module Contentful
         end
 
         def post_id(post)
-          'post_' + post.xpath('wp:post_id').text
+          "post_#{post.xpath('wp:post_id').text}"
         end
 
         private
@@ -34,26 +34,14 @@ module Contentful
           xml.xpath('//item').to_a
         end
 
-        ## TODO REFACTOR - MOVE TO SEPARATE CLASS
         def extract_data(xml_post)
-          linked_comments = link_entry(comments(xml_post))
-          linked_tags = link_entry(tags(xml_post))
-          linked_categories = link_entry(categories(xml_post))
-          created = Date.strptime(created_at(xml_post))
-          post_entry = {id: post_id(xml_post), title: title(xml_post), wordpress_url: url(xml_post), content: content(xml_post), created_at: created}
-          post_entry.merge!(attachment: link_asset(attachment(xml_post))) unless attachment(xml_post).nil?
-          post_entry.merge!(comments: linked_comments) unless linked_comments.empty?
-          post_entry.merge!(tags: linked_tags) unless linked_tags.empty?
-          post_entry.merge!(categories: linked_categories) unless linked_categories.empty?
+          post_entry = basic_post_data(xml_post)
+          assign_content_elements_to_post(xml_post,post_entry)
           post_entry
         end
 
         def attachment(xml_post)
           PostAttachment.new(xml_post, config).attachment_extractor
-        end
-
-        def comments(xml_post)
-          Comment.new(xml_post, config).comments_extractor
         end
 
         def tags(xml_post)
@@ -62,6 +50,23 @@ module Contentful
 
         def categories(xml_post)
           PostCategoryDomain.new(xml, xml_post, config).extract_categories
+        end
+
+        def basic_post_data(xml_post)
+          created = Date.strptime(created_at(xml_post))
+          {
+              id: post_id(xml_post),
+              title: title(xml_post),
+              wordpress_url: url(xml_post),
+              content: content(xml_post),
+              created_at: created
+          }
+        end
+
+        def assign_content_elements_to_post(xml_post, post_entry)
+          post_entry.merge!(attachment: link_asset(attachment(xml_post))) unless attachment(xml_post).nil?
+          post_entry.merge!(tags: link_entry(tags(xml_post))) unless link_entry(tags(xml_post)).empty?
+          post_entry.merge!(categories: link_entry(categories(xml_post))) unless link_entry(categories(xml_post)).empty?
         end
 
         def title(xml_post)
@@ -78,10 +83,6 @@ module Contentful
 
         def created_at(xml_post)
           xml_post.xpath('wp:post_date').text
-        end
-
-        def comment_status(xml_post)
-          xml_post.xpath('wp:comment_status').text
         end
 
       end

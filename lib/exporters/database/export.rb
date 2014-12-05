@@ -20,10 +20,12 @@ module Contentful
 
         Sequel::Model.plugin :json_serializer
 
-        attr_reader :config
+        attr_reader :config, :mapping, :tables
 
         def initialize(settings)
           @config = settings
+          @mapping = mapping_structure
+          @tables = load_tables
         end
 
         def tables_name
@@ -41,9 +43,9 @@ module Contentful
         end
 
         def save_data_as_json
-          config.tables.each do |table|
+          tables.each do |table|
             model_name = table.to_s.camelize
-            content_type_name = config.mapping[model_name][:content_type]
+            content_type_name = mapping[model_name][:content_type]
             save_object_to_file(table, content_type_name, model_name, asset?(model_name) ? config.assets_dir : config.entries_dir)
           end
         end
@@ -53,6 +55,16 @@ module Contentful
             generate_relations_helper_indexes(relations)
             map_relations_to_links(model_name, relations)
           end
+        end
+
+        def mapping_structure
+          fail ArgumentError, 'Set PATH to contentful structure JSON file. Check README' unless config.config['mapping_dir']
+          JSON.parse(File.read(config.config['mapping_dir']), symbolize_names: true).with_indifferent_access
+        end
+
+        def load_tables
+          fail ArgumentError, 'Before importing data from tables, define their names. Check README!' unless config.config['mapped'] && config.config['mapped']['tables']
+          config.config['mapped']['tables']
         end
 
       end
