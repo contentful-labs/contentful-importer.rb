@@ -71,7 +71,7 @@ module Contentful
         asset_attributes = JSON.parse(File.read(file_path))
         if asset_url_param_start_with_http?(asset_attributes) && asset_not_imported_yet?(asset_attributes)
           puts "Import asset - #{asset_attributes['id']} "
-          asset_title = asset_attributes['napinge'].present? ? asset_attributes['name'] : asset_attributes['id']
+          asset_title = asset_attributes['name'].present? ? asset_attributes['name'] : asset_attributes['id']
           asset_file = create_asset_file(asset_title, asset_attributes)
           space = Contentful::Management::Space.find(config.config['space_id'])
           asset = space.assets.create(id: "#{asset_attributes['id']}", title: "#{asset_title}", description: '', file: asset_file)
