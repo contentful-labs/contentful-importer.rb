@@ -24,8 +24,6 @@ class Migrator
         Contentful::Exporter::Database::Export.new(config)
       when 'wordpress'
         Contentful::Exporter::Wordpress::Export.new(config)
-      else
-        fail ArgumentError, 'Invalid Exporter - Check README!'
     end
   end
 
@@ -53,6 +51,8 @@ class Migrator
         exporter.tables_name
       when '--import-assets'
         importer.import_only_assets
+      when '--publish-assets'
+        importer.publish_assets
       when '--extract-wordpress-blog-json'
         exporter.export_blog
     end

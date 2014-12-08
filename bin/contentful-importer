@@ -8,7 +8,7 @@ Escort::App.create do |app|
 
   app.options do |opts|
     opts.opt :file, '--config-file', :short => '-f', :long => '--config-file', :type => :string
-    opts.opt :exporter, '--exporter', :short => '-e', :long => '--exporter', :type => :string, default: 'database'
+    opts.opt :exporter, '--exporter', :short => '-e', :long => '--exporter', :type => :string
 
     app.command '--create-content-model-from-json' do |command|
       command.summary 'Query data from Database'
@@ -81,6 +81,20 @@ Escort::App.create do |app|
     end
     app.command '--import-assets' do |command|
       command.summary 'Import only assets'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+
+    app.command '--publish-entries' do |command|
+      command.summary 'Import all assets'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+
+    app.command '--publish-assets' do |command|
+      command.summary 'Publish all assets'
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute
       end

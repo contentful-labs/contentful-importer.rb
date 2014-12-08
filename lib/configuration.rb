@@ -12,11 +12,10 @@ module Contentful
                 :threads_dir,
                 :imported_entries,
                 :published_entries,
+                :published_assets,
                 :contentful_structure,
-                :mapping,
                 :db,
                 :helpers_dir,
-                :tables,
                 :content_types,
                 :import_form_dir
 
@@ -32,6 +31,7 @@ module Contentful
       @threads_dir = "#{data_dir}/threads"
       @imported_entries = []
       @published_entries = []
+      @published_assets = []
       @space_id = config['space_id']
       @helpers_dir = "#{data_dir}/helpers"
       validate_required_parameters(exporter)

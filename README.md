@@ -122,6 +122,20 @@ and define PATH where you want to save converted JSON file with **import structu
 import_form_dir: example_path/contentful_structure.json
 ```
 
+#### --import-assets
+To import only an assets, use command:
+
+```
+contentful-importer --config-file settings.yml --import-assets
+```
+
+#### --publish-assets
+
+To publish all assets, use command:
+```
+contentful-importer --config-file settings.yml --publish-assets
+```
+
 #### --test-credentials
 
 Before you start import data to Contentful, check if the specified the Contentful credentials in a **settings.yml** file are correct, use command:

@@ -119,6 +119,16 @@ module Contentful
       end
     end
 
+    def publish_assets
+      create_log_file('log_published_assets')
+      config.published_assets << CSV.read("#{config.success_logs_dir}/log_published_assets.csv", 'r').flatten
+      Dir.glob("#{config.assets_dir}/**/*json") do |asset_file|
+        asset_id = JSON.parse(File.read(asset_file))['id']
+        puts "Publish an Asset - ID: #{asset_id}"
+        Contentful::Management::Asset.find(config.config['space_id'], asset_id).publish unless config.published_assets.flatten.include?(asset_file)
+      end
+    end
+
     def publish_all_entries(thread_dir)
       create_log_file('log_published_entries')
       config.published_entries << CSV.read("#{config.success_logs_dir}/log_published_entries.csv", 'r').flatten

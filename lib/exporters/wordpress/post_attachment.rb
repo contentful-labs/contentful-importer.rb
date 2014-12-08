@@ -31,8 +31,10 @@ module Contentful
 
         def attachment_description
           meta_arr = post.xpath('wp:postmeta').to_a
-          meta_arr.each do |meta|
-            return meta.at_xpath('wp:meta_value').text if meta.at_xpath('wp:meta_key').text == '_wp_attachment_image_alt'
+          unless meta_arr.empty?
+            meta_arr.each do |meta|
+              return meta.at_xpath('wp:meta_value').text if meta.at_xpath('wp:meta_key').text == '_wp_attachment_image_alt'
+            end
           end
         end
 
