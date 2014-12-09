@@ -11,7 +11,7 @@ module Contentful
         end
 
         def post_extractor
-          puts 'Extracting posts...'
+          Escort::Logger.output.puts('Extracting posts...')
           create_directory("#{config.entries_dir}/post")
           extract_posts
         end
@@ -36,7 +36,7 @@ module Contentful
 
         def extract_data(xml_post)
           post_entry = basic_post_data(xml_post)
-          assign_content_elements_to_post(xml_post,post_entry)
+          assign_content_elements_to_post(xml_post, post_entry)
           post_entry
         end
 
@@ -64,9 +64,12 @@ module Contentful
         end
 
         def assign_content_elements_to_post(xml_post, post_entry)
-          post_entry.merge!(attachment: link_asset(attachment(xml_post))) unless attachment(xml_post).nil?
-          post_entry.merge!(tags: link_entry(tags(xml_post))) unless link_entry(tags(xml_post)).empty?
-          post_entry.merge!(categories: link_entry(categories(xml_post))) unless link_entry(categories(xml_post)).empty?
+          attachment = attachment(xml_post)
+          tags = link_entry(tags(xml_post))
+          categories =link_entry(categories(xml_post))
+          post_entry.merge!(attachment: link_asset(attachment)) unless attachment.nil?
+          post_entry.merge!(tags: tags) unless tags.empty?
+          post_entry.merge!(categories: categories) unless categories.empty?
         end
 
         def title(xml_post)

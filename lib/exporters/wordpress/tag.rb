@@ -37,7 +37,7 @@ module Contentful
         end
 
         def id(tag)
-          'tag_' + tag.xpath('wp:term_id').text
+          "tag_#{tag.xpath('wp:term_id').text}"
         end
 
         def slug(tag)

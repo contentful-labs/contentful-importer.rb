@@ -10,7 +10,7 @@ module Contentful
         end
 
         def save_object_to_file(table, content_type_name, model_name, type)
-          content_type_name = I18n.transliterate(content_type_name).underscore.tr(' ','_')
+          content_type_name = I18n.transliterate(content_type_name).underscore.tr(' ', '_')
           create_directory("#{type}/#{content_type_name}")
           config.db[table].all.each_with_index do |row, index|
             result = transform_row_into_hash(model_name, content_type_name, row, index)
@@ -29,7 +29,7 @@ module Contentful
 
         def model_id(model_name, content_type_name, id)
           prefix = mapping[model_name][:prefix_id] || ''
-          prefix + "#{content_type_name}_#{id}"
+          "#{prefix}#{content_type_name}_#{id}"
         end
 
         def map_fields(model_name, row)
@@ -51,7 +51,7 @@ module Contentful
         end
 
         def format_value(field_value)
-          formatted_value = I18n.transliterate(field_value).tr(' ','_').underscore
+          formatted_value = I18n.transliterate(field_value).tr(' ', '_').underscore
           formatted_value.underscore.gsub(/\W/, '-').gsub(/\W\z/, '').gsub(/\A\W/, '').gsub('_', '-').gsub('--', '-').gsub('--', '-')
         end
 

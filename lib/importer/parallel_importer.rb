@@ -9,7 +9,6 @@ module Contentful
 
     Encoding.default_external = 'utf-8'
 
-    ASSETS_IDS = []
     attr_reader :space,
                 :config
     attr_accessor :content_type
@@ -66,10 +65,10 @@ module Contentful
 
     def import_only_assets
       create_log_file('assets_log')
-      ASSETS_IDS << CSV.read("#{config.data_dir}/logs/assets_log.csv", 'r')
+      assets_ids = Set.new(CSV.read("#{config.data_dir}/logs/assets_log.csv", 'r'))
       Dir.glob("#{config.assets_dir}/**/*json") do |file_path|
         asset_attributes = JSON.parse(File.read(file_path))
-        if asset_url_param_start_with_http?(asset_attributes) && asset_not_imported_yet?(asset_attributes)
+        if asset_url_param_start_with_http?(asset_attributes) && asset_not_imported_yet?(asset_attributes,assets_ids)
           puts "Import asset - #{asset_attributes['id']} "
           asset_title = asset_attributes['name'].present? ? asset_attributes['name'] : asset_attributes['id']
           asset_file = create_asset_file(asset_title, asset_attributes)
@@ -84,8 +83,8 @@ module Contentful
       asset_attributes['url'] && asset_attributes['url'].start_with?('http')
     end
 
-    def asset_not_imported_yet?(asset_attributes)
-      !ASSETS_IDS.flatten.include?(asset_attributes['id'])
+    def asset_not_imported_yet?(asset_attributes, assets_ids)
+      !assets_ids.to_a.flatten.include?(asset_attributes['id'])
     end
 
     def create_asset_file(asset_title, params)

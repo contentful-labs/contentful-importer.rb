@@ -1,5 +1,5 @@
 #PATH to all data
-data_dir:
+data_dir: /tmp/data
 
 ########## IMPORT DATA TO CONTENTFUL ##########
 
@@ -10,10 +10,10 @@ space_id:
 default_locale:
 
 ## CONVERT CONTENT MODEL TO CONTENT TYPES JSON FILES
-content_model_json:
-import_form_dir:
+content_model_json: /Users/username/project_path/wordpress_settings/content_model.json
+import_form_dir: /Users/username/project_path/wordpress_settings/contentful_structure.json
 
 
 ## WORDPRESS
-contentful_structure_dir:
-wordpress_xml_path:
+contentful_structure_dir:  /Users/username/project_path/wordpress_settings/contentful_structure.json
+wordpress_xml_path:  /Users/username/project_path/wordpress_settings/wordpress.xml

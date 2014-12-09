@@ -1,9 +1,10 @@
 require 'time'
+require 'escort'
 
 module Contentful
   module Exporter
     module Wordpress
-      class Blog
+      class Blog < ::Escort::ActionCommand::Base
 
         attr_reader :xml, :config
 
@@ -25,10 +26,8 @@ module Contentful
         end
 
         def link_asset(asset)
-          if asset
             asset.keep_if { |key, _v| key if key == :id }
             asset.merge!(type: 'File')
-          end
         end
 
         def create_directory(path)
@@ -44,7 +43,7 @@ module Contentful
         private
 
         def extract_blog
-          puts 'Extracting blog data...'
+          Escort::Logger.output.puts('Extracting blog data...')
           create_directory("#{config.entries_dir}/blog")
           blog = extracted_data
           write_json_to_file("#{config.entries_dir}/blog/blog_1.json", blog)
