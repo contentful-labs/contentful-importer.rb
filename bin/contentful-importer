@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+
 require 'escort'
 require_relative '../lib/cli'
 
@@ -7,7 +8,7 @@ Escort::App.create do |app|
 
   app.options do |opts|
     opts.opt :file, '--config-file', :short => '-f', :long => '--config-file', :type => :string
-    opts.opt :exporter, '--exporter', :short => '-e', :long => '--exporter', :type => :string, default: 'database'
+    opts.opt :exporter, '--exporter', :short => '-e', :long => '--exporter', :type => :string
 
     app.command '--create-content-model-from-json' do |command|
       command.summary 'Query data from Database'
@@ -21,7 +22,7 @@ Escort::App.create do |app|
         Command::CLI.new(options, arguments).execute
       end
     end
-    app.command '--convert-json' do |command|
+    app.command '--convert-content-model-to-json' do |command|
       command.summary 'Convert dump file from Contentful model to import form. Check README'
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute
@@ -68,6 +69,32 @@ Escort::App.create do |app|
     end
     app.command '--test-credentials' do |command|
       command.summary 'Check your Contentful-management credentials'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--extract-wordpress-blog-json' do |command|
+      command.summary 'Extract data from WrodPress XML dump'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--import-assets' do |command|
+      command.summary 'Import only assets'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+
+    app.command '--publish-entries' do |command|
+      command.summary 'Import all assets'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+
+    app.command '--publish-assets' do |command|
+      command.summary 'Publish all assets'
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute
       end

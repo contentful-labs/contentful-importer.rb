@@ -1,15 +1,17 @@
 require_relative 'exporters/database/export'
+require_relative 'exporters/wordpress/export'
 require_relative 'importer/data_organizer'
 require_relative 'importer/parallel_importer'
 require_relative 'configuration'
 require_relative 'converter'
 
+
 class Migrator
 
-  attr_reader :importer, :exporter, :converter, :data_organizer
+  attr_reader :importer, :exporter, :converter, :data_organizer, :config
 
   def initialize(settings, exporter)
-    @config = Contentful::Configuration.new(settings)
+    @config = Contentful::Configuration.new(settings, exporter)
     @exporter = initialize_exporter(exporter)
     @importer = Contentful::ParallelImporter.new(@config)
     @converter = Contentful::Converter.new(@config)
@@ -19,9 +21,9 @@ class Migrator
   def initialize_exporter(option)
     case option
       when 'database'
-        Contentful::Exporter::Database::Export.new(@config)
-      else
-        raise ArgumentError, 'Invalid Exporter'
+        Contentful::Exporter::Database::Export.new(config)
+      when 'wordpress'
+        Contentful::Exporter::Wordpress::Export.new(config)
     end
   end
 
@@ -39,7 +41,7 @@ class Migrator
         importer.create_contentful_model(options)
       when '--import'
         importer.import_data
-      when '--convert-json'
+      when '--convert-content-model-to-json'
         converter.convert_to_import_form
       when '--publish-entries'
         importer.publish_entries_in_threads
@@ -49,6 +51,10 @@ class Migrator
         exporter.tables_name
       when '--import-assets'
         importer.import_only_assets
+      when '--publish-assets'
+        importer.publish_assets
+      when '--extract-wordpress-blog-json'
+        exporter.export_blog
     end
   end
 end

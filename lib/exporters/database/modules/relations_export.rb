@@ -60,7 +60,7 @@ module Contentful
         end
 
         def relations_from_mapping
-          config.mapping.each_with_object({}) do |(model_name, model_mapping), relations|
+          mapping.each_with_object({}) do |(model_name, model_mapping), relations|
             relations[model_name] = model_mapping[:links] if model_mapping[:links].present?
           end
         end
@@ -101,7 +101,7 @@ module Contentful
         end
 
         def model_content_type(model_name)
-          config.mapping[model_name][:content_type]
+          mapping[model_name][:content_type]
         end
 
         def map_belongs_to_association(model_name, linked_model, entry, entry_path)
@@ -151,13 +151,13 @@ module Contentful
 
         def map_many_association(model_name, linked_model, entry, entry_path, related_to)
           ct_field_id = contentful_field_attribute(model_name, linked_model[:relation_to], :id)
-          ct_type = config.mapping[linked_model[:relation_to]][:type] if config.mapping[linked_model[:relation_to]]
+          ct_type = mapping[linked_model[:relation_to]][:type] if mapping[linked_model[:relation_to]]
           save_many_entries(linked_model, ct_field_id, entry, entry_path, related_to, ct_type)
         end
 
         def map_has_one_association(model_name, linked_model, entry, entry_path, related_to)
           ct_field_id = contentful_field_attribute(model_name, linked_model[:relation_to], :id)
-          ct_type = config.mapping[linked_model[:relation_to]][:type] if config.mapping[linked_model[:relation_to]]
+          ct_type = mapping[linked_model[:relation_to]][:type] if mapping[linked_model[:relation_to]]
           save_has_one_entry(linked_model, ct_field_id, entry, entry_path, related_to, ct_type)
         end
 
@@ -203,7 +203,7 @@ module Contentful
         def aggregate_has_one_entries(linked_model, entry, entry_path, related_to)
           ct_field_id = linked_model[:save_as] || linked_model[:field]
           related_model = linked_model[related_to].underscore
-          related_model_directory = I18n.transliterate(config.mapping[linked_model[related_to]][:content_type]).underscore.tr(' ','_')
+          related_model_directory = I18n.transliterate(mapping[linked_model[related_to]][:content_type]).underscore.tr(' ','_')
           save_aggregated_has_one_data(entry_path, entry, related_model, related_model_directory, linked_model, ct_field_id)
         end
 
@@ -220,7 +220,7 @@ module Contentful
         def save_aggregate_belongs_entries(linked_model, entry, entry_path, related_to)
           related_model = linked_model[related_to]
           ct_field_id = linked_model[:save_as] || linked_model[:field]
-          related_model_directory = I18n.transliterate(config.mapping[related_model][:content_type]).underscore.tr(' ','_')
+          related_model_directory = I18n.transliterate(mapping[related_model][:content_type]).underscore.tr(' ','_')
           associated_foreign_key = related_model_directory + '_' + entry[linked_model[:primary_id]].to_s
           associated_object = JSON.parse(File.read("#{config.entries_dir}/#{related_model_directory}/#{associated_foreign_key}.json"))[linked_model[:field]]
           write_json_to_file(entry_path, entry.merge!(ct_field_id => associated_object))

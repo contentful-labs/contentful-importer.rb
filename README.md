@@ -1,4 +1,4 @@
-Rails database to Contentful importer
+Contentful Generic-importer
 =================
 
 ## Description
@@ -98,7 +98,7 @@ Import data to Contentful.
 
 ```contentful-importer --config-file settings.yml --import```
 
-#### --convert-json
+#### --convert-content-model-to-json
 
 To improve creation of the JSON file with contentful structure,needed to mapping, you can retrieve the entire structure of Space from Contentful platform and save it to the file JSON.
 
@@ -122,11 +122,34 @@ and define PATH where you want to save converted JSON file with **import structu
 import_form_dir: example_path/contentful_structure.json
 ```
 
+#### --import-assets
+To import only an assets, use command:
+
+```
+contentful-importer --config-file settings.yml --import-assets
+```
+
+#### --publish-assets
+
+To publish all assets, use command:
+```
+contentful-importer --config-file settings.yml --publish-assets
+```
+
 #### --test-credentials
 
 Before you start import data to Contentful, check if the specified the Contentful credentials in a **settings.yml** file are correct, use command:
 
 ```contentful-importer --config-file settings.yml --test-credentials```
+
+#### --extract-wordpress-blog-json
+
+To you start extracting data from wordpress dump XML file:
+```contentful-importer --config-file settings.yml --exporter wordpress --extract-wordpress-blog-json```
+
+After this action, JSON files with wordpress data will be created at you local hard drive. Path to this files is defined in settings.yml file, ```data_dir``` parameter.
+
+# Database Exporter
 
 ## Mapping
 
@@ -438,20 +461,55 @@ mapping_dir: example_path/mapping.json
 ```yml
 contentful_structure_dir: contentful_import_files/contentful_structure.json
 ```
-* [Dump JSON file](https://github.com/contentful/generic-importer.rb#--convert-json) with content types from contentful model:
+* [Dump JSON file](https://github.com/contentful/generic-importer.rb#--convert-content-model-to-json) with content types from contentful model:
 
 ```yml
 import_form_dir: contentful_import_files/contentful_structure.json
 ```
 
-### Import
+# WordPress Importer
+
+This tool will import the following content from a WordPress XML export file:
+
+* Blog with posts and comments
+* Categories, tags and terms from custom taxonomies
+* Attachments
+* Authors
+
+To start using this tool, you need to [export blog's content](http://en.support.wordpress.com/export/) from WordPress and save as XML file.
+
+In settings.yml file define path to xml file.
+
+```yml
+wordpress_xml_path: PATH_TO_XML/file.xml
+```
+
+Command to extract data:
+```
+contentful-importer --config-file settings.yml --exporter wordpress --extract-wordpress-blog-json
+```
+
+# Import
 Before you start import data, read [how to use it](https://github.com/contentful/generic-importer.rb#usage).
 When you specify credentials, you can [test them](https://github.com/contentful/generic-importer.rb#--test-credentials).
 
-After you [import content types](https://github.com/contentful/generic-importer.rb#--import-content-types---space_id-arg---space_name-arg) to Space, you need to specify ```space_id``` parameter.
+#### Space ID
+
+After you [import content types](https://github.com/contentful/generic-importer.rb#--import-content-types-args) to Space, you need to specify ```space_id``` parameter.
 
 Example:
 ```yml
 space_id: space_id
 ```
+
+#### Default locale
+
+To specify in which locale you want to create all Entries and Assets, set ```default_locale``` parameter in settings.yml file
+
+```yml
+default_locale: de-DE
+```
+
+
+
 
