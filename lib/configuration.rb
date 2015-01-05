@@ -19,6 +19,7 @@ module Contentful
 
     def initialize(settings)
       @config = settings
+      validate_required_parameters
       @data_dir = settings['data_dir']
       @collections_dir = "#{data_dir}/collections"
       @entries_dir = "#{data_dir}/entries"
@@ -32,12 +33,11 @@ module Contentful
       @contentful_structure = JSON.parse(File.read(settings['contentful_structure_dir']), symbolize_names: true).with_indifferent_access
       @import_form_dir = settings['import_form_dir']
       @content_types = settings['content_model_json']
-      validate_required_parameters
     end
 
     def validate_required_parameters
-      fail ArgumentError, 'Set PATH to data_dir. Folder where all data will be stored. Check README' if data_dir.nil?
-      fail ArgumentError, 'Set PATH to contentful structure JSON file. Check README' if contentful_structure.nil?
+      fail ArgumentError, 'Set PATH to data_dir. Folder where all data will be stored. Check README' if config['data_dir'].nil?
+      fail ArgumentError, 'Set PATH to contentful structure JSON file. Check README' if config['contentful_structure_dir'].nil?
     end
 
   end
