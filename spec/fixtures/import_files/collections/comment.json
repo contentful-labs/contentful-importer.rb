@@ -1,0 +1,18 @@
+{
+  "id": "6H6pGAV1PUsuoAW26Iu48W",
+  "name": "Comment",
+  "description": null,
+  "displayField": "subject",
+  "fields": [
+    {
+      "name": "Subject",
+      "id": "subject",
+      "type": "Text"
+    },
+    {
+      "name": "Content",
+      "id": "content",
+      "type": "Text"
+    }
+  ]
+}

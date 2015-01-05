@@ -1,0 +1,36 @@
+{
+  "id": "1TVvxCqoRq0qUYAOQuOqys",
+  "name": "User",
+  "description": null,
+  "displayField": "first_name",
+  "fields": [
+    {
+      "name": "First_name",
+      "id": "first_name",
+      "type": "Text"
+    },
+    {
+      "name": "Last_name",
+      "id": "last_name",
+      "type": "Text"
+    },
+    {
+      "name": "Birthday",
+      "id": "birthday",
+      "type": "Date"
+    },
+    {
+      "name": "Job_adds",
+      "id": "job_adds",
+      "type": "Array",
+      "link_type": "Entry",
+      "link": "Link"
+    },
+    {
+      "name": "Profile",
+      "id": "profile",
+      "type": "Entry",
+      "link": "Link"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "comment_5",
+  "subject": "Comment 2",
+  "content": "Body Comment 2",
+  "job_add_id": 2,
+  "created_at": "2014-12-16T11:34:46+00:00",
+  "updated_at": "2014-12-16T11:34:46+00:00",
+  "database_id": 5
+}

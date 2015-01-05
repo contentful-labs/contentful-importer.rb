@@ -1,0 +1,44 @@
+{
+  "id": "4L1bg4WQ5aWQMiE82ouag",
+  "name": "Jobs",
+  "description": null,
+  "displayField": "title",
+  "fields": [
+    {
+      "name": "Title",
+      "id": "title",
+      "type": "Text"
+    },
+    {
+      "name": "Description",
+      "id": "description",
+      "type": "Text"
+    },
+    {
+      "name": "Image",
+      "id": "image",
+      "type": "Asset",
+      "link": "Link"
+    },
+    {
+      "name": "Creator",
+      "id": "creator",
+      "type": "Entry",
+      "link": "Link"
+    },
+    {
+      "name": "Comments",
+      "id": "comments",
+      "type": "Array",
+      "link_type": "Entry",
+      "link": "Link"
+    },
+    {
+      "name": "Skills",
+      "id": "skills",
+      "type": "Array",
+      "link_type": "Entry",
+      "link": "Link"
+    }
+  ]
+}

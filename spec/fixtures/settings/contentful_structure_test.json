@@ -1,0 +1,82 @@
+{
+  "Comment": {
+    "id": "6H6pGAV1PUsuoAW26Iu48W",
+    "name": "Comment",
+    "description": null,
+    "displayField": "subject",
+    "fields": {
+      "subject": "Text",
+      "content": "Text"
+    }
+  },
+  "User": {
+    "id": "1TVvxCqoRq0qUYAOQuOqys",
+    "name": "User",
+    "description": null,
+    "displayField": "first_name",
+    "fields": {
+      "first_name": "Text",
+      "last_name": "Text",
+      "birthday": "Date",
+      "Job adds": {
+        "id": "job_adds",
+        "type": "Array",
+        "link_type": "Entry",
+        "link": "Link"
+      }
+    }
+  },
+  "Jobs": {
+    "id": "4L1bg4WQ5aWQMiE82ouag",
+    "name": "Jobs",
+    "description": null,
+    "displayField": "title",
+    "fields": {
+      "title": "Text",
+      "description": "Text",
+      "Image": {
+        "id": "image",
+        "type": "Asset",
+        "link": "Link"
+      },
+      "Creator": {
+        "id": "creator",
+        "type": "Entry",
+        "link": "Link"
+      },
+      "Comments": {
+        "id": "comments",
+        "type": "Array",
+        "link_type": "Entry",
+        "link": "Link"
+      }
+    }
+  },
+  "Profile": {
+    "id": "4WFZh4MwC4Mc0EQWAeOY8A",
+    "name": "Profile",
+    "description": null,
+    "displayField": null,
+    "fields": {
+      "Nickname": {
+        "id": "nickname",
+        "type": "Entry",
+        "link": "Link"
+      },
+      "User": {
+        "id": "user",
+        "type": "Entry",
+        "link": "Link"
+      }
+    }
+  },
+  "Job Skills": {
+    "id": "2soCP557HGKoOOK0SqmMOm",
+    "name": "Job Skills",
+    "description": null,
+    "displayField": "name",
+    "fields": {
+      "name": "Text"
+    }
+  }
+}

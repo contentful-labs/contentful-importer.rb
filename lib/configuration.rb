@@ -1,0 +1,44 @@
+require 'active_support/core_ext/hash'
+module Contentful
+  class Configuration
+    attr_reader :space_id,
+                :config,
+                :data_dir,
+                :collections_dir,
+                :entries_dir,
+                :assets_dir,
+                :log_files_dir,
+                :threads_dir,
+                :imported_entries,
+                :published_entries,
+                :published_assets,
+                :contentful_structure,
+                :import_form_dir,
+                :space_id,
+                :content_types
+
+    def initialize(settings)
+      @config = settings
+      @data_dir = settings['data_dir']
+      @collections_dir = "#{data_dir}/collections"
+      @entries_dir = "#{data_dir}/entries"
+      @assets_dir = "#{data_dir}/assets"
+      @log_files_dir = "#{data_dir}/logs"
+      @threads_dir = "#{data_dir}/threads"
+      @imported_entries = []
+      @published_entries = []
+      @published_assets = []
+      @space_id = settings['space_id']
+      @contentful_structure = JSON.parse(File.read(settings['contentful_structure_dir']), symbolize_names: true).with_indifferent_access
+      @import_form_dir = settings['import_form_dir']
+      @content_types = settings['content_model_json']
+      validate_required_parameters
+    end
+
+    def validate_required_parameters
+      fail ArgumentError, 'Set PATH to data_dir. Folder where all data will be stored. Check README' if data_dir.nil?
+      fail ArgumentError, 'Set PATH to contentful structure JSON file. Check README' if contentful_structure.nil?
+    end
+
+  end
+end

@@ -1,0 +1,78 @@
+#!/usr/bin/env ruby
+
+require 'escort'
+require_relative '../lib/cli'
+
+Escort::App.create do |app|
+  app.summary 'Executable file of Generic-importer Gem'
+
+  app.options do |opts|
+    opts.opt :file, '--config-file', short: '-f', long: '--config-file', type: :string
+
+    app.command '--create-contentful-model-from-json' do |command|
+      command.summary 'Query data from Database'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--convert-content-model-to-json' do |command|
+      command.summary 'Convert dump file from Contentful model to import form. Check README'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--threads' do |command|
+      command.summary 'Organize file structure to import. Assign files to separate Threads'
+      command.options do |opts|
+        opts.opt :thread, 'thread', short: '-c', long: '--thread', type: :integer, default: 1
+        opts.validate(:thread, 'argument must be set to 1 or 2 exclusive. ') { |option| option > 0 && option <= 2 }
+      end
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--import-content-types' do |command|
+      command.summary 'Find an existing Space or create new one. Import content types to Contentful platform'
+      command.requires_arguments false
+      command.options do |opts|
+        opts.opt :space_id, 'space_id', short: '-s', long: '--space_id', type: :string
+        opts.opt :space_name, 'space_name', short: :none, long: '--space_name', type: :string
+      end
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--import' do |command|
+      command.summary 'Import entries to Contentful platform'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--test-credentials' do |command|
+      command.summary 'Check your Contentful-management credentials'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+    app.command '--import-assets' do |command|
+      command.summary 'Import only assets'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+
+    app.command '--publish-entries' do |command|
+      command.summary 'Import all assets'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+
+    app.command '--publish-assets' do |command|
+      command.summary 'Publish all assets'
+      command.action do |options, arguments|
+        Command::CLI.new(options, arguments).execute
+      end
+    end
+  end
+end

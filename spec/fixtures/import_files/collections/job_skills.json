@@ -1,0 +1,13 @@
+{
+  "id": "2soCP557HGKoOOK0SqmMOm",
+  "name": "Job Skills",
+  "description": null,
+  "displayField": "name",
+  "fields": [
+    {
+      "name": "Name",
+      "id": "name",
+      "type": "Text"
+    }
+  ]
+}

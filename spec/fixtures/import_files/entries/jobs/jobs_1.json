@@ -1,0 +1,56 @@
+{
+  "id": "jobs_1",
+  "name": "First new Job",
+  "specification": "Job description",
+  "created_at": "2014-12-16T10:26:03+00:00",
+  "updated_at": "2014-12-16T10:26:03+00:00",
+  "image_id": 3,
+  "user_id": 1,
+  "database_id": 1,
+  "first_name": "FirstName",
+  "subjects_comments": [
+    "Title comment 1",
+    "Title comment 2",
+    "Title comment 3"
+  ],
+  "image": {
+    "type": "File",
+    "id": "image_3"
+  },
+  "creator": {
+    "type": "Entry",
+    "id": "user_1"
+  },
+  "comments": [
+    {
+      "type": "comment",
+      "id": "comment_1"
+    },
+    {
+      "type": "comment",
+      "id": "comment_2"
+    },
+    {
+      "type": "comment",
+      "id": "comment_3"
+    }
+  ],
+  "skills": [
+    {
+      "type": "job_skills",
+      "id": "job_skills_1"
+    },
+    {
+      "type": "job_skills",
+      "id": "job_skills_3"
+    },
+    {
+      "type": "job_skills",
+      "id": "job_skills_8"
+    },
+    {
+      "type": "job_skills",
+      "id": "job_skills_10"
+    }
+  ]
+}

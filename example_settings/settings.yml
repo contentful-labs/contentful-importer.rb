@@ -1,0 +1,15 @@
+#PATH to all data
+data_dir: DEFINE_BEFORE_EXPORTING_DATA
+
+########## IMPORT DATA TO CONTENTFUL ##########
+
+#Contentful credentials - Define before import data to Contentful.
+access_token: ACCESS_TOKEN
+organization_id: ORGANIZATION_ID
+space_id: DEFINE_AFTER_CREATING_SPACE
+default_locale: DEFINE_LOCALE_CODE
+
+## CONVERT CONTENTFUL MODEL TO CONTENTFUL IMPORT STRUCTURE
+content_model_json:
+import_form_dir:
+

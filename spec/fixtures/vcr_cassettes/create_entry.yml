@@ -1,0 +1,122 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/content_types/6H6pGAV1PUsuoAW26Iu48W
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Mon, 05 Jan 2015 08:09:46 GMT
+      Etag:
+      - '"29decf3f4237019bb156e642e6747488"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1386'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "displayField": "subject",
+          "name": "Comment",
+          "description": "",
+          "fields": [
+            {
+              "id": "subject",
+              "name": "Subject",
+              "type": "Text",
+              "linkType": null,
+              "items": null,
+              "required": null,
+              "localized": null,
+              "validations": null
+            },
+            {
+              "id": "content",
+              "name": "Content",
+              "type": "Text",
+              "linkType": null,
+              "items": null,
+              "required": null,
+              "localized": null,
+              "validations": null
+            }
+          ],
+          "sys": {
+            "id": "6H6pGAV1PUsuoAW26Iu48W",
+            "type": "ContentType",
+            "createdAt": "2014-12-19T14:14:37.371Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "firstPublishedAt": "2014-12-19T14:14:39.787Z",
+            "publishedCounter": 1,
+            "publishedAt": "2014-12-19T14:14:39.787Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 2,
+            "version": 3,
+            "updatedAt": "2014-12-19T14:14:39.836Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Mon, 05 Jan 2015 08:09:47 GMT
+recorded_with: VCR 2.9.3

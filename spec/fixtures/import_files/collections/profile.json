@@ -1,0 +1,19 @@
+{
+  "id": "4WFZh4MwC4Mc0EQWAeOY8A",
+  "name": "Profile",
+  "description": null,
+  "displayField": null,
+  "fields": [
+    {
+      "name": "Nickname",
+      "id": "nickname",
+      "type": "Text"
+    },
+    {
+      "name": "User",
+      "id": "user",
+      "type": "Entry",
+      "link": "Link"
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/comment_5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Mon, 05 Jan 2015 07:04:06 GMT
+      Etag:
+      - '"b5db3ca579e112bc006ead7e979bb579"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '930'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "subject": {
+              "en-US": "Comment 2"
+            },
+            "content": {
+              "en-US": "Body Comment 2"
+            }
+          },
+          "sys": {
+            "id": "comment_5",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:31.815Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "6H6pGAV1PUsuoAW26Iu48W"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.204Z",
+            "publishedCounter": 2,
+            "version": 5,
+            "updatedAt": "2015-01-05T07:01:20.927Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Mon, 05 Jan 2015 07:04:07 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/comment_5/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '5'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Mon, 05 Jan 2015 07:04:08 GMT
+      Etag:
+      - '"403fa4b41f2e2f4bdff08a5a5238ebad"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1146'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "subject": {
+              "en-US": "Comment 2"
+            },
+            "content": {
+              "en-US": "Body Comment 2"
+            }
+          },
+          "sys": {
+            "id": "comment_5",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:31.815Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "6H6pGAV1PUsuoAW26Iu48W"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.204Z",
+            "publishedCounter": 3,
+            "version": 6,
+            "updatedAt": "2015-01-05T07:04:08.045Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-05T07:04:08.045Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 5
+          }
+        }
+    http_version: 
+  recorded_at: Mon, 05 Jan 2015 07:04:08 GMT
+recorded_with: VCR 2.9.3

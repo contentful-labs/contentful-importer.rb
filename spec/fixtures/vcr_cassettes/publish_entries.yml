@@ -1,0 +1,5121 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/user_1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:21 GMT
+      Etag:
+      - '"36ce6f33d57ce5d42bf1f61fede625b0"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1484'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "first_name": {
+              "en-US": "FirstName"
+            },
+            "last_name": {
+              "en-US": "LastName"
+            },
+            "birthday": {
+              "en-US": "2009-04-16T09:43:00+00:00"
+            },
+            "profile": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "profile_1"
+                }
+              }
+            },
+            "job_adds": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "jobs_1"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "jobs_2"
+                  }
+                }
+              ]
+            }
+          },
+          "sys": {
+            "id": "user_1",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:20.131Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "1TVvxCqoRq0qUYAOQuOqys"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:06.815Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:16.234Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:21 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:21 GMT
+      Etag:
+      - '"94eb5d860529e7bf14e3e581fcb56733"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '885'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Commercial awareness"
+            }
+          },
+          "sys": {
+            "id": "job_skills_1",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:19.859Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:06.775Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:16.205Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:21 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_1/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:22 GMT
+      Etag:
+      - '"22af4dc24f60dc4547840cf1703d71cc"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1101'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Commercial awareness"
+            }
+          },
+          "sys": {
+            "id": "job_skills_1",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:19.859Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:06.775Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:22.016Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:22.016Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:22 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/user_1/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:22 GMT
+      Etag:
+      - '"10c312303a826c6124f81f9a4b6e076d"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1700'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "first_name": {
+              "en-US": "FirstName"
+            },
+            "last_name": {
+              "en-US": "LastName"
+            },
+            "birthday": {
+              "en-US": "2009-04-16T09:43:00+00:00"
+            },
+            "profile": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "profile_1"
+                }
+              }
+            },
+            "job_adds": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "jobs_1"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "jobs_2"
+                  }
+                }
+              ]
+            }
+          },
+          "sys": {
+            "id": "user_1",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:20.131Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "1TVvxCqoRq0qUYAOQuOqys"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:06.815Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:22.076Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:22.076Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:22 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/user_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:22 GMT
+      Etag:
+      - '"4ba07abd3ce89cc4dd7312744c219bc4"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1358'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "first_name": {
+              "en-US": "FirstName User 2"
+            },
+            "last_name": {
+              "en-US": "LastName User 2"
+            },
+            "birthday": {
+              "en-US": "2014-12-16T09:43:00+00:00"
+            },
+            "profile": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "profile_2"
+                }
+              }
+            },
+            "job_adds": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "jobs_4"
+                  }
+                }
+              ]
+            }
+          },
+          "sys": {
+            "id": "user_2",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:21.095Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "1TVvxCqoRq0qUYAOQuOqys"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.551Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:15.205Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:22 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:22 GMT
+      Etag:
+      - '"930c76e96dc87db773f9d460cba5c542"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '876'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Confidence"
+            }
+          },
+          "sys": {
+            "id": "job_skills_10",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:21.067Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.577Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:15.302Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:22 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/user_2/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:23 GMT
+      Etag:
+      - '"96412187937fe50d40b492f3eb1e145c"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1574'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "first_name": {
+              "en-US": "FirstName User 2"
+            },
+            "last_name": {
+              "en-US": "LastName User 2"
+            },
+            "birthday": {
+              "en-US": "2014-12-16T09:43:00+00:00"
+            },
+            "profile": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "profile_2"
+                }
+              }
+            },
+            "job_adds": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "jobs_4"
+                  }
+                }
+              ]
+            }
+          },
+          "sys": {
+            "id": "user_2",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:21.095Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "1TVvxCqoRq0qUYAOQuOqys"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.551Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:23.386Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:23.386Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:23 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_10/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:23 GMT
+      Etag:
+      - '"79f3c7d60ca43261c023701c7a2d90dc"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1092'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Confidence"
+            }
+          },
+          "sys": {
+            "id": "job_skills_10",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:21.067Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.577Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:23.469Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:23.469Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:23 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_6
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:24 GMT
+      Etag:
+      - '"096411a5e55cdab4c60bec76688cbab9"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '875'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Leadership"
+            }
+          },
+          "sys": {
+            "id": "job_skills_6",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:22.307Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.236Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:15.168Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:24 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:24 GMT
+      Etag:
+      - '"e296a405e59b87bbc7045fde2ff3e6f7"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '878'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Communication"
+            }
+          },
+          "sys": {
+            "id": "job_skills_2",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:22.306Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.297Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:15.166Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:24 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_6/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:24 GMT
+      Etag:
+      - '"64bbc68316a3aa650f2cef989165abd3"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1091'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Leadership"
+            }
+          },
+          "sys": {
+            "id": "job_skills_6",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:22.307Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.236Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:24.674Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:24.674Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:24 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_2/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:24 GMT
+      Etag:
+      - '"6d305ff93fff37f8a4a336d0e3d8a848"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1094'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Communication"
+            }
+          },
+          "sys": {
+            "id": "job_skills_2",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:22.306Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.297Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:24.771Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:24.771Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:25 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_7
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:25 GMT
+      Etag:
+      - '"159cba3d85f6ee329e124715add45105"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '877'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Organisation"
+            }
+          },
+          "sys": {
+            "id": "job_skills_7",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:23.535Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.204Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:15.103Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:25 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_3
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:25 GMT
+      Etag:
+      - '"bf32aa253388eb93239e7448eb4803d0"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '873'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Teamwork"
+            }
+          },
+          "sys": {
+            "id": "job_skills_3",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:23.542Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.209Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:15.172Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:25 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_7/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:26 GMT
+      Etag:
+      - '"7d235082502b9f4d34e4185ec7ed7cbf"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1093'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Organisation"
+            }
+          },
+          "sys": {
+            "id": "job_skills_7",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:23.535Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.204Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:25.993Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:25.993Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:26 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_3/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:26 GMT
+      Etag:
+      - '"03ccb9cf99738c46af60864c1a7370be"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1089'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Teamwork"
+            }
+          },
+          "sys": {
+            "id": "job_skills_3",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:23.542Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.209Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:26.059Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:26.059Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:26 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:26 GMT
+      Etag:
+      - '"4b28e4af796916ce892b4abb51e5f8c9"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '892'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Perseverance and motivation"
+            }
+          },
+          "sys": {
+            "id": "job_skills_8",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:24.831Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.167Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:16.028Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:26 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:27 GMT
+      Etag:
+      - '"7f8792f035fb134b2029a7fcfc8f7b8e"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '890'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "egotiation and persuasion"
+            }
+          },
+          "sys": {
+            "id": "job_skills_4",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:24.807Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.176Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:16.403Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:27 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_8/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:27 GMT
+      Etag:
+      - '"b72f595bc07c42dedffc73f46c762be7"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1108'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Perseverance and motivation"
+            }
+          },
+          "sys": {
+            "id": "job_skills_8",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:24.831Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.167Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:27.264Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:27.264Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:27 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:27 GMT
+      Etag:
+      - '"b09d5acba1b824d233df32cf3b940d20"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '895'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Ability to work under pressure"
+            }
+          },
+          "sys": {
+            "id": "job_skills_9",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:25.990Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:06.797Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:16.209Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:28 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_4/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:28 GMT
+      Etag:
+      - '"d2c13eca19e5ab1a1e0150610eb298f2"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1106'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "egotiation and persuasion"
+            }
+          },
+          "sys": {
+            "id": "job_skills_4",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:24.807Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.176Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:27.996Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:27.996Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:28 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:28 GMT
+      Etag:
+      - '"565b21057e9f51a71321ea132a34a499"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '880'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Problem solving"
+            }
+          },
+          "sys": {
+            "id": "job_skills_5",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:25.991Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.605Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:16.030Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:28 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_9/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:28 GMT
+      Etag:
+      - '"10e59e4b67754427477a56b1fcadfe53"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1111'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Ability to work under pressure"
+            }
+          },
+          "sys": {
+            "id": "job_skills_9",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:25.990Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:06.797Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:28.634Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:28.634Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:28 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/jobs_1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:29 GMT
+      Etag:
+      - '"3bac6deb99247d77bd85c7d9d45bc40f"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '2244'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "image": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Asset",
+                  "id": "image_3"
+                }
+              }
+            },
+            "creator": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "user_1"
+                }
+              }
+            },
+            "comments": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "comment_1"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "comment_2"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "comment_3"
+                  }
+                }
+              ]
+            },
+            "skills": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_1"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_3"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_8"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_10"
+                  }
+                }
+              ]
+            }
+          },
+          "sys": {
+            "id": "jobs_1",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:30.707Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "4L1bg4WQ5aWQMiE82ouag"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.843Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:14.740Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:29 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/job_skills_5/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:29 GMT
+      Etag:
+      - '"8033f5db21ba6563e636b2aa6e353a54"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1096'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Problem solving"
+            }
+          },
+          "sys": {
+            "id": "job_skills_5",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:25.991Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "2soCP557HGKoOOK0SqmMOm"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:05.605Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:29.297Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:29.296Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:29 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/jobs_1/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:30 GMT
+      Etag:
+      - '"7967efec68ab121a2204b612b53457ff"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '2460'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "image": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Asset",
+                  "id": "image_3"
+                }
+              }
+            },
+            "creator": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "user_1"
+                }
+              }
+            },
+            "comments": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "comment_1"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "comment_2"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "comment_3"
+                  }
+                }
+              ]
+            },
+            "skills": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_1"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_3"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_8"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_10"
+                  }
+                }
+              ]
+            }
+          },
+          "sys": {
+            "id": "jobs_1",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:30.707Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "4L1bg4WQ5aWQMiE82ouag"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.843Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:29.917Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:29.917Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:30 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/comment_1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:30 GMT
+      Etag:
+      - '"10f82113776618d0c31232774bc4853c"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '936'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "subject": {
+              "en-US": "Title comment 1"
+            },
+            "content": {
+              "en-US": "Body comment 1"
+            }
+          },
+          "sys": {
+            "id": "comment_1",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:27.815Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "6H6pGAV1PUsuoAW26Iu48W"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.898Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:16.019Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:30 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/jobs_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:30 GMT
+      Etag:
+      - '"0de52edf5396d37c199573dd46f2f6c9"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '2246'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "image": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Asset",
+                  "id": "image_4"
+                }
+              }
+            },
+            "creator": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "user_1"
+                }
+              }
+            },
+            "comments": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "comment_4"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "comment_5"
+                  }
+                }
+              ]
+            },
+            "skills": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_2"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_4"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_7"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_8"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_9"
+                  }
+                }
+              ]
+            }
+          },
+          "sys": {
+            "id": "jobs_2",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:38.599Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "4L1bg4WQ5aWQMiE82ouag"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.214Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:14.392Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:30 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/comment_1/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:30 GMT
+      Etag:
+      - '"627a16307624b9a596b70ccf3f06e030"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1152'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "subject": {
+              "en-US": "Title comment 1"
+            },
+            "content": {
+              "en-US": "Body comment 1"
+            }
+          },
+          "sys": {
+            "id": "comment_1",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:27.815Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "6H6pGAV1PUsuoAW26Iu48W"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.898Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:30.665Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:30.665Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:30 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/comment_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:31 GMT
+      Etag:
+      - '"0cd4d10decbb167cc3d87cf571e48b20"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '936'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "subject": {
+              "en-US": "Title comment 2"
+            },
+            "content": {
+              "en-US": "Body comment 2"
+            }
+          },
+          "sys": {
+            "id": "comment_2",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:28.731Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "6H6pGAV1PUsuoAW26Iu48W"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.810Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:14.782Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:31 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/jobs_2/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:31 GMT
+      Etag:
+      - '"e67553813f6660434535d58f78882b76"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '2462'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "image": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Asset",
+                  "id": "image_4"
+                }
+              }
+            },
+            "creator": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "user_1"
+                }
+              }
+            },
+            "comments": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "comment_4"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "comment_5"
+                  }
+                }
+              ]
+            },
+            "skills": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_2"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_4"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_7"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_8"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_9"
+                  }
+                }
+              ]
+            }
+          },
+          "sys": {
+            "id": "jobs_2",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:38.599Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "4L1bg4WQ5aWQMiE82ouag"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.214Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:31.234Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:31.234Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:31 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/jobs_4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:31 GMT
+      Etag:
+      - '"bdba60da690e53cdc2e6c08bf96f9522"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '2204'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "image": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Asset",
+                  "id": "image_2"
+                }
+              }
+            },
+            "creator": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "user_2"
+                }
+              }
+            },
+            "skills": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_2"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_3"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_4"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_7"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_8"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_9"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_10"
+                  }
+                }
+              ]
+            }
+          },
+          "sys": {
+            "id": "jobs_4",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:42.270Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "4L1bg4WQ5aWQMiE82ouag"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.089Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:14.379Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:32 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/comment_2/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:32 GMT
+      Etag:
+      - '"cb1ccf502eb47072ef06810708861a35"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1152'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "subject": {
+              "en-US": "Title comment 2"
+            },
+            "content": {
+              "en-US": "Body comment 2"
+            }
+          },
+          "sys": {
+            "id": "comment_2",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:28.731Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "6H6pGAV1PUsuoAW26Iu48W"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.810Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:31.968Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:31.968Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:32 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/jobs_4/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:32 GMT
+      Etag:
+      - '"1e707b282ae1f8df5fb33ac380901703"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '2420'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "image": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Asset",
+                  "id": "image_2"
+                }
+              }
+            },
+            "creator": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "user_2"
+                }
+              }
+            },
+            "skills": {
+              "en-US": [
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_2"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_3"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_4"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_7"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_8"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_9"
+                  }
+                },
+                {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "job_skills_10"
+                  }
+                }
+              ]
+            }
+          },
+          "sys": {
+            "id": "jobs_4",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:42.270Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "4L1bg4WQ5aWQMiE82ouag"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.089Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:32.540Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:32.540Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:32 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/comment_3
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:32 GMT
+      Etag:
+      - '"cddedb6b0a29ad4adeaef17b759e8801"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '936'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "subject": {
+              "en-US": "Title comment 3"
+            },
+            "content": {
+              "en-US": "Body comment 3"
+            }
+          },
+          "sys": {
+            "id": "comment_3",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:29.658Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "6H6pGAV1PUsuoAW26Iu48W"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.772Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:14.797Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:32 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/profile_1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:33 GMT
+      Etag:
+      - '"f0bc8ab4f52362bac862ef27f54766b2"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1031'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "nickname": {
+              "en-US": "Nickname 1"
+            },
+            "user": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "user_1"
+                }
+              }
+            }
+          },
+          "sys": {
+            "id": "profile_1",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:45.087Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "4WFZh4MwC4Mc0EQWAeOY8A"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:03.925Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:14.466Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:33 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/comment_3/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:33 GMT
+      Etag:
+      - '"c0f9a3a8ed99847014343d38e6bf1af5"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1152'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "subject": {
+              "en-US": "Title comment 3"
+            },
+            "content": {
+              "en-US": "Body comment 3"
+            }
+          },
+          "sys": {
+            "id": "comment_3",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:29.658Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "6H6pGAV1PUsuoAW26Iu48W"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.772Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:33.315Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:33.315Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:33 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/profile_1/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:34 GMT
+      Etag:
+      - '"c29f701c1c043c4b8c1411e553e2e88d"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1247'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "nickname": {
+              "en-US": "Nickname 1"
+            },
+            "user": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "user_1"
+                }
+              }
+            }
+          },
+          "sys": {
+            "id": "profile_1",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:45.087Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "4WFZh4MwC4Mc0EQWAeOY8A"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:03.925Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:33.842Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:33.842Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:34 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/comment_4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:34 GMT
+      Etag:
+      - '"424392cc73f6687a4c88104eec166eb1"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '930'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "subject": {
+              "en-US": "Comment 1"
+            },
+            "content": {
+              "en-US": "Comment body 1"
+            }
+          },
+          "sys": {
+            "id": "comment_4",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:30.863Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "6H6pGAV1PUsuoAW26Iu48W"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.057Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:14.472Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:34 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/profile_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:34 GMT
+      Etag:
+      - '"26377b0134ac6245d208a966e7216b2d"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1031'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "nickname": {
+              "en-US": "Nickname 2"
+            },
+            "user": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "user_2"
+                }
+              }
+            }
+          },
+          "sys": {
+            "id": "profile_2",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:46.822Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "4WFZh4MwC4Mc0EQWAeOY8A"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:03.902Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:14.441Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:34 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/comment_4/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:34 GMT
+      Etag:
+      - '"e0f39a6da449e57f1cfda1917cd2a4b5"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1146'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "subject": {
+              "en-US": "Comment 1"
+            },
+            "content": {
+              "en-US": "Comment body 1"
+            }
+          },
+          "sys": {
+            "id": "comment_4",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:30.863Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "6H6pGAV1PUsuoAW26Iu48W"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.057Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:34.625Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:34.625Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:34 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/profile_2/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:35 GMT
+      Etag:
+      - '"d3d19cbab54235d8b22d3e21cf67ea5f"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1247'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "nickname": {
+              "en-US": "Nickname 2"
+            },
+            "user": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "user_2"
+                }
+              }
+            }
+          },
+          "sys": {
+            "id": "profile_2",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:46.822Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "4WFZh4MwC4Mc0EQWAeOY8A"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:03.902Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:35.157Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:35.157Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:35 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/comment_5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:35 GMT
+      Etag:
+      - '"381ca6ebdf4edf36a75623147c5c120d"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '930'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "subject": {
+              "en-US": "Comment 2"
+            },
+            "content": {
+              "en-US": "Body Comment 2"
+            }
+          },
+          "sys": {
+            "id": "comment_5",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:31.815Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "6H6pGAV1PUsuoAW26Iu48W"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.204Z",
+            "publishedCounter": 1,
+            "version": 3,
+            "updatedAt": "2015-01-04T19:02:14.448Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:35 GMT
+- request:
+    method: put
+    uri: https://api.contentful.com/spaces/ip17s12q0ek4/entries/comment_5/published
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Version:
+      - '3'
+      Content-Length:
+      - '0'
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - ip17s12q0ek4
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Sun, 04 Jan 2015 19:03:36 GMT
+      Etag:
+      - '"a7794a6f4f0b57df46daa015a011e98c"'
+      Server:
+      - nginx
+      X-Powered-By:
+      - Express
+      Content-Length:
+      - '1146'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "subject": {
+              "en-US": "Comment 2"
+            },
+            "content": {
+              "en-US": "Body Comment 2"
+            }
+          },
+          "sys": {
+            "id": "comment_5",
+            "type": "Entry",
+            "createdAt": "2015-01-04T19:01:31.815Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "ip17s12q0ek4"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "6H6pGAV1PUsuoAW26Iu48W"
+              }
+            },
+            "firstPublishedAt": "2015-01-04T19:02:04.204Z",
+            "publishedCounter": 2,
+            "version": 4,
+            "updatedAt": "2015-01-04T19:03:35.945Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedAt": "2015-01-04T19:03:35.945Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "publishedVersion": 3
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 04 Jan 2015 19:03:36 GMT
+recorded_with: VCR 2.9.3

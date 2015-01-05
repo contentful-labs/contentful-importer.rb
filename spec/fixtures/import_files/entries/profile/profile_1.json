@@ -1,0 +1,12 @@
+{
+  "id": "profile_1",
+  "nickname": "Nickname 1",
+  "user_id": 1,
+  "created_at": "2014-12-16T11:35:31+00:00",
+  "updated_at": "2014-12-16T11:35:31+00:00",
+  "database_id": 1,
+  "user": {
+    "type": "Entry",
+    "id": "user_1"
+  }
+}
