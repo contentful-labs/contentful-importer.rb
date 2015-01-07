@@ -78,6 +78,7 @@ describe Migrator do
   end
   it 'publish an assets' do
     vcr('publish_asset') do
+      expect_any_instance_of(Contentful::ParallelImporter).to receive(:publish_status).exactly(4).times
       Migrator.new(@setting_file).run('--publish-assets')
     end
   end

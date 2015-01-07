@@ -11,9 +11,9 @@ module Contentful
       expect(validator.config).to be_a Contentful::Configuration
     end
 
-    it 'validate_schemes' do
+    it 'validate_schemas' do
       expect_any_instance_of(Contentful::JsonSchemaValidator).to receive(:validate_schema).exactly(5).times
-      JsonSchemaValidator.new(@config).validate_schemes
+      JsonSchemaValidator.new(@config).validate_schemas
     end
 
     it 'validate_schema' do
@@ -36,8 +36,8 @@ module Contentful
       expect(result).to include('type' => 'object', 'properties' => {'subject' => {'type' => 'string'}, 'content' => {'type' => 'string'}})
     end
 
-    it 'basic schema form' do
-      result = JsonSchemaValidator.new(@config).basic_schema_format
+    it 'base schema form' do
+      result = JsonSchemaValidator.new(@config).base_schema_format
       expect(result).to include('type' => 'object', 'properties' => {})
     end
 

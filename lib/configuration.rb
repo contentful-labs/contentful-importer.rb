@@ -36,8 +36,8 @@ module Contentful
     end
 
     def validate_required_parameters
-      fail ArgumentError, 'Set PATH to data_dir. Folder where all data will be stored. Check README' if config['data_dir'].nil?
-      fail ArgumentError, 'Set PATH to contentful structure JSON file. Check README' if config['contentful_structure_dir'].nil?
+      fail ArgumentError, 'Set PATH to data_dir. Folder where all data will be stored. View README' if config['data_dir'].nil?
+      fail ArgumentError, 'Set PATH to contentful structure JSON file. View README' if config['contentful_structure_dir'].nil?
     end
 
   end

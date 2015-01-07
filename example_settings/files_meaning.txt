@@ -1,0 +1,15 @@
+1. contentful_model.json
+
+File which contains downloaded the entire structure of the Space.
+To get this file use:
+ curl -X GET \
+      -H 'Authorization: Bearer ACCESS_TOKEN' \
+      'https://api.contentful.com/spaces/SPACE_ID/content_types' > contentful_model.json
+
+2. contentful_structure.json
+
+Contentful model structure converted to a form that importer supports.Contains models of content types with attributes and their types.
+
+3. settings.yml
+
+Configuration file which contains defined paths to the files needed to export data.

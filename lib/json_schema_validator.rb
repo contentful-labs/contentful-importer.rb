@@ -9,7 +9,7 @@ module Contentful
       @config = configuration
     end
 
-    def validate_schemes
+    def validate_schemas
       Dir.glob("#{config.collections_dir}/*") do |content_type_file|
         validate_schema(content_type_file)
       end
@@ -26,14 +26,14 @@ module Contentful
         entry_schema = JSON.parse(File.read(entry_file))
         begin
           JSON::Validator.validate!(schema, entry_schema)
-        rescue JSON::Schema::ValidationError
-          puts "#{$!.message}! Path to invalid entry: #{entry_file}"
+        rescue JSON::Schema::ValidationError => error
+          puts "#{error.message}! Path to invalid entry: #{entry_file}"
         end
       end
     end
 
     def parse_content_type_schema(ct_file)
-      new_hash = basic_schema_format
+      new_hash = base_schema_format
       ct_file['fields'].each do |key|
         type = convert_type(key['type'])
         new_hash['properties'].merge!({key['id'] => {'type' => type}})
@@ -41,7 +41,7 @@ module Contentful
       new_hash
     end
 
-    def basic_schema_format
+    def base_schema_format
       {'type' => 'object', 'properties' => {}}
     end
 

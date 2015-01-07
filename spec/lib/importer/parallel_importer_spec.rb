@@ -34,11 +34,11 @@ module Contentful
 
     context 'asset_status' do
       it 'successfully imported' do
+        allow(CSV).to receive(:open).with('spec/fixtures/import_files/logs/assets_log.csv', 'a')
         asset_file = Contentful::Management::Asset.new
         asset_file.id = 'test_id'
         expect_any_instance_of(Contentful::Management::Asset).to receive(:process_file)
-        asset = @importer.asset_status(asset_file, {'url' => 'www.example.com/photo.png'})
-        expect(asset).to be_a CSV
+        @importer.asset_status(asset_file, {'url' => 'www.example.com/photo.png'})
       end
     end
 
@@ -57,15 +57,15 @@ module Contentful
         expect_any_instance_of(Contentful::ParallelImporter).to receive(:create_entry_parameters) { {'subject' => 'some'} }
         expect_any_instance_of(Contentful::ParallelImporter).to receive(:content_type) { content_type }
         expect_any_instance_of(Contentful::ParallelImporter).to receive(:import_status).with(Contentful::Management::Entry, './spec/fixtures/import_files/entries/comment/comment_1.json', 'log_file')
-        import_entry = @importer.send(:import_entry, './spec/fixtures/import_files/entries/comment/comment_1.json', 'space_id', 'ct_id', 'log_file')
+        @importer.send(:import_entry, './spec/fixtures/import_files/entries/comment/comment_1.json', 'space_id', 'ct_id', 'log_file')
       end
     end
 
     context 'import_status' do
       it 'successfully imported' do
+        allow(CSV).to receive(:open).with('spec/fixtures/import_files/logs/success_thread_0.csv', 'a')
         entry = Contentful::Management::Entry.new
-        status = @importer.send(:import_status, entry, 'file_path', 'success_thread_0')
-        expect(status).to be_a CSV
+        @importer.send(:import_status, entry, 'file_path', 'success_thread_0')
       end
     end
 

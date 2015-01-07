@@ -37,7 +37,7 @@ class Migrator
       when '--publish-assets'
         importer.publish_assets
       when '--validate-schema'
-        json_validator.validate_schemes
+        json_validator.validate_schemas
     end
   end
 end
