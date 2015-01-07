@@ -96,4 +96,8 @@ describe Migrator do
     end
   end
 
+  it 'validate JSON schema' do
+    expect { Migrator.new(@setting_file).run('--validate-schema') }.not_to raise_error
+  end
+
 end
