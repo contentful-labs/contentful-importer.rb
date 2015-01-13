@@ -78,6 +78,7 @@ describe Migrator do
   end
   it 'publish an assets' do
     vcr('publish_asset') do
+      expect_any_instance_of(Contentful::ParallelImporter).to receive(:publish_status).exactly(4).times
       Migrator.new(@setting_file).run('--publish-assets')
     end
   end
@@ -94,6 +95,10 @@ describe Migrator do
         Migrator.new(@setting_file).run('--test-credentials')
       end
     end
+  end
+
+  it 'validate JSON schema' do
+    expect { Migrator.new(@setting_file).run('--validate-schema') }.not_to raise_error
   end
 
 end

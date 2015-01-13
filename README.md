@@ -144,6 +144,11 @@ Before importing content to Contentful, check if the credentials in your **setti
 contentful-importer --config-file settings.yml --test-credentials
 ```
 
+#### --validate-schema
+
+After preparing the files to import, you can validate the JSON schema, use command:
+
+```contentful-importer --config-file settings.yml --validate-schema```
 
 ## Content Model
 

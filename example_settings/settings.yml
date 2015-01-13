@@ -1,5 +1,5 @@
 #PATH to all data
-data_dir: DEFINE_BEFORE_EXPORTING_DATA
+data_dir: PATH_TO_ALL_DATA
 
 ########## IMPORT DATA TO CONTENTFUL ##########
 
@@ -10,6 +10,9 @@ space_id: DEFINE_AFTER_CREATING_SPACE
 default_locale: DEFINE_LOCALE_CODE
 
 ## CONVERT CONTENTFUL MODEL TO CONTENTFUL IMPORT STRUCTURE
-content_model_json:
-import_form_dir:
+content_model_json: example_settings/contentful_model.json
+import_form_dir: example_settings/contentful_structure.json
+
+mapping_dir: example_settings/mapping.json
+contentful_structure_dir: example_settings/contentful_structure.json
 
