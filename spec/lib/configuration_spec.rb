@@ -16,7 +16,7 @@ module Contentful
       expect(@config.imported_entries).to be_empty
       expect(@config.published_entries).to be_empty
       expect(@config.published_assets).to be_empty
-      expect(@config.import_form_dir).to eq 'spec/fixtures/settings/contentful_structure_test.json'
+      expect(@config.converted_model_dir).to eq 'spec/fixtures/settings/contentful_structure_test.json'
       expect(@config.contentful_structure).to be_a Hash
       expect(@config.space_id).to eq 'ip17s12q0ek4'
       expect(@config.content_types).to eq 'spec/fixtures/settings/contentful_model.json'

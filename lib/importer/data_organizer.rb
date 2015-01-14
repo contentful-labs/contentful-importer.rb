@@ -5,11 +5,12 @@ require_relative 'parallel_importer'
 module Contentful
   class DataOrganizer
 
-    attr_reader :config, :split_params
+    attr_reader :config, :split_params, :logger
 
     def initialize(settings)
       @config = settings
       @split_params = {entry_index: 0, current_thread: 0}
+      @logger = Logger.new(STDOUT)
     end
 
     def execute(threads_count)
@@ -21,7 +22,7 @@ module Contentful
       entries_per_thread_count = total_entries_count / threads_count
       Dir.glob("#{config.entries_dir}/*") do |dir_path|
         collection_name = File.basename(dir_path)
-       if has_contentful_structure?(collection_name)
+        if has_contentful_structure?(collection_name)
           content_type_id = content_type_id_from_file(collection_name)
           process_collection_files(content_type_id, dir_path, entries_per_thread_count, threads_count)
         end
@@ -29,7 +30,7 @@ module Contentful
     end
 
     def process_collection_files(content_type_id, dir_path, entries_per_thread_count, threads_count)
-      puts "Processing collection: #{content_type_id}"
+      logger.info "Processing collection: #{content_type_id}"
       Dir.glob("#{dir_path}/*.json") do |entry_path|
         copy_entry(entry_path, split_params[:current_thread], content_type_id)
         split_params[:entry_index] += 1
@@ -46,7 +47,7 @@ module Contentful
 
     def set_current_thread(threads_count)
       split_params[:current_thread] += 1
-      split_params[:current_thread] = 0 if  split_params[:current_thread] == threads_count
+      split_params[:current_thread] = 0 if split_params[:current_thread] == threads_count
     end
 
     def has_contentful_structure?(collection_file)
@@ -66,6 +67,7 @@ module Contentful
     end
 
     def create_threads_subdirectories(threads_count)
+      validate_collections_files
       create_directory(config.threads_dir)
       threads_count.times do |thread_id|
         create_directory("#{config.threads_dir}/#{thread_id}")
@@ -84,6 +86,10 @@ module Contentful
       end
       total_number
     end
-  end
 
+    def validate_collections_files
+      fail ArgumentError, "Make sure the #{config.collections_dir} directory exists and the content structure resides within it. View README" unless Dir.exist?(config.collections_dir)
+      fail ArgumentError, 'Collections directory is empty! Create content types JSON files. View README' if Dir.glob("#{config.collections_dir}/*").empty?
+    end
+  end
 end

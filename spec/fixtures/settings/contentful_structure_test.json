@@ -1,14 +1,4 @@
 {
-  "Comment": {
-    "id": "6H6pGAV1PUsuoAW26Iu48W",
-    "name": "Comment",
-    "description": null,
-    "displayField": "subject",
-    "fields": {
-      "subject": "Text",
-      "content": "Text"
-    }
-  },
   "User": {
     "id": "1TVvxCqoRq0qUYAOQuOqys",
     "name": "User",
@@ -42,12 +32,6 @@
       "Creator": {
         "id": "creator",
         "type": "Entry",
-        "link": "Link"
-      },
-      "Comments": {
-        "id": "comments",
-        "type": "Array",
-        "link_type": "Entry",
         "link": "Link"
       }
     }

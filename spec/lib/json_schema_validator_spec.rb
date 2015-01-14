@@ -12,28 +12,27 @@ module Contentful
     end
 
     it 'validate_schemas' do
-      expect_any_instance_of(Contentful::JsonSchemaValidator).to receive(:validate_schema).exactly(5).times
+      expect_any_instance_of(Contentful::JsonSchemaValidator).to receive(:validate_schema).exactly(4).times
       JsonSchemaValidator.new(@config).validate_schemas
     end
 
     it 'validate_schema' do
-      expect_any_instance_of(Contentful::JsonSchemaValidator).to receive(:validate_entry).with('comment',
+      expect_any_instance_of(Contentful::JsonSchemaValidator).to receive(:validate_entry).with('job_skills',
                                                                                                {'type' => 'object',
-                                                                                                'properties' => {'subject' => {'type' => 'string'},
-                                                                                                                 'content' => {'type' => 'string'}
+                                                                                                'properties' => {'name' => {'type' => 'string'}
                                                                                                 }})
-      JsonSchemaValidator.new(@config).validate_schema('spec/fixtures/import_files/collections/comment.json')
+      JsonSchemaValidator.new(@config).validate_schema('spec/fixtures/import_files/collections/job_skills.json')
     end
 
     it 'validate_entry' do
-      schema = load_json('import_files/collections/comment')
-      expect { JsonSchemaValidator.new(@config).validate_entry('comment', schema) }.not_to raise_error
+      schema = load_json('import_files/collections/job_skills')
+      expect { JsonSchemaValidator.new(@config).validate_entry('job_skills', schema) }.not_to raise_error
     end
 
     it 'parse_content_type_schema' do
-      ct_file = load_json('import_files/collections/comment')
+      ct_file = load_json('import_files/collections/job_skills')
       result = JsonSchemaValidator.new(@config).parse_content_type_schema(ct_file)
-      expect(result).to include('type' => 'object', 'properties' => {'subject' => {'type' => 'string'}, 'content' => {'type' => 'string'}})
+      expect(result).to include('type' => 'object', 'properties' => {'name' => {'type' => 'string'}})
     end
 
     it 'base schema form' do

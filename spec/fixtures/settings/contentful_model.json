@@ -2,65 +2,10 @@
   "sys": {
     "type": "Array"
   },
-  "total": 5,
+  "total": 4,
   "skip": 0,
   "limit": 100,
   "items": [
-    {
-      "fields": [
-        {
-          "name": "subject",
-          "id": "subject",
-          "type": "Text"
-        },
-        {
-          "name": "content",
-          "id": "content",
-          "type": "Text"
-        }
-      ],
-      "name": "Comment",
-      "sys": {
-        "id": "6H6pGAV1PUsuoAW26Iu48W",
-        "type": "ContentType",
-        "createdAt": "2014-12-16T12:43:41.232Z",
-        "createdBy": {
-          "sys": {
-            "type": "Link",
-            "linkType": "User",
-            "id": "1E7acJL8I5XUXAMHQt9Grs"
-          }
-        },
-        "space": {
-          "sys": {
-            "type": "Link",
-            "linkType": "Space",
-            "id": "ip17s12q0ek4"
-          }
-        },
-        "firstPublishedAt": "2014-12-16T12:44:36.351Z",
-        "publishedCounter": 1,
-        "publishedAt": "2014-12-16T12:44:36.351Z",
-        "publishedBy": {
-          "sys": {
-            "type": "Link",
-            "linkType": "User",
-            "id": "1E7acJL8I5XUXAMHQt9Grs"
-          }
-        },
-        "publishedVersion": 50,
-        "version": 51,
-        "updatedAt": "2014-12-16T12:44:36.360Z",
-        "updatedBy": {
-          "sys": {
-            "type": "Link",
-            "linkType": "User",
-            "id": "1E7acJL8I5XUXAMHQt9Grs"
-          }
-        }
-      },
-      "displayField": "subject"
-    },
     {
       "fields": [
         {
@@ -153,15 +98,6 @@
           "id": "creator",
           "type": "Link",
           "linkType": "Entry"
-        },
-        {
-          "name": "comments",
-          "id": "comments",
-          "type": "Array",
-          "items": {
-            "type": "Link",
-            "linkType": "Entry"
-          }
         }
       ],
       "name": "Jobs",
