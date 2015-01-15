@@ -3,10 +3,11 @@ require 'json-schema'
 module Contentful
   class JsonSchemaValidator
 
-    attr_reader :config
+    attr_reader :config, :logger
 
     def initialize(configuration)
       @config = configuration
+      @logger = Logger.new(STDOUT)
     end
 
     def validate_schemas
@@ -27,7 +28,7 @@ module Contentful
         begin
           JSON::Validator.validate!(schema, entry_schema)
         rescue JSON::Schema::ValidationError => error
-          puts "#{error.message}! Path to invalid entry: #{entry_file}"
+          logger.info "#{error.message}! Path to invalid entry: #{entry_file}"
         end
       end
     end

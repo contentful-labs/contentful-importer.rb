@@ -27,20 +27,11 @@
       "link": "Link"
     },
     {
-      "name": "Comments",
-      "id": "comments",
-      "type": "Array",
-      "link_type": "Entry",
-      "link": "Link"
-    },
-    {
       "name": "Skills",
       "id": "skills",
       "type": "Array",
       "link_type": "Entry",
       "link": "Link"
     }
-  ],
-  "content_type_id": "4L1bg4WQ5aWQMiE82ouag",
-  "space_id": "space_id"
+  ]
 }

@@ -221,3 +221,81 @@ To specify in which locale you want to create all Entries and Assets, set ```def
 ```yml
 default_locale: de-DE
 ```
+
+## Step by step
+
+1. Create YAML file with required parameters (eg. ```settings.yml```):
+
+    ```yaml
+    #PATH to all data
+    data_dir: DEFINE_BEFORE_EXPORTING_DATA
+
+    #Contentful credentials
+    access_token: ACCESS_TOKEN
+    organization_id: ORGANIZATION_ID
+    space_id: DEFINE_AFTER_CREATING_SPACE
+    default_locale: DEFINE_LOCALE_CODE
+
+    ## CONTENTFUL STRUCTURE
+    contentful_structure_dir: PATH_TO_CONTENTFUL_STRUCTURE_JSON_FILE
+
+    ## CONVERT CONTENTFUL MODEL TO CONTENTFUL IMPORT STRUCTURE
+    content_model_json:
+    converted_model_dir:
+    ```
+
+2. Create the contentful_structure.json. First you need to create a content model using the [contentful website](www.contentful.com). Then you can download the content model using the content management api and use as the schema for the import structure.
+
+    ```bash
+     curl -X GET \
+          -H 'Authorization: Bearer ACCESS_TOKEN' \
+          'https://api.contentful.com/spaces/SPACE_ID/content_types' > contentful_model.json
+    ```
+
+    It will create ```contentful_model.json``` file, which you need to transform into the ```contentful_structure.json``` using:
+
+    ```
+    contentful-importer --config-file settings.yml --convert-content-model-to-json
+    ```
+
+    The converted content model will be saved as JSON file in the ```converted_model_dir``` path.
+
+3. Once you have prepared the ```content types```, ```assets``` and ```entries``` (for example using one of the existing extraction adapters or creating your own) they can be imported. It can be chosen to use one (default) or two parallel threads to speedup this process.
+
+    ```
+    contentful-importer --config-file settings.yml --threads --thread 2
+    ```
+
+4. Import data: There are two steps to import entries and assets.
+
+    **Entries**
+
+    ```
+    contentful-importer --config-file settings.yml --import
+    ```
+
+    **Assets**
+
+    ```
+    contentful-importer --config-file settings.yml --import-assets
+    ```
+
+    After each request the ```success_number_of_thread.csv``` or ```success_assets``` file is updated. You can find it in ```data_dir/logs```.
+    If an entry or asset fails to be imported, it will end up in the ```failure_number_of_thread``` or ```assets_failure.csv``` including the error message.
+
+
+5. Publish entries and assets. After successfully importing the entries and assets to contentful, they need to be published in order to be available through the delivery API.
+
+    To publish an entries use:
+
+    ```
+    contentful-importer --config-file settings.yml --publish-entries
+    ```
+
+    To publish an assets use:
+
+    ```
+    contentful-importer --config-file settings.yml --publish-assets
+    ```
+    After each request the ```success_published_entries.csv``` or ```success_published_assets.csv``` file is updated. You can find it in ```data_dir/logs```.
+    If an entry or asset fails to be imported, it will end up in the ```failure_published_entries.csv``` or ```failure_published_assets.csv``` including the error message.

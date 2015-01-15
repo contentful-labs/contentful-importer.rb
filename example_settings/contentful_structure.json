@@ -1,89 +1,78 @@
 {
-  "Comment": {
-    "id": "6H6pGAV1PUsuoAW26Iu48W",
-    "name": "Comment",
+  "Blog": {
+    "id": "3gldgGyAyci8ak0cykKeou",
+    "name": "Blog",
     "description": null,
-    "displayField": "subject",
+    "displayField": "title",
     "fields": {
-      "subject": "Text",
-      "content": "Text"
-    }
-  },
-  "User": {
-    "id": "1TVvxCqoRq0qUYAOQuOqys",
-    "name": "User",
-    "description": null,
-    "displayField": "first_name",
-    "fields": {
-      "first_name": "Text",
-      "last_name": "Text",
-      "birthday": "Date",
-      "Jobs": {
-        "id": "job_adds",
+      "Posts": {
+        "id": "posts",
         "type": "Array",
         "link_type": "Entry",
         "link": "Link"
       },
-      "Profile": {
-        "id": "profile",
-        "type": "Entry",
+      "title": "Text",
+      "Categories": {
+        "id": "categories",
+        "type": "Array",
+        "link_type": "Entry",
+        "link": "Link"
+      },
+      "Tags": {
+        "id": "tags",
+        "type": "Array",
+        "link_type": "Entry",
         "link": "Link"
       }
     }
   },
-  "Jobs": {
-    "id": "4L1bg4WQ5aWQMiE82ouag",
-    "name": "Jobs",
+  "Tag": {
+    "id": "wO1krKenNQcWMSqaeysWo",
+    "name": "Tag",
+    "description": null,
+    "displayField": "nicename",
+    "fields": {
+      "nicename": "Text",
+      "name": "Text"
+    }
+  },
+  "Category": {
+    "id": "5PIooPqWmAcYyQ04c2KUcQ",
+    "name": "Category",
+    "description": null,
+    "displayField": "name",
+    "fields": {
+      "nicename": "Text",
+      "name": "Text"
+    }
+  },
+  "Post": {
+    "id": "KHqITFZXeCIokyOEc4k0k",
+    "name": "Post",
     "description": null,
     "displayField": "title",
     "fields": {
       "title": "Text",
-      "description": "Text",
-      "Image": {
-        "id": "image",
+      "content": "Text",
+      "Tags": {
+        "id": "tags",
+        "type": "Array",
+        "link_type": "Entry",
+        "link": "Link"
+      },
+      "Categories": {
+        "id": "categories",
+        "type": "Array",
+        "link_type": "Entry",
+        "link": "Link"
+      },
+      "wordpress_url": "Text",
+      "Attachment": {
+        "id": "attachment",
         "type": "Asset",
         "link": "Link"
       },
-      "User": {
-        "id": "creator",
-        "type": "Entry",
-        "link": "Link"
-      },
-      "Comment": {
-        "id": "comments",
-        "type": "Array",
-        "link_type": "Entry",
-        "link": "Link"
-      },
-      "Job Skills": {
-        "id": "skills",
-        "type": "Array",
-        "link_type": "Entry",
-        "link": "Link"
-      }
-    }
-  },
-  "Profile": {
-    "id": "4WFZh4MwC4Mc0EQWAeOY8A",
-    "name": "Profile",
-    "description": null,
-    "displayField": null,
-    "fields": {
-      "nickname": "Text",
-      "User": {
-        "id": "user",
-        "type": "Entry",
-        "link": "Link"
-      }
-    }
-  },
-  "Job Skills": {
-    "id": "2soCP557HGKoOOK0SqmMOm",
-    "name": "Job Skills",
-    "description": null,
-    "displayField": "name",
-    "fields": {
-      "name": "Text"
+      "created_at": "Date"
     }
   }
 }

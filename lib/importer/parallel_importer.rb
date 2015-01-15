@@ -8,12 +8,12 @@ module Contentful
 
     Encoding.default_external = 'utf-8'
 
-    attr_reader :space,
-                :config
+    attr_reader :space, :config, :logger
     attr_accessor :content_type
 
     def initialize(settings)
       @config = settings
+      @logger = Logger.new(STDOUT)
       Contentful::Management::Client.new(config.config['access_token'], default_locale: config.config['default_locale'] || 'en-US')
     end
 
@@ -29,10 +29,10 @@ module Contentful
     def test_credentials
       space = Contentful::Management::Space.all
       if space.is_a? Contentful::Management::Array
-        puts 'Contentful Management API credentials: OK'
+        logger.info 'Contentful Management API credentials: OK'
       end
     rescue NoMethodError => _error
-      puts 'Contentful Management API credentials: INVALID (check README)'
+      logger.info 'Contentful Management API credentials: INVALID (check README)'
     end
 
     def number_of_threads
@@ -63,12 +63,12 @@ module Contentful
     end
 
     def import_only_assets
-      create_log_file('assets_log')
-      assets_ids = Set.new(CSV.read("#{config.data_dir}/logs/assets_log.csv", 'r'))
+      create_log_file('success_assets')
+      assets_ids = Set.new(CSV.read("#{config.data_dir}/logs/success_assets.csv", 'r'))
       Dir.glob("#{config.assets_dir}/**/*json") do |file_path|
         asset_attributes = JSON.parse(File.read(file_path))
-        if asset_url_param_start_with_http?(asset_attributes) && asset_not_imported_yet?(asset_attributes,assets_ids)
-          puts "Import asset - #{asset_attributes['id']} "
+        if asset_url_param_start_with_http?(asset_attributes) && asset_not_imported_yet?(asset_attributes, assets_ids)
+          logger.info "Import asset - #{asset_attributes['id']} "
           asset_title = asset_attributes['name'].present? ? asset_attributes['name'] : asset_attributes['id']
           asset_file = create_asset_file(asset_title, asset_attributes)
           space = Contentful::Management::Space.find(config.config['space_id'])
@@ -96,12 +96,12 @@ module Contentful
 
     def asset_status(asset, asset_attributes)
       if asset.is_a?(Contentful::Management::Asset)
-        puts "Process asset - #{asset.id} "
+        logger.info "Process asset - #{asset.id} "
         asset.process_file
-        CSV.open("#{config.log_files_dir}/assets_log.csv", 'a') { |csv| csv << [asset.id] }
+        CSV.open("#{config.log_files_dir}/success_assets.csv", 'a') { |csv| csv << [asset.id] }
       else
-        puts "Error - #{asset.message} "
-        CSV.open("#{config.log_files_dir}/assets_failure.csv", 'a') { |csv| csv << [asset_attributes['id']] }
+        logger.info "Error - #{asset.message} "
+        CSV.open("#{config.log_files_dir}/failure_assets.csv", 'a') { |csv| csv << [asset_attributes['id']] }
       end
     end
 
@@ -118,19 +118,23 @@ module Contentful
     end
 
     def publish_assets
-      create_log_file('log_published_assets')
-      config.published_assets << CSV.read("#{config.log_files_dir}/log_published_assets.csv", 'r').flatten
+      create_log_file('success_published_assets')
+      config.published_assets << CSV.read("#{config.log_files_dir}/success_published_assets.csv", 'r').flatten
       Dir.glob("#{config.assets_dir}/**/*json") do |asset_file|
         asset_id = JSON.parse(File.read(asset_file))['id']
-        puts "Publish an Asset - ID: #{asset_id}"
-        asset = Contentful::Management::Asset.find(config.config['space_id'], asset_id).publish unless config.published_assets.flatten.include?(asset_file)
-        publish_status(asset, asset_id, 'published_assets')
+        publish_asset(asset_id) unless config.published_assets.flatten.include?(asset_id)
       end
     end
 
+    def publish_asset(asset_id)
+      logger.info "Publish an Asset - ID: #{asset_id}"
+      asset = Contentful::Management::Asset.find(config.config['space_id'], asset_id).publish
+      publish_status(asset, asset_id, 'published_assets')
+    end
+
     def publish_all_entries(thread_dir)
-      create_log_file('log_published_entries')
-      config.published_entries << CSV.read("#{config.log_files_dir}/log_published_entries.csv", 'r').flatten
+      create_log_file('success_published_entries')
+      config.published_entries << CSV.read("#{config.log_files_dir}/success_published_entries.csv", 'r').flatten
       Dir.glob("#{thread_dir}/*json") do |entry_file|
         entry_id = JSON.parse(File.read(entry_file))['id']
         publish_entry(entry_id) unless config.published_entries.flatten.include?(entry_id)
@@ -138,7 +142,7 @@ module Contentful
     end
 
     def publish_entry(entry_id)
-      puts "Publish entries for #{entry_id}."
+      logger.info "Publish entries for #{entry_id}."
       entry = Contentful::Management::Entry.find(config.config['space_id'], entry_id).publish
       publish_status(entry, entry_id, 'published_entries')
     end
@@ -151,7 +155,7 @@ module Contentful
     end
 
     def create_space(name_space)
-      puts "Creating a space with name: #{name_space}"
+      logger.info "Creating a space with name: #{name_space}"
       Contentful::Management::Space.create(name: name_space, organization_id: config.config['organization_id'])
     end
 
@@ -159,16 +163,11 @@ module Contentful
       Dir.glob("#{config.collections_dir}/*json") do |file_path|
         collection_attributes = JSON.parse(File.read(file_path))
         content_type = create_new_content_type(space, collection_attributes)
-        puts "Importing content_type: #{content_type.name}"
+        logger.info "Importing content_type: #{content_type.name}"
         create_content_type_fields(collection_attributes, content_type)
-        add_content_type_id_to_file(collection_attributes, content_type.id, content_type.space.id, file_path)
         content_type.update(displayField: collection_attributes['displayField']) if collection_attributes['displayField']
         active_status(content_type.activate)
       end
-    end
-
-    def get_space_id(collection)
-      collection['space_id']
     end
 
     def get_id(params)
@@ -185,7 +184,7 @@ module Contentful
 
     def import_entry(file_path, space_id, content_type_id, log_file)
       entry_attributes = JSON.parse(File.read(file_path))
-      puts "Creating entry: #{entry_attributes['id']}."
+      logger.info "Creating entry: #{entry_attributes['id']}."
       entry_params = create_entry_parameters(content_type_id, entry_attributes, space_id)
       content_type = content_type(content_type_id, space_id)
       entry = content_type.entries.create(entry_params)
@@ -238,11 +237,12 @@ module Contentful
     def import_status(entry, file_path, log_file)
       if entry.is_a? Contentful::Management::Entry
         entry_file_name = File.basename(file_path)
-        puts 'Imported successfully!'
+        logger.info 'Imported successfully!'
         CSV.open("#{config.log_files_dir}/#{log_file}.csv", 'a') { |csv| csv << [entry_file_name] }
       else
-        puts "### Failure! - #{entry.message}  - #{entry.response.raw}###"
-        CSV.open("#{config.log_files_dir}/fail_#{log_file}.csv", 'a') { |csv| csv << [file_path, entry.message, entry.response.raw] }
+        logger.info "### Failure! - #{entry.message}  - #{entry.response.raw}###"
+        failure_filename = log_file.match(/(thread_\d)/)[1]
+        CSV.open("#{config.log_files_dir}/failure_#{failure_filename}.csv", 'a') { |csv| csv << [file_path, entry.message, entry.response.raw] }
       end
     end
 
@@ -250,10 +250,6 @@ module Contentful
       @content_type = APICache.get("content_type_#{content_type_id}", :period => -5) do
         Contentful::Management::ContentType.find(space_id, content_type_id)
       end
-    end
-
-    def add_content_type_id_to_file(collection, content_type_id, space_id, file_path)
-      File.open(file_path, 'w') { |file| file.write(format_json(collection.merge(content_type_id: content_type_id, space_id: space_id))) }
     end
 
     def create_entry(params, space_id, content_type_id)
@@ -290,7 +286,7 @@ module Contentful
     def create_field(field)
       field_params = {id: field['id'], name: field['name'], required: field['required']}
       field_params.merge!(additional_field_params(field))
-      puts "Creating field: #{field_params[:type]}"
+      logger.info "Creating field: #{field_params[:type]}"
       create_content_type_field(field_params)
     end
 
@@ -307,19 +303,19 @@ module Contentful
 
     def active_status(ct_object)
       if ct_object.is_a? Contentful::Management::Error
-        puts "### Failure! - #{ct_object.message} ! ###"
+        logger.info "### Failure! - #{ct_object.message} ! ###"
       else
-        puts 'Successfully activated!'
+        logger.info 'Successfully activated!'
       end
     end
 
     def publish_status(ct_object, object_id, log_file_name)
       if ct_object.is_a? Contentful::Management::Error
-        puts "### Failure! - #{ct_object.message} ! ###"
+        logger.info "### Failure! - #{ct_object.message} ! ###"
         CSV.open("#{config.log_files_dir}/failure_#{log_file_name}.csv", 'a') { |csv| csv << [object_id] }
       else
-        puts 'Successfully activated!'
-        CSV.open("#{config.log_files_dir}/log_#{log_file_name}.csv", 'a') { |csv| csv << [ct_object.id] }
+        logger.info 'Successfully activated!'
+        CSV.open("#{config.log_files_dir}/success_#{log_file_name}.csv", 'a') { |csv| csv << [ct_object.id] }
       end
     end
 

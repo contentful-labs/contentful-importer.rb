@@ -17,11 +17,6 @@ module Contentful
       expect(number).to eq 2
     end
 
-    it 'get space id' do
-      space_id = @importer.send(:get_space_id, {'space_id' => 'my space Id'})
-      expect(space_id).to eq 'my space Id'
-    end
-
     it 'create_asset_file' do
       file = @importer.create_asset_file('title', {'url' => 'www.example.com/photo.png'})
       expect(file).to be_a Contentful::Management::File
@@ -34,7 +29,7 @@ module Contentful
 
     context 'asset_status' do
       it 'successfully imported' do
-        allow(CSV).to receive(:open).with('spec/fixtures/import_files/logs/assets_log.csv', 'a')
+        allow(CSV).to receive(:open).with('spec/fixtures/import_files/logs/success_assets.csv', 'a')
         asset_file = Contentful::Management::Asset.new
         asset_file.id = 'test_id'
         expect_any_instance_of(Contentful::Management::Asset).to receive(:process_file)
@@ -53,17 +48,20 @@ module Contentful
 
     it 'import_entry' do
       vcr('import_entry') do
-        content_type = Contentful::Management::ContentType.find('ip17s12q0ek4', '6H6pGAV1PUsuoAW26Iu48W')
-        expect_any_instance_of(Contentful::ParallelImporter).to receive(:create_entry_parameters) { {'subject' => 'some'} }
-        expect_any_instance_of(Contentful::ParallelImporter).to receive(:content_type) { content_type }
-        expect_any_instance_of(Contentful::ParallelImporter).to receive(:import_status).with(Contentful::Management::Entry, './spec/fixtures/import_files/entries/comment/comment_1.json', 'log_file')
-        @importer.send(:import_entry, './spec/fixtures/import_files/entries/comment/comment_1.json', 'space_id', 'ct_id', 'log_file')
+        expect_any_instance_of(Contentful::ParallelImporter).to receive(:import_status).with(Contentful::Management::Entry, './spec/fixtures/import_files/entries/job_skills/job_skills_1.json', 'success_thread_0')
+        expect(Contentful::Management::Entry.find('ip17s12q0ek4', 'job_skills_1')).to be_a Contentful::Management::NotFound
+        @importer.send(:import_entry, './spec/fixtures/import_files/entries/job_skills/job_skills_1.json', 'ip17s12q0ek4', '2soCP557HGKoOOK0SqmMOm', 'success_thread_0')
+        entry = Contentful::Management::Entry.find('ip17s12q0ek4', 'job_skills_1')
+        expect(entry).to be_a Contentful::Management::Entry
+        expect(entry.id).to eq 'job_skills_1'
+        expect(entry.name).to eq 'Commercial awareness'
       end
     end
 
     context 'import_status' do
       it 'successfully imported' do
         allow(CSV).to receive(:open).with('spec/fixtures/import_files/logs/success_thread_0.csv', 'a')
+        allow(File).to receive(:basename).with('file_path')
         entry = Contentful::Management::Entry.new
         @importer.send(:import_status, entry, 'file_path', 'success_thread_0')
       end

@@ -9,4 +9,4 @@ mapping_dir: spec/fixtures/settings/mapping.json
 contentful_structure_dir: spec/fixtures/settings/contentful_structure.json
 
 content_model_json: spec/fixtures/settings/contentful_model.json
-import_form_dir: spec/fixtures/settings/contentful_structure_test.json
+converted_model_dir: spec/fixtures/settings/contentful_structure_test.json
