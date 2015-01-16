@@ -192,8 +192,7 @@ This represents an example content model:
 Key names "Images", "Comments", "Skills" are the equivalent of the content type names specified in the file **mapping.json**.
 
 Example:
-```
-``
+```javascript
      "SkillsTableName": {
          "content_type": "Skills",
          "type": "entry",
