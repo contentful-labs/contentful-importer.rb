@@ -3,6 +3,7 @@ require 'contentful/management'
 require 'csv'
 require 'yaml'
 require 'api_cache'
+
 module Contentful
   class ParallelImporter
 
@@ -27,8 +28,8 @@ module Contentful
     end
 
     def test_credentials
-      space = Contentful::Management::Space.all
-      if space.is_a? Contentful::Management::Array
+      spaces = Contentful::Management::Space.all
+      if spaces.is_a? Contentful::Management::Array
         logger.info 'Contentful Management API credentials: OK'
       end
     rescue NoMethodError => _error
@@ -380,4 +381,3 @@ module Contentful
 
   end
 end
-
