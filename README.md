@@ -31,8 +31,8 @@ For example in a ```settings.yml``` file:
 
 ```yaml
 #Contentful
-ACCESS_TOKEN: access_token
-ORGANIZATION_ID: organization_id
+access_token: access_token
+organization_od: organization_id
 ```
 
 **Your Contentful oauth access token can be created using the [Contentful Management API - documentation](https://www.contentful.com/developers/documentation/content-management-api/#getting-started)**
