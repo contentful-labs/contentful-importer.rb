@@ -10,9 +10,7 @@ space_id: DEFINE_SPACE_ID_BEFORE_IMPORT
 default_locale: LOCALE_CODE
 
 ## CONVERT CONTENTFUL MODEL TO CONTENTFUL IMPORT STRUCTURE
-content_model_json:
-import_form_dir:
-
-## CONVERT CONTENTFUL MODEL TO CONTENTFUL IMPORT STRUCTURE
 content_model_json: example_settings/contentful_model.json
 converted_model_dir: example_settings/contentful_structure.json
+
+contentful_structure_dir: example_settings/contentful_structure.json
