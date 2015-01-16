@@ -5,7 +5,7 @@ data_dir: PATH_TO_ALL_DATA
 
 #Contentful credentials - Define before import data to Contentful.
 access_token: ACCESS_TOKEN
-organization_id: ORGANIZATON_ID
+organization_id: ORGANIZATION_ID
 space_id: DEFINE_SPACE_ID_BEFORE_IMPORT
 default_locale: LOCALE_CODE
 
