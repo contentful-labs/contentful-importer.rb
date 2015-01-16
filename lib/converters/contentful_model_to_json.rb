@@ -27,14 +27,14 @@ module Contentful
         set_content_model_parameters
         logger.info 'Converting Contentful model to Contentful import structure...'
         File.open(converted_model_dir, 'w') { |file| file.write({}) }
-        contentful_file = JSON.parse(File.read(content_types))['items']
-        contentful_file.each do |content_type|
+        content_type_file = JSON.parse(File.read(content_types))['items']
+        content_type_file.each do |content_type|
           parsed_content_type = {
               id: content_type['sys']['id'],
               name: content_type['name'],
               description: content_type['description'],
               displayField: content_type['displayField'],
-              fields: {}.merge!(create_contentful_fields(content_type))
+              fields: create_content_type_fields(content_type)
           }
           import_form = JSON.parse(File.read(converted_model_dir))
           File.open(converted_model_dir, 'w') do |file|
@@ -44,7 +44,7 @@ module Contentful
         logger.info "Done! Contentful import structure file saved in #{converted_model_dir}"
       end
 
-      def create_contentful_fields(content_type)
+      def create_content_type_fields(content_type)
         content_type['fields'].each_with_object({}) do |(field, _value), results|
           id = link_id(field)
           results[id] = case field['type']
