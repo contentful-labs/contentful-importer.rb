@@ -1,4 +1,5 @@
 require_relative 'mime_content_type'
+require_relative 'data_organizer'
 require 'contentful/management'
 require 'csv'
 require 'yaml'
@@ -9,12 +10,13 @@ module Contentful
 
     Encoding.default_external = 'utf-8'
 
-    attr_reader :space, :config, :logger
+    attr_reader :space, :config, :logger, :data_organizer
     attr_accessor :content_type
 
     def initialize(settings)
       @config = settings
       @logger = Logger.new(STDOUT)
+      @data_organizer = Contentful::DataOrganizer.new(@config)
       Contentful::Management::Client.new(config.config['access_token'], default_locale: config.config['default_locale'] || 'en-US')
     end
 
@@ -23,7 +25,9 @@ module Contentful
       import_content_types
     end
 
-    def import_data
+    def import_data(threads)
+      clean_threads_dir_before_import(threads)
+      data_organizer.execute(threads)
       import_in_threads
     end
 
@@ -69,14 +73,18 @@ module Contentful
       Dir.glob("#{config.assets_dir}/**/*json") do |file_path|
         asset_attributes = JSON.parse(File.read(file_path))
         if asset_url_param_start_with_http?(asset_attributes) && asset_not_imported_yet?(asset_attributes, assets_ids)
-          logger.info "Import asset - #{asset_attributes['id']} "
-          asset_title = asset_attributes['name'].present? ? asset_attributes['name'] : asset_attributes['id']
-          asset_file = create_asset_file(asset_title, asset_attributes)
-          space = Contentful::Management::Space.find(config.config['space_id'])
-          asset = space.assets.create(id: "#{asset_attributes['id']}", title: "#{asset_title}", description: '', file: asset_file)
-          asset_status(asset, asset_attributes)
+          import_asset(asset_attributes)
         end
       end
+    end
+
+    def import_asset(asset_attributes)
+      logger.info "Import asset - #{asset_attributes['id']} "
+      asset_title = asset_attributes['name'].present? ? asset_attributes['name'] : asset_attributes['id']
+      asset_file = create_asset_file(asset_title, asset_attributes)
+      space = Contentful::Management::Space.find(config.config['space_id'])
+      asset = space.assets.create(id: "#{asset_attributes['id']}", title: "#{asset_title}", description: '', file: asset_file)
+      asset_status(asset, asset_attributes)
     end
 
     def asset_url_param_start_with_http?(asset_attributes)
@@ -359,6 +367,15 @@ module Contentful
       Contentful::Management::Field.new.tap do |field|
         field.type = params['link'] || 'Link'
         field.link_type = params['link_type']
+      end
+    end
+
+    def clean_threads_dir_before_import(threads)
+      threads.times do |thread|
+        if File.directory?("#{config.threads_dir}/#{thread}")
+          logger.info "Remove directory threads/#{thread} from #{config.threads_dir} path."
+          FileUtils.rm_r("#{config.threads_dir}/#{thread}")
+        end
       end
     end
 

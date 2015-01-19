@@ -21,16 +21,6 @@ Escort::App.create do |app|
         Command::CLI.new(options, arguments).execute
       end
     end
-    app.command '--threads' do |command|
-      command.summary 'Organize file structure to import. Assign files to separate Threads'
-      command.options do |opts|
-        opts.opt :thread, 'thread', short: '-t', long: '--thread', type: :integer, default: 1
-        opts.validate(:thread, 'argument must be set to 1 or 2 exclusive. ') { |option| option > 0 && option <= 2 }
-      end
-      command.action do |options, arguments|
-        Command::CLI.new(options, arguments).execute
-      end
-    end
     app.command '--import-content-types' do |command|
       command.summary 'Find an existing Space or create new one. Import content types to Contentful platform'
       command.requires_arguments false
@@ -44,6 +34,10 @@ Escort::App.create do |app|
     end
     app.command '--import' do |command|
       command.summary 'Import entries to Contentful platform'
+      command.options do |opts|
+        opts.opt :threads, 'threads', short: '-t', long: '--threads', type: :integer, default: 1
+        opts.validate(:threads, 'argument must be set to 1 or 2 exclusive. ') { |option| option > 0 && option <= 2 }
+      end
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute
       end

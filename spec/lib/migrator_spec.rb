@@ -48,14 +48,10 @@ describe Migrator do
     end
   end
 
-  it 'prepare data to import - threads' do
-    Migrator.new(@setting_file).run('--threads', thread: 2)
-    expect(Dir.glob('spec/fixtures/import_files/threads/*').count).to eq 2
-  end
-
   it 'import an entires to Contentful with two Threads' do
     vcr('import_entries') do
-      import = Migrator.new(@setting_file).run('--import')
+      allow(FileUtils).to receive(:rm_r)
+      import = Migrator.new(@setting_file).run('--import', threads: 2)
       expect(import).to be_a Array
       expect(import.count).to eq 2
     end

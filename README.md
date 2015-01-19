@@ -3,7 +3,7 @@ Contentful Generic-importer
 
 ## Description
 
-This allows you to import structured JSON data to[Contentful](https://www.contentful.com).
+This allows you to import structured JSON data to [Contentful](https://www.contentful.com).
 
 You can use one of the following tools to extract your content and make it ready for import:
 
@@ -94,12 +94,29 @@ import_from_dir: example_path/contentful_structure.json
 
 #### --threads --thread
 
-Default value of thread: 1 (number of Threads, maximum value: 2)
+#### --convert-content-model-to-json
 
-Organize file structure,split them depending on number of Threads.
+If you already have an existing content model for a space it can be downloaded and used for the import:
 
 ```bash
-contentful-importer --config-file settings.yml --threads --thread NUMBER
+ curl -X GET \
+      -H 'Authorization: Bearer ACCESS_TOKEN' \
+      'https://api.contentful.com/spaces/SPACE_ID/content_types' > contentful_model.json
+```
+
+
+In the **settings.yml** specify the PATH to **contentful_model.json**.
+
+```yaml
+#Dump file with content model.
+content_model_json: example_path/contentful_model.json
+```
+
+and define the PATH where you want to save the converted JSON file:
+
+```yaml
+#File with converted structure of contentful model. Almost ready to import.
+converted_model_dir: example_path/contentful_structure.json
 ```
 
 #### --import-content-types ARGS
@@ -118,15 +135,21 @@ contentful-importer --config-file settings.yml --import-content-types --space_na
 
 #### --import
 
-Import the entries:
+Import the entries with a single thread:
 
 ```bash
 contentful-importer --config-file settings.yml --import
 ```
 
+or using two threads
+
+```bash
+contentful-importer --config-file settings.yml --import --threads 2
+```
+
 #### --import-assets
 
-Import the entries:
+Import the assets:
 
 ```bash
 contentful-importer --config-file settings.yml --import-assets
@@ -275,18 +298,20 @@ default_locale: de-DE
 
     The converted content model will be saved as JSON file in the ```converted_model_dir``` path.
 
-3. Once you have prepared the `content types`, `asset` and `entries` (for example using one of the existing extraction adapters or creating your own) they can be imported. It can be chosen to use one (default) or two threads to import the content.
 
-    ```bash
-    contentful-importer --config-file settings.yml --threads --thread 2
-    ```
-
-4. Import data: There are two steps to import entries and assets.
+3. Once you have prepared the `content types`, `assets` and `entries` (for example using one of the existing extraction adapters or creating your own) they can be imported. It can be chosen to use one (default) or two parallel threads to speedup this process.
+   There are two steps to import entries and assets.
 
     **Entries**
 
     ```bash
     contentful-importer --config-file settings.yml --import
+    ```
+
+    or
+
+    ```bash
+    contentful-importer --config-file settings.yml --import --threads 2
     ```
 
     **Assets**
@@ -299,7 +324,7 @@ default_locale: de-DE
     If an entry or asset fails to be imported, it will end up in the `failure_number_of_thread` or `assets_failure.csv` including the error message.
 
 
-5. Publish entries and assets. After successfully importing the entries and assets to contentful, they need to be published in order to be available through the delivery API.
+4. Publish entries and assets. After successfully importing the entries and assets to contentful, they need to be published in order to be available through the delivery API.
 
     To publish all entries use:
 
