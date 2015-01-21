@@ -52,48 +52,6 @@ To display all actions use the `-h` option:
 ```bash
 contentful-importer -h
 ```
-
-#### --create-contentful-model-from-json
-
-Create the content model based on the structure defined in ```contentful_structure.json```.
-This will generate content types files that are ready to be imported.
-Set the `contentful_structure_dir` variable to point to the structure file in your settings file.
-
-Path to collections: **data_dir/collections**
-
-```bash
-contentful-importer --config-file settings.yml --create-contentful-model-from-json
-```
-
-This is optional if you intend to create your own content structure as JSON files and not use the web application for it.
-
-#### --convert-content-model-to-json
-
-If you already have an existing content model for a space it can be downloaded and used for the import:
-
-```bash
- curl -X GET \
-      -H 'Authorization: Bearer ACCESS_TOKEN' \
-      'https://api.contentful.com/spaces/SPACE_ID/content_types' > contentful_model.json
-```
-
-
-In the **settings.yml** specify the PATH to **contentful_model.json**.
-
-```yaml
-#Dump file with content model.
-content_model_json: example_path/contentful_model.json
-```
-
-and define the PATH where you want to save the converted JSON file:
-
-```yaml
-#File with converted structure of contentful model. Almost ready to import.
-import_from_dir: example_path/contentful_structure.json
-```
-
-#### --threads --thread
-
 #### --convert-content-model-to-json
 
 If you already have an existing content model for a space it can be downloaded and used for the import:
@@ -118,6 +76,20 @@ and define the PATH where you want to save the converted JSON file:
 #File with converted structure of contentful model. Almost ready to import.
 converted_model_dir: example_path/contentful_structure.json
 ```
+
+#### --create-contentful-model-from-json
+
+Create the content model based on the structure defined in ```contentful_structure.json```.
+This will generate content types files that are ready to be imported.
+Set the `contentful_structure_dir` variable to point to the structure file in your settings file.
+
+Path to collections: **data_dir/collections**
+
+```bash
+contentful-importer --config-file settings.yml --create-contentful-model-from-json
+```
+
+This is optional if you intend to create your own content structure as JSON files and not use the web application for it.
 
 #### --import-content-types ARGS
 
@@ -320,8 +292,8 @@ default_locale: de-DE
     contentful-importer --config-file settings.yml --import-assets
     ```
 
-    After each request the `success_number_of_thread.csv` or `success_assets` file is updated. You can find those in `data_dir/logs`.
-    If an entry or asset fails to be imported, it will end up in the `failure_number_of_thread` or `assets_failure.csv` including the error message.
+    After each request the `success_number_of_thread.csv` or `success_assets.csv` file is updated. You can find those in `data_dir/logs`.
+    If an entry or asset fails to be imported, it will end up in the `failure_number_of_thread.csv` or `assets_failure.csv` including the error message.
 
 
 4. Publish entries and assets. After successfully importing the entries and assets to contentful, they need to be published in order to be available through the delivery API.
