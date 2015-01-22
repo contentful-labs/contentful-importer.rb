@@ -137,7 +137,7 @@ contentful-importer --config-file settings.yml --publish-entries
 
 #### --publish-assets ARGS
 
-You can publish an assets with single Thread:
+You can publish all assets with single Thread:
 
 ```bash
 contentful-importer --config-file settings.yml --publish-assets
