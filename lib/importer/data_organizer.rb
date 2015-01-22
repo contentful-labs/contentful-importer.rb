@@ -9,13 +9,18 @@ module Contentful
 
     def initialize(settings)
       @config = settings
-      @split_params = {entry_index: 0, current_thread: 0}
+      @split_params = {object_index: 0, current_thread: 0}
       @logger = Logger.new(STDOUT)
     end
 
     def execute(threads_count)
-      create_threads_subdirectories(threads_count)
+      create_threads_subdirectories(threads_count, true)
       split_entries(threads_count)
+    end
+
+    def split_assets_to_threads(threads_count)
+      create_threads_subdirectories(threads_count, false, {assets: 'assets/'})
+      split_assets(threads_count)
     end
 
     def split_entries(threads_count)
@@ -29,18 +34,27 @@ module Contentful
       end
     end
 
+    def split_assets(threads_count)
+      asset_per_thread = total_assets_count / threads_count
+      Dir.glob("#{config.assets_dir}/**/*json") do |asset_path|
+        copy_asset(asset_path)
+        split_params[:object_index] += 1
+        count_index_files(asset_per_thread, threads_count)
+      end
+    end
+
     def process_collection_files(content_type_id, dir_path, entries_per_thread_count, threads_count)
       logger.info "Processing collection: #{content_type_id}"
       Dir.glob("#{dir_path}/*.json") do |entry_path|
         copy_entry(entry_path, split_params[:current_thread], content_type_id)
-        split_params[:entry_index] += 1
+        split_params[:object_index] += 1
         count_index_files(entries_per_thread_count, threads_count)
       end
     end
 
-    def count_index_files(entries_per_thread_count, threads_count)
-      if split_params[:entry_index] == entries_per_thread_count
-        split_params[:entry_index] = 0
+    def count_index_files(objects_per_thread_count, threads_count)
+      if split_params[:object_index] == objects_per_thread_count
+        split_params[:object_index] = 0
         set_current_thread(threads_count)
       end
     end
@@ -66,11 +80,15 @@ module Contentful
       FileUtils.cp entry_path, "#{config.threads_dir}/#{current_thread}/#{new_entry_name(content_type_id, entry_path)}"
     end
 
-    def create_threads_subdirectories(threads_count)
-      validate_collections_files
+    def copy_asset(asset_path)
+      FileUtils.cp asset_path, "#{config.threads_dir}/assets/#{split_params[:current_thread]}/#{File.basename(asset_path)}"
+    end
+
+    def create_threads_subdirectories(threads_count, validate, dir = {})
+      validate_collections_files if validate
       create_directory(config.threads_dir)
       threads_count.times do |thread_id|
-        create_directory("#{config.threads_dir}/#{thread_id}")
+        create_directory("#{config.threads_dir}/#{dir[:assets]}#{thread_id}")
       end
     end
 
@@ -85,6 +103,10 @@ module Contentful
         total_number += Dir.glob("#{config.entries_dir}/#{collection_name}/*").count if has_contentful_structure?(collection_name)
       end
       total_number
+    end
+
+    def total_assets_count
+      Dir.glob("#{config.assets_dir}/**/*json").count
     end
 
     def validate_collections_files

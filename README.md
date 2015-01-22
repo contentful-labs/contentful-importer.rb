@@ -135,12 +135,17 @@ To publish all entries:
 contentful-importer --config-file settings.yml --publish-entries
 ```
 
-#### --publish-assets
+#### --publish-assets ARGS
 
-To publish all assets:
+You can publish an assets with single Thread:
 
 ```bash
 contentful-importer --config-file settings.yml --publish-assets
+```
+or add ```--threads``` argument to use multiple Threads:
+
+```bash
+contentful-importer --config-file settings.yml --publish-assets --threads 2
 ```
 
 #### --test-credentials
@@ -308,6 +313,12 @@ default_locale: de-DE
 
     ```bash
     contentful-importer --config-file settings.yml --publish-assets
+    ```
+
+    or
+
+    ```bash
+    contentful-importer --config-file settings.yml --publish-assets --threads 2
     ```
 
     After each request the ```success_published_entries.csv``` or ```success_published_assets.csv``` file is updated. You can find those in ```data_dir/logs```.

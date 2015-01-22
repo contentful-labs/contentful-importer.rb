@@ -73,7 +73,7 @@ describe Migrator do
     vcr('publish_asset') do
       expect_any_instance_of(Contentful::ParallelImporter).to receive(:publish_status).exactly(4).times
       expect_any_instance_of(Contentful::ParallelImporter).to receive(:create_log_file).with('success_published_assets')
-      Migrator.new(@setting_file).run('--publish-assets')
+      Migrator.new(@setting_file).run('--publish-assets', threads: 1)
     end
   end
 

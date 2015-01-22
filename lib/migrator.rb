@@ -31,7 +31,7 @@ class Migrator
       when '--import-assets'
         importer.import_only_assets
       when '--publish-assets'
-        importer.publish_assets
+        importer.publish_assets_in_threads(options[:threads])
       when '--validate-schema'
         json_validator.validate_schemas
     end

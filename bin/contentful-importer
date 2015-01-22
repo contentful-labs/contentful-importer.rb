@@ -67,6 +67,10 @@ Escort::App.create do |app|
 
     app.command '--publish-assets' do |command|
       command.summary 'Publish all assets'
+      command.options do |opts|
+        opts.opt :threads, 'threads', short: '-t', long: '--threads', type: :integer, default: 1
+        opts.validate(:threads, 'argument must be set to 1 or 2 exclusive. ') { |option| option > 0 && option <= 2 }
+      end
       command.action do |options, arguments|
         Command::CLI.new(options, arguments).execute
       end

@@ -41,7 +41,11 @@ module Contentful
     end
 
     def number_of_threads
-      Dir.glob("#{config.threads_dir}/*").count
+      number_of_threads = 0
+      Dir.glob("#{config.threads_dir}/*") do |thread|
+        number_of_threads += 1 if File.basename(thread).size == 1
+      end
+      number_of_threads
     end
 
     def import_in_threads
@@ -126,10 +130,24 @@ module Contentful
       end
     end
 
-    def publish_assets
+    def publish_assets_in_threads(number_of_threads)
+      clean_assets_threads_dir_before_publish(number_of_threads)
+      data_organizer.split_assets_to_threads(number_of_threads)
+      threads =[]
+      number_of_threads.times do |thread_id|
+        threads << Thread.new do
+          self.class.new(config).publish_assets("#{config.threads_dir}/assets/#{thread_id}")
+        end
+      end
+      threads.each do |thread|
+        thread.join
+      end
+    end
+
+    def publish_assets(thread_dir)
       create_log_file('success_published_assets')
       config.published_assets << CSV.read("#{config.log_files_dir}/success_published_assets.csv", 'r').flatten
-      Dir.glob("#{config.assets_dir}/**/*json") do |asset_file|
+      Dir.glob("#{thread_dir}/*json") do |asset_file|
         asset_id = JSON.parse(File.read(asset_file))['id']
         publish_asset(asset_id) unless config.published_assets.flatten.include?(asset_id)
       end
@@ -375,6 +393,15 @@ module Contentful
         if File.directory?("#{config.threads_dir}/#{thread}")
           logger.info "Remove directory threads/#{thread} from #{config.threads_dir} path."
           FileUtils.rm_r("#{config.threads_dir}/#{thread}")
+        end
+      end
+    end
+
+    def clean_assets_threads_dir_before_publish(threads)
+      threads.times do |thread|
+        if File.directory?("#{config.threads_dir}/assets/#{thread}")
+          logger.info "Remove directory threads/#{thread} from #{config.threads_dir}/assets path."
+          FileUtils.rm_r("#{config.threads_dir}/assets/#{thread}")
         end
       end
     end
