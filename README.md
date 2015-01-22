@@ -134,6 +134,7 @@ To publish all entries:
 ```bash
 contentful-importer --config-file settings.yml --publish-entries
 ```
+Number of threads that are used in the publishing of entries is dependent on `--threads` argument, which you specified when import data.
 
 #### --publish-assets ARGS
 
