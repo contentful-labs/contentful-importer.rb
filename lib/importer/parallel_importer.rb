@@ -165,7 +165,9 @@ module Contentful
 
     def create_space(name_space)
       logger.info "Creating a space with name: #{name_space}"
-      Contentful::Management::Space.create(name: name_space, organization_id: config.config['organization_id'])
+      new_space = Contentful::Management::Space.create(name: name_space, organization_id: config.config['organization_id'])
+      logger.info "Space was created successfully! Space id: #{new_space.id}"
+      new_space
     end
 
     def import_content_types
