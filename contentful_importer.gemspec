@@ -7,11 +7,11 @@ require File.expand_path('../lib/version', __FILE__)
 Gem::Specification.new do |spec|
   spec.name          = 'contentful-importer'
   spec.version       = Version::VERSION
-  spec.authors       = ['']
-  spec.email         = ['']
-  spec.description   = ''
-  spec.summary       = ''
-  spec.homepage      = ''
+  spec.authors       = ['Contentful GmbH (Andreas Tiefenthaler)']
+  spec.email         = ['rubygems@contentful.com']
+  spec.description   = 'Generic importer for contentful.com'
+  spec.summary       = 'Allows to import structured data to contentful.com'
+  spec.homepage      = 'https://github.com/contentful/contentful-importer.rb'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
