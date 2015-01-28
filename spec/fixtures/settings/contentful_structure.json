@@ -1,0 +1,73 @@
+{
+  "User": {
+    "id": "1TVvxCqoRq0qUYAOQuOqys",
+    "name": "User",
+    "description": null,
+    "displayField": "first_name",
+    "fields": {
+      "first_name": "Text",
+      "last_name": "Text",
+      "birthday": "Date",
+      "Jobs": {
+        "id": "job_adds",
+        "type": "Array",
+        "link_type": "Entry",
+        "link": "Link"
+      },
+      "Profile": {
+        "id": "profile",
+        "type": "Entry",
+        "link": "Link"
+      }
+    }
+  },
+  "Jobs": {
+    "id": "4L1bg4WQ5aWQMiE82ouag",
+    "name": "Jobs",
+    "description": null,
+    "displayField": "title",
+    "fields": {
+      "title": "Text",
+      "description": "Text",
+      "Image": {
+        "id": "image",
+        "type": "Asset",
+        "link": "Link"
+      },
+      "User": {
+        "id": "creator",
+        "type": "Entry",
+        "link": "Link"
+      },
+      "Job Skills": {
+        "id": "skills",
+        "type": "Array",
+        "link_type": "Entry",
+        "link": "Link"
+      }
+    }
+  },
+  "Profile": {
+    "id": "4WFZh4MwC4Mc0EQWAeOY8A",
+    "name": "Profile",
+    "description": null,
+    "displayField": null,
+    "fields": {
+      "nickname": "Text",
+      "User": {
+        "id": "user",
+        "type": "Entry",
+        "link": "Link"
+      }
+    }
+  },
+  "Job Skills": {
+    "id": "2soCP557HGKoOOK0SqmMOm",
+    "name": "Job Skills",
+    "description": null,
+    "displayField": "name",
+    "fields": {
+      "name": "Text"
+    }
+  }
+}

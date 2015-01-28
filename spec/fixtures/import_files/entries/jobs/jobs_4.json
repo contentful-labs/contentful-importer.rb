@@ -1,0 +1,49 @@
+{
+  "id": "jobs_4",
+  "name": "Awesome job",
+  "specification": "One word - awesome!",
+  "created_at": "2014-12-16T12:00:28+00:00",
+  "updated_at": "2014-12-16T12:00:28+00:00",
+  "image_id": 2,
+  "user_id": 2,
+  "database_id": 4,
+  "first_name": "FirstName User 2",
+  "image": {
+    "type": "File",
+    "id": "image_2"
+  },
+  "creator": {
+    "type": "Entry",
+    "id": "user_2"
+  },
+  "skills": [
+    {
+      "type": "job_skills",
+      "id": "job_skills_2"
+    },
+    {
+      "type": "job_skills",
+      "id": "job_skills_3"
+    },
+    {
+      "type": "job_skills",
+      "id": "job_skills_4"
+    },
+    {
+      "type": "job_skills",
+      "id": "job_skills_7"
+    },
+    {
+      "type": "job_skills",
+      "id": "job_skills_8"
+    },
+    {
+      "type": "job_skills",
+      "id": "job_skills_9"
+    },
+    {
+      "type": "job_skills",
+      "id": "job_skills_10"
+    }
+  ]
+}

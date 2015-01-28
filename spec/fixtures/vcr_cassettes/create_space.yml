@@ -1,0 +1,87 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.contentful.com/spaces
+    body:
+      encoding: UTF-8
+      string: '{"name":"rspec_test_space","defaultLocale":"LOCALE_CODE"}'
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/0.5.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      X-Contentful-Organization:
+      - 1EQPR5IHrPx94UY4AViTYO
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cache-Control:
+      - max-age=0
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Mon, 05 Jan 2015 07:12:15 GMT
+      Etag:
+      - '"2b28ae9100ccc0f31a9694254151becd"'
+      Location:
+      - https://api.contentful.com/spaces/xhnj547e27cy
+      Server:
+      - nginx
+      Status:
+      - 201 Created
+      X-Contentful-Request-Id:
+      - 71a-1118248373
+      Content-Length:
+      - '459'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |+
+        {
+          "sys":{
+            "type":"Space",
+            "id":"xhnj547e27cy",
+            "version":1,
+            "createdBy":{
+              "sys":{
+                "type":"Link",
+                "linkType":"User",
+                "id":"1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "createdAt":"2015-01-05T07:12:11Z",
+            "updatedBy":{
+              "sys":{
+                "type":"Link",
+                "linkType":"User",
+                "id":"1E7acJL8I5XUXAMHQt9Grs"
+              }
+            },
+            "updatedAt":"2015-01-05T07:12:12Z"
+          },
+          "name":"rspec_test_space"
+        }
+
+    http_version: 
+  recorded_at: Mon, 05 Jan 2015 07:12:15 GMT
+recorded_with: VCR 2.9.3

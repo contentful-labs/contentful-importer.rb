@@ -1,0 +1,55 @@
+{
+  "id": "jobs_2",
+  "name": "Nice job!",
+  "specification": "Nice job description",
+  "created_at": "2014-12-16T10:53:28+00:00",
+  "updated_at": "2014-12-16T10:53:28+00:00",
+  "image_id": 4,
+  "user_id": 1,
+  "database_id": 2,
+  "first_name": "FirstName",
+  "subjects_comments": [
+    "Comment 1",
+    "Comment 2"
+  ],
+  "image": {
+    "type": "File",
+    "id": "image_4"
+  },
+  "creator": {
+    "type": "Entry",
+    "id": "user_1"
+  },
+  "comments": [
+    {
+      "type": "comment",
+      "id": "comment_4"
+    },
+    {
+      "type": "comment",
+      "id": "comment_5"
+    }
+  ],
+  "skills": [
+    {
+      "type": "job_skills",
+      "id": "job_skills_2"
+    },
+    {
+      "type": "job_skills",
+      "id": "job_skills_4"
+    },
+    {
+      "type": "job_skills",
+      "id": "job_skills_7"
+    },
+    {
+      "type": "job_skills",
+      "id": "job_skills_8"
+    },
+    {
+      "type": "job_skills",
+      "id": "job_skills_9"
+    }
+  ]
+}
