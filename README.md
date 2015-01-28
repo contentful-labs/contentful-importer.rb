@@ -9,9 +9,9 @@ You can use one of the following tools to extract your content and make it ready
 
 #### Available exporters
 
- - [Database](https://github.com/contentful/database-adapter)
- - [Wordpress](https://github.com/contentful/wordpress-adapter)
- - [Drupal](https://github.com/contentful/drupal-adapter)
+ - [Database](https://github.com/contentful/database-exporter.rb)
+ - [Wordpress](https://github.com/contentful/wordpress-exporter.rb)
+ - [Drupal](https://github.com/contentful/drupal-exporter.rb)
 
 
 ## Installation
