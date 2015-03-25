@@ -85,9 +85,10 @@ module Contentful
     def import_asset(asset_attributes)
       logger.info "Import asset - #{asset_attributes['id']} "
       asset_title = asset_attributes['name'].present? ? asset_attributes['name'] : asset_attributes['id']
+      asset_description = asset_attributes['description'].present? ? asset_attributes['description'] : ''
       asset_file = create_asset_file(asset_title, asset_attributes)
       space = Contentful::Management::Space.find(config.config['space_id'])
-      asset = space.assets.create(id: "#{asset_attributes['id']}", title: "#{asset_title}", description: '', file: asset_file)
+      asset = space.assets.create(id: "#{asset_attributes['id']}", title: "#{asset_title}", description: asset_description, file: asset_file)
       asset_status(asset, asset_attributes)
     end
 
@@ -376,7 +377,7 @@ module Contentful
     end
 
     def file_content_type(params)
-      MimeContentType::EXTENSION_LIST[File.extname(params['url'])]
+      params['contentType'].present? ? params['contentType'] : MimeContentType::EXTENSION_LIST[File.extname(params['url'])]
     end
 
     def format_json(item)
