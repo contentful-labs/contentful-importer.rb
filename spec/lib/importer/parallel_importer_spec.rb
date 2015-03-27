@@ -22,6 +22,16 @@ module Contentful
       expect(file).to be_a Contentful::Management::File
     end
 
+    it 'gets asset content type from params' do
+      file = @importer.create_asset_file('title', {'url' => 'www.example.com/image.jpg?withoutextension', 'contentType' => 'image/jpeg'})
+      expect(file.properties[:contentType]).to eq'image/jpeg'
+    end
+
+    it 'gets asset content type from params' do
+      file = @importer.create_asset_file('title', {'url' => 'www.example.com/image.jpg'})
+      expect(file.properties[:contentType]).to eq'image/jpeg'
+    end
+
     it 'get_id' do
       id = @importer.send(:get_id, {'id' => 'name.png'})
       expect(id).to eq 'name.png'
