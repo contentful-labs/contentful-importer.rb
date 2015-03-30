@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## 0.0.2
 ### Added
 * Read contentType and description from asset JSON files, falling back to contentType inference from the asset URL.
 
