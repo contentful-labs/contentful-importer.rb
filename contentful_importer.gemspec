@@ -2,11 +2,11 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require File.expand_path('../lib/version', __FILE__)
+require File.expand_path('../lib/contentful/importer/version', __FILE__)
 
 Gem::Specification.new do |spec|
   spec.name          = 'contentful-importer'
-  spec.version       = Version::VERSION
+  spec.version       = Contentful::Importer::VERSION
   spec.authors       = ['Contentful GmbH (Andreas Tiefenthaler)']
   spec.email         = ['rubygems@contentful.com']
   spec.description   = 'Generic importer for contentful.com'
