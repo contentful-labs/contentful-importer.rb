@@ -63,8 +63,8 @@ contentful-importer --config-file settings.yml --action
     contentful_structure_dir: PATH_TO_CONTENTFUL_STRUCTURE_JSON_FILE
 
     ## CONVERT CONTENTFUL MODEL TO CONTENTFUL IMPORT STRUCTURE
-    content_model_json:
-    converted_model_dir:
+    content_model_json: PATH_TO_CONTENTFUL_MODEL_JSON_FILE ## for input
+    converted_model_dir: PATH_TO_CONTENTFUL_MODEL_JSON_FILE ## for output
     ```
 
 2. Create the contentful_structure.json. First you need to create a content model using the [Contentful web application](www.contentful.com). Then you can download the content model using the content management api and use the content model for the import:
@@ -140,6 +140,7 @@ To display all actions use the `-h` option:
 ```bash
 contentful-importer -h
 ```
+
 #### --convert-content-model-to-json
 
 If you already have an existing content model for a space it can be downloaded and used for the import:
@@ -149,7 +150,6 @@ If you already have an existing content model for a space it can be downloaded a
       -H 'Authorization: Bearer ACCESS_TOKEN' \
       'https://api.contentful.com/spaces/SPACE_ID/content_types' > contentful_model.json
 ```
-
 
 In the **settings.yml** specify the PATH to **contentful_model.json**.
 
@@ -222,6 +222,7 @@ To publish all entries:
 ```bash
 contentful-importer --config-file settings.yml --publish-entries
 ```
+
 Number of threads that are used in the publishing of entries is dependent on `--threads` argument, which you specified when import data.
 
 #### --publish-assets ARGS
@@ -231,6 +232,7 @@ You can publish all assets with single Thread:
 ```bash
 contentful-importer --config-file settings.yml --publish-assets
 ```
+
 or add ```--threads``` argument to use multiple Threads:
 
 ```bash
@@ -310,7 +312,7 @@ Before you start importing the content make sure you read [how to use it](https:
 
 #### Space ID
 
-After [importing the content types](https://github.com/contentful/generic-importer.rb#--import-content-types-args) to the Space, you need to specify the `space_id` parameter in the settings.
+After [importing the content types](https://github.com/contentful/generic-importer.rb#--import-content-types-args) to the Space, you need to specify the `space_id` parameter in the settings. Please note that the content-type import only accepts the space ID as a commandline option.
 
 
 Example:
