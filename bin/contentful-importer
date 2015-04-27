@@ -15,13 +15,13 @@ Escort::App.create do |app|
     app.command '--create-contentful-model-from-json' do |command|
       command.summary 'Create content types json files, based on contentful_structure.json file.'
       command.action do |options, arguments|
-        Command::CLI.new(options, arguments).execute
+        Contentful::Importer::CLI.new(options, arguments).execute
       end
     end
     app.command '--convert-content-model-to-json' do |command|
       command.summary 'Transform contentful model to contentful structure ready to import. View README'
       command.action do |options, arguments|
-        Command::CLI.new(options, arguments).execute
+        Contentful::Importer::CLI.new(options, arguments).execute
       end
     end
     app.command '--import-content-types' do |command|
@@ -32,7 +32,7 @@ Escort::App.create do |app|
         opts.opt :space_name, 'space_name', short: :none, long: '--space_name', type: :string
       end
       command.action do |options, arguments|
-        Command::CLI.new(options, arguments).execute
+        Contentful::Importer::CLI.new(options, arguments).execute
       end
     end
     app.command '--import' do |command|
@@ -42,26 +42,26 @@ Escort::App.create do |app|
         opts.validate(:threads, 'argument must be set to 1 or 2 exclusive. ') { |option| option > 0 && option <= 2 }
       end
       command.action do |options, arguments|
-        Command::CLI.new(options, arguments).execute
+        Contentful::Importer::CLI.new(options, arguments).execute
       end
     end
     app.command '--test-credentials' do |command|
       command.summary 'Check your Contentful-management credentials'
       command.action do |options, arguments|
-        Command::CLI.new(options, arguments).execute
+        Contentful::Importer::CLI.new(options, arguments).execute
       end
     end
     app.command '--import-assets' do |command|
       command.summary 'Import only assets'
       command.action do |options, arguments|
-        Command::CLI.new(options, arguments).execute
+        Contentful::Importer::CLI.new(options, arguments).execute
       end
     end
 
     app.command '--publish-entries' do |command|
       command.summary 'Publish all entries'
       command.action do |options, arguments|
-        Command::CLI.new(options, arguments).execute
+        Contentful::Importer::CLI.new(options, arguments).execute
       end
     end
 
@@ -72,13 +72,13 @@ Escort::App.create do |app|
         opts.validate(:threads, 'argument must be set to 1 or 2 exclusive. ') { |option| option > 0 && option <= 2 }
       end
       command.action do |options, arguments|
-        Command::CLI.new(options, arguments).execute
+        Contentful::Importer::CLI.new(options, arguments).execute
       end
     end
     app.command '--validate-schema' do |command|
       command.summary 'Validate entries JSON schema'
       command.action do |options, arguments|
-        Command::CLI.new(options, arguments).execute
+        Contentful::Importer::CLI.new(options, arguments).execute
       end
     end
   end
