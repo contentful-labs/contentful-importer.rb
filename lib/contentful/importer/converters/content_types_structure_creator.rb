@@ -1,5 +1,5 @@
 module Contentful
-  module Converter
+  module Importer
     class ContentTypesStructureCreator
 
       attr_reader :config, :logger

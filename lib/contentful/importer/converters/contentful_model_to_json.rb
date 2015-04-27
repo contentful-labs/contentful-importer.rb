@@ -1,7 +1,7 @@
 require_relative 'content_types_structure_creator'
 
 module Contentful
-  module Converter
+  module Importer
     class ContentfulModelToJson
       attr_reader :config, :logger, :converted_model_dir, :content_types
 

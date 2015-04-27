@@ -1,4 +1,4 @@
-require './lib/configuration'
+require './lib/contentful/importer/configuration'
 
 shared_context 'shared_configuration' do
   before do
@@ -17,6 +17,6 @@ shared_context 'shared_configuration' do
           converted_model_dir: spec/fixtures/settings/contentful_structure_test.json
     EOF
     yaml = YAML.load(yaml_text)
-    @config = Contentful::Configuration.new(yaml)
+    @config = Contentful::Importer::Configuration.new(yaml)
   end
 end

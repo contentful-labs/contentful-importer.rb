@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'escort'
-require_relative '../lib/cli'
+require_relative '../lib/contentful/importer/cli'
 
 fail ArgumentError, 'Set the path to the configuration file and define an action. More information can be found in the README.' if ARGF.argv.empty?
 fail ArgumentError, "Missing '--config-file' argument. Usage: 'contentful-importer --config-file PATH_TO_CONFIGURATION_FILE --action'." unless ARGV.include?('--config-file')
