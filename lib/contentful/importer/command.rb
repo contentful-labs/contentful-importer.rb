@@ -37,14 +37,22 @@ module Contentful
 
 			def self.options
 				[['--configuration=config.yaml', 'Use the given configuration file.'],
-				 ['--data_dir=data', 'The directory to use for input, temporary data and logs.'],
-				 ['--content_model_json=model.json', 'Content model to use for import. Uses the data directory by default.'],
-				 ['--access_token=XXX', 'The CMA access token to be used.'],
-				 ['--organization_id=YYY', 'Select organization if you are member of more than one.'],
+				 ['--access_token=XXX', 'The CMA access token to be used.']].concat(super).sort
+			end
+
+			def self.data_options
+				[['--data_dir=data', 'The directory to use for input, temporary data and logs.']]
+			end
+
+			def self.space_options
+				[['--organization_id=YYY', 'Select organization if you are member of more than one.'],
 				 ['--space_id=ZZZ', 'Import into an existing space.'],
 				 ['--space_name=ZZZ', 'Import into a new space with the given name.'],
-				 ['--threads=1', 'Number of threads to be used, can be either 1 or 2.'],
 				 ['--default_locale=de-DE', 'Locale to use if a new space is being created.']]
+			end
+
+			def self.thread_options
+				[['--threads=1', 'Number of threads to be used, can be either 1 or 2.']]
 			end
 
 			def initialize(args)

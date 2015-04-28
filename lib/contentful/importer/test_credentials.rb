@@ -4,6 +4,10 @@ module Contentful
 			self.command = 'test-credentials'
 			self.summary = 'Test given credentials against the server.'
 
+			def self.options
+				super.concat(space_options).sort
+			end
+
 			def run
 				super
 				importer.test_credentials

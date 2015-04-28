@@ -7,6 +7,10 @@ module Contentful
 			self.command = 'publish'
 			self.summary = 'Publish entries and assets.'
 
+			def self.options
+				PublishAssets.options.concat(PublishEntries.options).uniq.sort
+			end
+
 			def run
 				super
 				PublishAssets.publish(@settings, @importer)

@@ -8,6 +8,10 @@ module Contentful
 			self.command = 'import'
 			self.summary = 'Import content model, entries and assets.'
 
+			def self.options
+				ImportModel.options.concat(ImportEntries.options).concat(ImportAssets.options).uniq.sort
+			end
+
 			def run
 				super
 

@@ -6,6 +6,10 @@ module Contentful
 			self.command = 'import-assets'
 			self.summary = 'Import assets.'
 
+			def self.options
+				super.concat(data_options).sort
+			end
+
 			def self.import(importer)
 				importer.import_only_assets
 			end

@@ -6,6 +6,10 @@ module Contentful
 			self.command = 'publish-entries'
 			self.summary = 'Publish entries.'
 
+			def self.options
+				super.concat(data_options).sort
+			end
+
 			def self.publish(importer)
 				importer.publish_entries_in_threads
 			end
