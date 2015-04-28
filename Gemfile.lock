@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    contentful-importer (0.0.2)
+    contentful-importer (0.1.0)
       activesupport (~> 4.1)
       api_cache (~> 0.3.0)
       contentful-management (~> 0.5.0)
