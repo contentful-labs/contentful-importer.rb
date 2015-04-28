@@ -1,14 +1,20 @@
 require 'spec_helper'
-require './lib/contentful/importer/migrator'
+require './lib/contentful/importer/import_model'
 
 module Contentful
   module Importer
-    describe Migrator do
+    describe ImportModel do
       before do
-        @setting_file = YAML.load_file('spec/fixtures/settings/settings.yml')
+        setting_file = 'spec/fixtures/settings/settings.yml'
+        @args = ["--configuration=#{setting_file}"]
       end
+      
       it 'convert contentful model to contentful structure' do
-        Migrator.new(@setting_file).run('--convert-content-model-to-json')
+        allow_any_instance_of(ParallelImporter).to receive(:create_contentful_model)
+
+        command = ImportModel.parse(@args << 'import-content-model')
+        command.run
+
         contentful_structure = load_fixture('settings/contentful_structure_test')
         expect(contentful_structure.count).to eq 4
         expect(contentful_structure['Jobs']).to include(id: '4L1bg4WQ5aWQMiE82ouag', name: 'Jobs', displayField: 'title', description: nil)
@@ -18,7 +24,11 @@ module Contentful
       end
 
       it 'create content type json files from contentful structure' do
-        Migrator.new(@setting_file).run('--create-contentful-model-from-json')
+        allow_any_instance_of(ParallelImporter).to receive(:create_contentful_model)
+
+        command = ImportModel.parse(@args << 'import-content-model')
+        command.run
+
         expect(Dir.glob('spec/fixtures/import_files/collections/*').count).to eq 4
         content_types_files = %w(comment.json job_skills.json jobs.json profile.json user.json)
         Dir.glob('spec/fixtures/import_files/collections/*') do |directory_name|
@@ -46,58 +56,17 @@ module Contentful
 
       it 'create content type json files from contentful structure' do
         vcr('import_content_types') do
-          Migrator.new(@setting_file).run('--import-content-types', space_id: 'space_id')
-        end
-      end
-
-      it 'import an entires to Contentful with two Threads' do
-        vcr('import_entries') do
-          allow(FileUtils).to receive(:rm_r)
-          import = Migrator.new(@setting_file).run('--import', threads: 2)
-          expect(import).to be_a Array
-          expect(import.count).to eq 2
-        end
-      end
-
-      it 'import an assets to Contentful' do
-        vcr('import_assets') do
-          Migrator.new(@setting_file).run('--import-assets')
-        end
-      end
-
-      it 'publish an entires' do
-        vcr('publish_entries') do
-          Migrator.new(@setting_file).run('--publish-entries')
-        end
-      end
-
-      it 'publish an assets' do
-        vcr('publish_asset') do
-          expect_any_instance_of(ParallelImporter).to receive(:publish_status).exactly(4).times
-          expect_any_instance_of(ParallelImporter).to receive(:create_log_file).with('success_published_assets')
-          Migrator.new(@setting_file).run('--publish-assets', threads: 1)
-        end
-      end
-
-      context 'test credentials' do
-        it 'when valid' do
-          vcr('valid_credentials') do
-            expect_any_instance_of(Logger).to receive(:info).with('Contentful Management API credentials: OK')
-            Migrator.new(@setting_file).run('--test-credentials')
-          end
-        end
-        it 'when invalid' do
-          vcr('invalid_credentials') do
-            expect_any_instance_of(Logger).to receive(:info).with('Contentful Management API credentials: INVALID (check README)')
-            Migrator.new(@setting_file).run('--test-credentials')
-          end
+          command = ImportModel.parse(@args + ['import-content-model', '--space_id=space_id'])
+          command.run
         end
       end
 
       it 'validate JSON schema' do
-        expect { Migrator.new(@setting_file).run('--validate-schema') }.not_to raise_error
+        allow_any_instance_of(ParallelImporter).to receive(:create_contentful_model)
+        
+        command = ImportModel.parse(@args << 'import-content-model')
+        expect { command.run }.not_to raise_error
       end
-
     end
   end
 end
