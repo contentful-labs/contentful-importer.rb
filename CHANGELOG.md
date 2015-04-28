@@ -1,6 +1,9 @@
 # Change Log
 
 ## Unreleased
+### Added
+* Log publish errors similar to import errors
+
 ### Fixed
 * Introduce proper namespacing of all classes
 

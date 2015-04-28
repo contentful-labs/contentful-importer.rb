@@ -334,7 +334,7 @@ module Contentful
 
       def active_status(ct_object)
         if ct_object.is_a? Contentful::Management::Error
-          logger.info "### Failure! - #{ct_object.message} ! ###"
+          logger.info "### Failure! - #{ct_object.message} - #{ct_object.response.raw} ###"
         else
           logger.info 'Successfully activated!'
         end
@@ -342,8 +342,8 @@ module Contentful
 
       def publish_status(ct_object, object_id, log_file_name)
         if ct_object.is_a? Contentful::Management::Error
-          logger.info "### Failure! - #{ct_object.message} ! ###"
-          CSV.open("#{config.log_files_dir}/failure_#{log_file_name}.csv", 'a') { |csv| csv << [object_id] }
+          logger.info "### Failure! - #{ct_object.message} - #{ct_object.response.raw} ###"
+          CSV.open("#{config.log_files_dir}/failure_#{log_file_name}.csv", 'a') { |csv| csv << [object_id, ct_object.message, ct_object.response.raw] }
         else
           logger.info 'Successfully activated!'
           CSV.open("#{config.log_files_dir}/success_#{log_file_name}.csv", 'a') { |csv| csv << [ct_object.id] }
