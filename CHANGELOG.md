@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## 0.1.1
 ### Added
 * Log asset errors similar to entry import errors
 
