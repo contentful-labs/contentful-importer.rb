@@ -115,8 +115,8 @@ module Contentful
           asset.process_file
           CSV.open("#{config.log_files_dir}/success_assets.csv", 'a') { |csv| csv << [asset.id] }
         else
-          logger.info "Error - #{asset.message} "
-          CSV.open("#{config.log_files_dir}/failure_assets.csv", 'a') { |csv| csv << [asset_attributes['id']] }
+          logger.info "Error - #{asset.message} - #{asset.response.raw} "
+          CSV.open("#{config.log_files_dir}/failure_assets.csv", 'a') { |csv| csv << [asset_attributes['id'], asset.message, asset.response.raw] }
         end
       end
 

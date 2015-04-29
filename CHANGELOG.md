@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+### Added
+* Log asset errors similar to entry import errors
+
 ## 0.1.0
 ### Added
 * Log publish errors similar to import errors
