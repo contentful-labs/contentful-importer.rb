@@ -317,6 +317,9 @@ module Contentful
       def create_field(field)
         field_params = {id: field['id'], name: field['name'], required: field['required']}
         field_params.merge!(additional_field_params(field))
+        if field['validations']
+          field_params[:validations] = create_validations(field['validations'])
+        end
         logger.info "Creating field: #{field_params[:type]}"
         create_content_type_field(field_params)
       end
@@ -329,7 +332,27 @@ module Contentful
           field.link_type = field_params[:link_type]
           field.required = field_params[:required]
           field.items = field_params[:items]
+          field.validations = field_params[:validations] if field_params[:validations]
         end
+      end
+
+      def create_validations(validations_params)
+        validations = validations_params.each_with_object([]) do |validation_params, validations|
+          validations << create_validation(validation_params)
+        end
+        return validations
+      end
+
+      def create_validation(validation_params)
+        validation = Contentful::Management::Validation.new
+
+        mappings = {'linkContentType' => 'link_content_type'}
+        type = validation_params['type']
+        type = mappings[type] if mappings[type]
+
+        params = validation_params['params']
+        validation.send("#{type}=", params)
+        return validation
       end
 
       def active_status(ct_object)
