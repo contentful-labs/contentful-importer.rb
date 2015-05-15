@@ -195,8 +195,8 @@ module Contentful
           collection_attributes = JSON.parse(File.read(file_path))
           content_type = create_new_content_type(space, collection_attributes)
           logger.info "Importing content_type: #{content_type.name}"
+          content_type.properties[:displayField] = collection_attributes['displayField'] or ""
           create_content_type_fields(collection_attributes, content_type)
-          content_type.update(displayField: collection_attributes['displayField']) if collection_attributes['displayField']
           active_status(content_type.activate)
         end
       end
