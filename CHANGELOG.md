@@ -1,5 +1,9 @@
 # Change Log
 
+## Master
+### Added
+* Import validations for content types
+
 ## 0.1.1
 ### Added
 * Log asset errors similar to entry import errors
