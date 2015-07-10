@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'multi_json', '~> 1'
   spec.add_dependency 'contentful-management', '~> 0.5.0'
   spec.add_dependency 'activesupport','~> 4.1'
-  spec.add_dependency 'escort','~> 0.4.0'
+  spec.add_dependency 'claide','~> 0.8.1'
   spec.add_dependency 'api_cache', ' ~> 0.3.0'
   spec.add_dependency 'i18n', '~> 0.6'
   spec.add_dependency 'json-schema', '~> 2.5.0'

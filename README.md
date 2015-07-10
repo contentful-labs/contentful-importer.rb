@@ -32,17 +32,19 @@ As a first step you should create a `settings.yml` file and fill in your credent
 ```yaml
 #Contentful
 access_token: access_token
-organization_od: organization_id
+organization_id: organization_id
 ```
+
+Alternatively, you can also specify those options on the commandline.
 
 **A Contentful OAuth access token can be created using the [Contentful Management API - documentation](https://www.contentful.com/developers/documentation/content-management-api/#getting-started)**
 
-The Contentful organization id can be found in your account settings.
+The Contentful organization ID can be found in your account settings, but you will only need to specify it if you are member of more than one organization.
 
 Once you installed the Gem and created the YAML file with the settings you can invoke the tool using:
 
 ```bash
-contentful-importer --config-file settings.yml --action
+contentful-importer --configuration=settings.yml ACTION
 ```
 
 ## Step by step
@@ -53,21 +55,17 @@ contentful-importer --config-file settings.yml --action
     #PATH to all data
     data_dir: DEFINE_BEFORE_EXPORTING_DATA
 
+    #JSON describing your content model
+    content_model_json: PATH_TO_CONTENTFUL_MODEL_JSON_FILE
+
     #Contentful credentials
     access_token: ACCESS_TOKEN
     organization_id: ORGANIZATION_ID
     space_id: DEFINE_AFTER_CREATING_SPACE
     default_locale: DEFINE_LOCALE_CODE
-
-    ## CONTENTFUL STRUCTURE
-    contentful_structure_dir: PATH_TO_CONTENTFUL_STRUCTURE_JSON_FILE
-
-    ## CONVERT CONTENTFUL MODEL TO CONTENTFUL IMPORT STRUCTURE
-    content_model_json: PATH_TO_CONTENTFUL_MODEL_JSON_FILE ## for input
-    converted_model_dir: PATH_TO_CONTENTFUL_MODEL_JSON_FILE ## for output
     ```
 
-2. Create the contentful_structure.json. First you need to create a content model using the [Contentful web application](www.contentful.com). Then you can download the content model using the content management api and use the content model for the import:
+2. First you need to create a content model using the [Contentful web application](www.contentful.com). Then you can download the content model using the content management api and use the content model for the import:
 
     ```bash
      curl -X GET \
@@ -75,58 +73,50 @@ contentful-importer --config-file settings.yml --action
           'https://api.contentful.com/spaces/SPACE_ID/content_types' > contentful_model.json
     ```
 
-    It will create ```contentful_model.json``` file, which you need to transform into the ```contentful_structure.json``` using:
-
-    ```bash
-    contentful-importer --config-file settings.yml --convert-content-model-to-json
-    ```
-
-    The converted content model will be saved as JSON file in the ```converted_model_dir``` path.
+    It will create ```contentful_model.json``` file, which you can pass to the tool via the `content_model_json` option. If you are using one of our exporter tools, this will not be necessary.
 
 
 3. Once you have prepared the `content types`, `assets` and `entries` (for example using one of the existing extraction adapters or creating your own) they can be imported. It can be chosen to use one (default) or two parallel threads to speedup this process.
-   There are two steps to import entries and assets.
 
-    **Entries**
-
-    ```bash
-    contentful-importer --config-file settings.yml --import
-    ```
-
-    or
+    It is possible to import the everything in one step using the `import` action or to import content model, entries or assets individually:
 
     ```bash
-    contentful-importer --config-file settings.yml --import --threads 2
+    contentful-importer --configuration=settings.yml import --threads=2
+    contentful-importer --configuration=settings.yml import-content-model
+    contentful-importer --configuration=settings.yml import-entries
+    contentful-importer --configuration=settings.yml import-assets
     ```
 
-    **Assets**
+    Optionally, two threads can be used for the import.
 
-    ```bash
-    contentful-importer --config-file settings.yml --import-assets
-    ```
-
-    After each request the `success_number_of_thread.csv` or `success_assets.csv` file is updated. You can find those in `data_dir/logs`.
-    If an entry or asset fails to be imported, it will end up in the `failure_number_of_thread.csv` or `assets_failure.csv` including the error message.
+    After each request the `success_thread_{0,1}.csv` or `success_assets.csv` file is updated. You can find those in `$data_dir/logs`.
+    If an entry or asset fails to be imported, it will end up in the `failure_thread_{0,1}.csv` or `failure_assets.csv` including the error message.
 
 
 4. Publish entries and assets. After successfully importing the entries and assets to contentful, they need to be published in order to be available through the delivery API.
 
+    To publish everything that has been imported:
+
+    ```bash
+    contentful-importer --configuration=settings.yml publish
+    ```
+
     To publish all entries use:
 
     ```bash
-    contentful-importer --config-file settings.yml --publish-entries
+    contentful-importer --configuration=settings.yml publish-entries
     ```
 
     To publish all assets use:
 
     ```bash
-    contentful-importer --config-file settings.yml --publish-assets
+    contentful-importer --configuration=settings.yml publish-assets
     ```
 
     or
 
     ```bash
-    contentful-importer --config-file settings.yml --publish-assets --threads 2
+    contentful-importer --configuration=settings.yml publish-assets --threads=2
     ```
 
     After each request the ```success_published_entries.csv``` or ```success_published_assets.csv``` file is updated. You can find those in ```data_dir/logs```.
@@ -135,108 +125,10 @@ contentful-importer --config-file settings.yml --action
 
 ## Actions
 
-To display all actions use the `-h` option:
+To display all actions use the `--help` option:
 
 ```bash
-contentful-importer -h
-```
-
-#### --convert-content-model-to-json
-
-If you already have an existing content model for a space it can be downloaded and used for the import:
-
-```bash
- curl -X GET \
-      -H 'Authorization: Bearer ACCESS_TOKEN' \
-      'https://api.contentful.com/spaces/SPACE_ID/content_types' > contentful_model.json
-```
-
-In the **settings.yml** specify the PATH to **contentful_model.json**.
-
-```yaml
-#Dump file with content model.
-content_model_json: example_path/contentful_model.json
-```
-
-and define the PATH where you want to save the converted JSON file:
-
-```yaml
-#File with converted structure of contentful model. Almost ready to import.
-converted_model_dir: example_path/contentful_structure.json
-```
-
-#### --create-contentful-model-from-json
-
-Create the content model based on the structure defined in ```contentful_structure.json```.
-This will generate content types files that are ready to be imported.
-Set the `contentful_structure_dir` variable to point to the structure file in your settings file.
-
-Path to collections: **data_dir/collections**
-
-```bash
-contentful-importer --config-file settings.yml --create-contentful-model-from-json
-```
-
-This is optional if you intend to create your own content structure as JSON files and not use the web application for it.
-
-#### --import-content-types ARGS
-
-To import the content types into an existing space use `--space_id SPACE_ID`:
-
-```bash
-contentful-importer --config-file settings.yml --import-content-types --space_id SPACE_ID
-```
-
-To create a new Space and import content types use `--space_name NAME`:
-
-```bash
-contentful-importer --config-file settings.yml --import-content-types --space_name NAME
-```
-
-#### --import
-
-Import the entries with a single thread:
-
-```bash
-contentful-importer --config-file settings.yml --import
-```
-
-or using two threads
-
-```bash
-contentful-importer --config-file settings.yml --import --threads 2
-```
-
-#### --import-assets
-
-Import the assets:
-
-```bash
-contentful-importer --config-file settings.yml --import-assets
-```
-
-#### --publish-entries
-
-To publish all entries:
-
-```bash
-contentful-importer --config-file settings.yml --publish-entries
-```
-
-Number of threads that are used in the publishing of entries is dependent on `--threads` argument, which you specified when import data.
-
-#### --publish-assets ARGS
-
-You can publish all assets with single Thread:
-
-```bash
-contentful-importer --config-file settings.yml --publish-assets
-```
-
-or add ```--threads``` argument to use multiple Threads:
-
-```bash
-contentful-importer --config-file settings.yml --publish-assets --threads 2
+contentful-importer --help
 ```
 
 #### --test-credentials
@@ -244,14 +136,14 @@ contentful-importer --config-file settings.yml --publish-assets --threads 2
 Before importing any content you can verify that your credentials in the **settings.yml** file are correct:
 
 ```bash
-contentful-importer --config-file settings.yml --test-credentials
+contentful-importer --configuration=settings.yml test-credentials
 ```
 
 #### --validate-schema
 
 After preparing the files to import, you can validate the JSON schema, use command:
 
-```contentful-importer --config-file settings.yml --validate-schema```
+```contentful-importer --configuration=settings.yml validate-schema```
 
 This comes in handy when you want to create your own extraction adapter.
 
@@ -312,7 +204,7 @@ Before you start importing the content make sure you read [how to use it](https:
 
 #### Space ID
 
-After [importing the content types](https://github.com/contentful/generic-importer.rb#--import-content-types-args) to the Space, you need to specify the `space_id` parameter in the settings. Please note that the content-type import only accepts the space ID as a commandline option.
+After [importing the content types](https://github.com/contentful/generic-importer.rb#--import-content-types-args) to the Space, you need to specify the `space_id` parameter in the settings.
 
 
 Example:
