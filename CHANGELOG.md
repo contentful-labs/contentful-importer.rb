@@ -3,6 +3,8 @@
 ## Master
 ### Added
 * Import validations for content types
+* Update contentful-management.rb dependency to 0.0.7 [#18]
+* Revised cli interface [#17]
 
 ## 0.1.1
 ### Added
