@@ -1,6 +1,6 @@
 # Change Log
 
-## Master
+## 0.2.0
 ### Added
 * Import validations for content types
 * Update contentful-management.rb dependency to 0.0.7 [#18]
