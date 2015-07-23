@@ -5,6 +5,7 @@ require_relative 'parallel_importer'
 require_relative 'configuration'
 require_relative 'converters/contentful_model_to_json'
 require_relative 'json_schema_validator'
+require_relative 'version'
 
 module Contentful
 	module Importer
