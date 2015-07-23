@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'http', '~> 0.8'
+  spec.add_dependency 'http', '~> 0.9'
   spec.add_dependency 'multi_json', '~> 1'
   spec.add_dependency 'contentful-management', '~> 0.7.0'
   spec.add_dependency 'activesupport','~> 4.1'
