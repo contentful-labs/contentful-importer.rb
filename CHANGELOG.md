@@ -1,6 +1,6 @@
 # Change Log
 
-## Master
+## 0.2.1
 ### Added
 * Update contentful-management.rb dependency to 0.7.1 [#21]
 
