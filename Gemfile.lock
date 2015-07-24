@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    contentful-importer (0.2.0)
+    contentful-importer (0.2.1)
       activesupport (~> 4.1)
       api_cache (~> 0.3.0)
       claide (~> 0.8.1)
@@ -92,6 +92,3 @@ DEPENDENCIES
   simplecov
   vcr (~> 2.9.3)
   webmock (>= 1.21)
-
-BUNDLED WITH
-   1.10.5
