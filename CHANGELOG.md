@@ -1,5 +1,9 @@
 # Change Log
 
+## Master
+### Removed
+* Removed Gemfile.lock as it is customary for gems [#23]
+
 ## 0.2.1
 ### Added
 * Update contentful-management.rb dependency to 0.7.1 [#21]
