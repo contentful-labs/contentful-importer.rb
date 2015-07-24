@@ -1,9 +1,16 @@
 # Change Log
 
+## Master
+### Added
+* Update contentful-management.rb dependency to 0.7.1 [#21]
+
+### Fixed
+* Allows installed binstub to actually be used [#22]
+
 ## 0.2.0
 ### Added
 * Import validations for content types
-* Update contentful-management.rb dependency to 0.0.7 [#18]
+* Update contentful-management.rb dependency to 0.7.0 [#18]
 * Revised cli interface [#17]
 
 ## 0.1.1
