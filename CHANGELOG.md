@@ -1,6 +1,9 @@
 # Change Log
 
 ## Master
+### Fixed
+* Fix ZeroDivisionError bug in `--threads` option [#24]
+
 ### Removed
 * Removed Gemfile.lock as it is customary for gems [#23]
 
