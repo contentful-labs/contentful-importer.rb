@@ -67,7 +67,7 @@ module Contentful
 				# CLI options can override settings of the same name
 				self.class.options.map { |opt| opt.first.split('=').first.split('-').last }.each do |opt|
 					arg = args.option(opt)
-					arg = arg.to_i if opt == 'threads'
+					arg &&= arg.to_i if opt == 'threads'
 					@settings[opt] = arg if arg
 				end
 
