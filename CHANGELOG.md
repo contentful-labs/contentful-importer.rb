@@ -1,6 +1,8 @@
 # Change Log
 
 ## Master
+
+## 0.2.2
 ### Fixed
 * Fix ZeroDivisionError bug in `--threads` option [#24]
 

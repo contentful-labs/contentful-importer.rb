@@ -1,5 +1,5 @@
 module Contentful
-	module Importer
-  		VERSION = '0.2.1'
-  	end
+  module Importer
+    VERSION = '0.2.2'
+  end
 end
