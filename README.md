@@ -139,14 +139,6 @@ Before importing any content you can verify that your credentials in the **setti
 contentful-importer --configuration=settings.yml test-credentials
 ```
 
-#### --validate-schema
-
-After preparing the files to import, you can validate the JSON schema, use command:
-
-```contentful-importer --configuration=settings.yml validate-schema```
-
-This comes in handy when you want to create your own extraction adapter.
-
 ## Content Model
 
 This represents an example content model:
