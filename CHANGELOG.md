@@ -1,6 +1,8 @@
 # Change Log
 
 ## Master
+### Added
+* Fallback in case of YAML parse error
 
 ## 0.2.2
 ### Fixed

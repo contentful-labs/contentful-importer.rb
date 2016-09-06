@@ -206,8 +206,8 @@ module Contentful
       end
 
       def create_content_type_fields(collection_attributes, content_type)
-        fields = collection_attributes['fields'].each_with_object([]) do |field, fields|
-          fields << create_field(field)
+        fields = collection_attributes['fields'].each_with_object([]) do |f, fs|
+          fs << create_field(f)
         end
         content_type.fields = fields
         content_type.save
@@ -337,8 +337,8 @@ module Contentful
       end
 
       def create_validations(validations_params)
-        validations = validations_params.each_with_object([]) do |validation_params, validations|
-          validations << create_validation(validation_params)
+        validations = validations_params.each_with_object([]) do |validation_params, vs|
+          vs << create_validation(validation_params)
         end
         return validations
       end
