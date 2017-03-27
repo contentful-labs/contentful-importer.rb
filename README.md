@@ -31,7 +31,7 @@ As a first step you should create a `settings.yml` file and fill in your credent
 
 ```yaml
 #Contentful
-access_token: access_token
+access_token: access_token # management token
 organization_id: organization_id
 ```
 
@@ -59,7 +59,7 @@ contentful-importer --configuration=settings.yml ACTION
     content_model_json: PATH_TO_CONTENTFUL_MODEL_JSON_FILE
 
     #Contentful credentials
-    access_token: ACCESS_TOKEN
+    access_token: ACCESS_TOKEN # management token
     organization_id: ORGANIZATION_ID
     space_id: DEFINE_AFTER_CREATING_SPACE
     default_locale: DEFINE_LOCALE_CODE
