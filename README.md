@@ -1,7 +1,7 @@
 Contentful Generic-importer
 =================
 
-> **Note**: **DEPRECATED** This tool and the exporter tools listed below are no longer officially supported as of May 11th, 2017.
+> **Note**: This tool and the exporter tools listed below are no longer officially supported as of May 11th, 2017.
 > You can feel free to use them, fork them and patch them for your own needs.
 > Downloads from RubyGems will still be available.
 
