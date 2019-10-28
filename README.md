@@ -83,7 +83,7 @@ contentful-importer --configuration=settings.yml ACTION
 
 3. Once you have prepared the `content types`, `assets` and `entries` (for example using one of the existing extraction adapters or creating your own) they can be imported. It can be chosen to use one (default) or two parallel threads to speedup this process.
 
-    It is possible to import the everything in one step using the `import` action or to import content model, entries or assets individually:
+    It is possible to import everything in one step using the `import` action or to import content model, entries or assets individually:
 
     ```bash
     contentful-importer --configuration=settings.yml import --threads=2
